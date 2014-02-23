@@ -1,0 +1,8 @@
+*.pdf
+*.pdfsync
+auto/
+*.aux
+*.fdb_latexmk
+*.log
+*.out
+*.toc
