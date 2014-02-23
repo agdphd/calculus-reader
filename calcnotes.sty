@@ -1,0 +1,119 @@
+\ProvidesPackage{calcnotes}
+
+%% LOAD PACKAGES
+
+% Load AMS-LaTeX packages for math typesetting
+\usepackage{amsfonts,amssymb,amsthm}
+\usepackage{mathtools}
+
+% Load COntent-Oriented LaTeX for semantic math
+\usepackage{cool}
+
+% Load SIUnitX for units handling
+\usepackage{siunitx}
+
+% Set up font handling
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+
+% Use subfiles for chapter includes
+\usepackage{subfiles}
+
+% Use the Libertine font with math extensions
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+
+% Use the Inconsolata font for monospace
+\usepackage{inconsolata}
+
+% Use the "Dutch calligraphic" alphabet from mathalfa
+\usepackage[cal=dutchcal]{mathalfa}
+
+% Load the csquotes package for semantic quotation marks
+\usepackage{csquotes}
+
+% Load the TikZ package for figures and diagrams
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+% Load the float package for fine-grained control over float placement
+\usepackage{float}
+
+% Load the subcaption package to produce subfloats
+\usepackage{subcaption}
+
+% Load the booktabs package for professional-looking tables
+\usepackage{booktabs}
+
+% Load the listings package for code listings
+\usepackage{listings}
+
+% Load the hyperref package for hyperlinking (MUST BE LAST)
+\usepackage{hyperref}
+
+% Load the cleveref package for intelligent cross-referencing (MUST BE AFTER HYPERREF)
+\usepackage[capitalize]{cleveref}
+
+%% SET OPTIONS
+
+% Configure listings
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\color{gray},
+  numbers=left,
+  breaklines=true,
+  breakatwhitespace=true,
+  numberstyle=\footnotesize,
+  stepnumber=2,
+  showstringspaces=false,
+}
+
+% Configure cleveref
+\crefname{lstlisting}{listing}{listings}
+\Crefname{lstlisting}{Listing}{Listings}
+\crefname{equation}{equation}{equations}
+
+% Configure theorem styles
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{observation}[theorem]{Observation}
+
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{lemma*}{lemma}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{observation*}{Observation}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{remark*}{Remark}
+
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{example*}{Example}
+
+\newtheorem{note}[theorem]{Note}
+\newtheorem*{note*}{Note}
+
+% Use roman d for differentiation and integration
+\Style{DSymb={\mathrm d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
+
+% Use fancy paired delimiters
+\DeclarePairedDelimiter{\pbrac}{(}{)}
+\DeclarePairedDelimiter{\sbrac}{[}{]}
+\DeclarePairedDelimiter{\cbrac}{\{}{\}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+% Add some imperial units
+\DeclareSIUnit{\foot}{ft}
+\DeclareSIUnit{\inch}{in}
+\DeclareSIUnit{\mile}{mi}
