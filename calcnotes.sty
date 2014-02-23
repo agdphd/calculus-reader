@@ -126,18 +126,18 @@
 \newcommand{\subtitle}[1]{\gdef\thesubtitle{#1}}
 
 \renewcommand{\maketitle}{
-  \begin{titlingpage}
-    \vspace*{\stretch{4}}
-    \begin{flushright}
-      \textsf{\textbf{\HUGE\thetitle}} \\[\baselineskip]
-      \textsf{\textit{\Huge\thesubtitle}}
-    \end{flushright}
-    \vspace*{\stretch{1}}
-    \begin{flushright}
-      \textsf{\Large\theauthor}
-    \end{flushright}
-    \vspace*{\stretch{9}}
-  \end{titlingpage}
+  \pagestyle{empty}
+  \vspace*{\stretch{4}}
+  \begin{flushright}
+    \textsf{\textbf{\HUGE\thetitle}} \\[\baselineskip]
+    \textsf{\textit{\Huge\thesubtitle}}
+  \end{flushright}
+  \vspace*{\stretch{1}}
+  \begin{flushright}
+    \textsf{\Large\theauthor}
+  \end{flushright}
+  \vspace*{\stretch{9}}
+  \cleardoublepage
 }
 
 % Next, we configure the chapter style
