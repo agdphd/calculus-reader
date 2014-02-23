@@ -169,6 +169,12 @@
 % Memoir only numbers down to sections by default. We need to go deeper.
 \setsecnumdepth{subsubsection}
 
+% Add some space to the outer margin for marginalia
+\addtolength{\textwidth}{-.1\textwidth}
+\addtolength{\foremargin}{.1\textwidth}
+\setlength{\marginparsep}{2eM}
+\checkandfixthelayout
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "book/calcnotes.tex"
