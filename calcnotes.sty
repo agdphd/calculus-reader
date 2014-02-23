@@ -39,9 +39,6 @@
 % Load the float package for fine-grained control over float placement
 \usepackage{float}
 
-% Load the subcaption package to produce subfloats
-\usepackage{subcaption}
-
 % Load the booktabs package for professional-looking tables
 \usepackage{booktabs}
 
@@ -74,6 +71,7 @@
     axis equal image, % Unit vectors of equal lengths in both directions
   },
   agdplot/.style={
+    font = \tiny,
     width = \textwidth, % Overall width of the plot
     axis lines = middle, % Put axes at x=0, y=0
     axis line style = {-latex}, % Use LaTeX arrowheads
@@ -174,6 +172,10 @@
 \addtolength{\foremargin}{.1\textwidth}
 \setlength{\marginparsep}{2eM}
 \checkandfixthelayout
+
+% Use small font for captions
+\captionnamefont{\tiny}
+\captiontitlefont{\tiny}
 
 %%% Local Variables:
 %%% mode: latex
