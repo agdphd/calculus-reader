@@ -68,6 +68,21 @@
   showstringspaces=false,
 }
 
+% Configure PGFPlots
+\pgfplotsset{ % Define a common style, so we don't repeat ourselves
+  rectify/.style={
+    axis equal image, % Unit vectors of equal lengths in both directions
+  },
+  agdplot/.style={
+    width = \textwidth, % Overall width of the plot
+    axis lines = middle, % Put axes at x=0, y=0
+    axis line style = {-latex}, % Use LaTeX arrowheads
+    smooth, % Smooth all curves
+    samples = 100, % A decent default for most curves
+    area style, % Fill regions bounded by \closedcycle
+  }
+}
+
 % Configure cleveref
 \crefname{lstlisting}{listing}{listings}
 \Crefname{lstlisting}{Listing}{Listings}
