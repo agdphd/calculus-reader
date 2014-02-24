@@ -2,5 +2,351 @@
 
 \begin{document}
 \section{Areas under curves}
+\label{sec:areasundercurves}
+We now turn our attention to a brand new problem.
 
+\begin{motprob}
+  Given a continuous function $f$ which is non-negative over an interval $I = \closedint{a, b}$, calculate the area of the region above the $x$-axis and below the curve $y = f(x)$ over the interval $I$.
+\end{motprob}
+
+\begin{motex}
+  Consider the function $f$ whose graph is shown in \cref{fig:boundregex}.
+  What is the area of the shaded region?
+
+  \begin{marginfigure}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        rectify,
+        ymin = -.4,
+        ymax = 3,
+        ytick = \empty,
+        xtick = {1,3},
+        ]
+        \addplot+ [domain=1:3] {1.5+sin(deg(x^2))} \closedcycle;
+
+        \addplot [thick, domain=0:3.5] {1.5+sin(deg(x^2))} node [pos=0.65,pin={130:$y = f(x)$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = f(x)$ over $\closedint{1, 3}$}
+    \label{fig:boundregex}
+  \end{marginfigure}
+\end{motex}
+
+This kind of problem has a long history, and many of the greatest mathematical thinkers of the last millenium have dedicated substantial energy to it.
+Fortunately, it won't take \emph{us} a thousand years to solve!
+Still, we do have our work cut out for us.
+
+As usual, we'll start by laying the groundwork with some foundational definitons and properties.
+
+\subsection{Basic definitions}
+\label{sec:areas.defs}
+We're going to be talking about these areas under curves quite a bit, so we should start by giving them a name.
+
+\begin{definition}
+  \label{def:defint.pos}
+  Let $f$ be a function which is continuous and non-negative over an interval $\closedint{a, b}$.
+  The \emph{definite integral} of $f$ over $\closedint{a,b}$, denoted $\Int{f(x)}{x,a,b}$, is the area of the region in the plane bounded by the curves $y = 0$, $x = a$, $x = b$, and $y = f(x)$.
+  \marginpar{\textbf{Caution!} \Cref{def:defint.pos} is not our permanent definition. Find that below in \cref{def:defint}.}
+\end{definition}
+
+\begin{note*}
+  We didn't mention the variable $x$ in the definition of $\Int{f(x)}{x,a,b}$!
+  This is because the variable $x$ is a \enquote{dummy variable}.
+  We could just as easily have called the independent variable $\xi$; then $\Int{f(\xi)}{\xi,a,b}$ would represent \emph{exactly the same area} as $\Int{f(x)}{x,a,b}$.
+\end{note*}
+
+Sometimes, the definite integral of a function is straightforward to compute.
+For example, the region in question may be a nice geometric shape.
+
+\begin{example}
+  \label{ex:inttrap}
+  Compute $\Int{2x}{x,1,3}$.
+\end{example}
+
+\begin{solution}
+  As shown in \cref{fig:int2x}, the region bounded by $y = 2x$, $y = 1$, $x = 0$, and $x = 3$ is a trapezoid with base $2$ and heights $2$ and $6$.
+  Therefore, $\Int{2x}{x,1,3} = 2 \cdot \frac{2 + 6}{2} = 8$.
+
+  \begin{marginfigure}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        ymin = -.4,
+        ymax = 9,
+        ytick = \empty,
+        xtick = {1,3},
+        ]
+        \addplot+ [domain=1:3] {2*x} \closedcycle;
+
+        \addplot [thick, domain=0:4] {2*x} node [pos=0.65,pin={130:$y = 2x$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = 2x$ over $\closedint{1,3}$}
+    \label{fig:int2x}
+  \end{marginfigure}
+\end{solution}
+
+\begin{example}
+  \label{ex:intcirc}
+  Compute $\Int{\sqrt{9 - x^{2}}}{x,-3,3}$.
+\end{example}
+
+\begin{solution}
+  As shown in \cref{fig:intcirc}, the region bounded by $y = \sqrt{9 - x^{2}}$, $y = 0$, $x = -3$, and $x = 3$ is a semicircle of radius $3$.
+  Therefore, $\Int{\sqrt{9 - x^{2}}}{x,-3,3} = \frac{1}{2} \pi \pbrac*{3}^{2} = \frac{9}{2} \pi$.
+
+  \begin{marginfigure}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        rectify,
+        ymin = -.4,
+        ymax = 4,
+        xmin = -4,
+        xmax = 4,
+        ytick = \empty,
+        xtick = {-3,3},
+        ]
+        \addplot+ [domain=-3:3] {sqrt(9-x^2)} \closedcycle;
+
+        \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
+    \label{fig:intcirc}
+  \end{marginfigure}
+\end{solution}
+
+Of course, if we were only interested in finding areas of triangles and circles, we wouldn't need to bring calculus into it!
+The problems start when the regions \emph{don't} make nice geometric shapes (as was the case in \cref{fig:boundregex}).
+Still, this is a good place to start; for \enquote{nice} functions, we can just fall back on the geometry you learned years ago.
+
+\subsection{Properties of definite integrals}
+\label{sec:defint.properties}
+In \cref{def:defint.pos}, we defined the definite integral $\Int{f(x)}{x,a,b}$ of a function---under the condition that the function is non-negative on $\closedint{a,b}$.
+To develop an algebraic theory of integrals, we'll need to do better than that.
+But what would it even mean to take an integral of a function whose values are negative?
+We haven't defined that yet!
+Of course, we're free to take any definition we'd like, but, as usual, some definitions are \emph{better} than others.
+
+Let's step back from that question a moment and think about the algebraic properties of definite integrals.
+Once we identify the properties we want our definition to have, it will be much easier to say what that definition should be!
+
+\subsubsection*{Constant multiples}
+Suppose that, for a certain function $f$, we know the define integral $\Int{f(x)}{x,a,b}$.
+Is this enough information to compute $\Int{k f(x)}{x,a,b}$ for some given constant $k \in \RR$?
+
+\begin{example}
+  \label{ex:intcmult}
+  Let $f(x) = 2x$ and let $k = 2$.
+  We showed in \cref{ex:inttrap} that $\Int{f(x)}{x,1,3} = 8$.
+  By similar arguments, $\Int{k f(x)}{x,1,3} = \Int{4x}{x,1,3} = 16$.
+  But this is equal to twice the original integral---in other words, $k \Int{f(x)}{x,1,3} = \Int{k f(x)}{x,1,3}$ in this situation.
+\end{example}
+
+Will this always work?
+In fact, it will!
+Multiplying $f$ by $k$ simply \enquote{stretches} the graph of $y = f(x)$ vertically by a factor of $k$; a piece of the plane with area $1$ before this operation will have area $k$ afterwards.
+
+Of course, this argument only makes sense if $f$ is a non-negative function over $\closedint{a,b}$ and $k \geq 0$; otherwise, $k f(x)$ won't be compatible with \cref{def:defint.pos}.
+But this gives us a clue about how to handle the problem of negative-valued functions!
+
+However we end up defining the integral of an arbitrary function, we'd like to keep this delightful propertly that $\Int{k f(x)}{x,a,b} = k \Int{f (x)}{x,a,b}$.
+Suppose $f$ is a non-positive function and that we know the value of $\Int{f(x)}{x,a,b}$; if our property is to hold, we'd better have that $\Int{-f(x)}{x,a,b} = -\Int{f(x)}{x,a,b}$.
+But this will be a negative number!
+It's still equal in value to the area bounded between $y = 0$ and $y = f(x)$ over $\closedint{a,b}$, but the sign has been flipped, since $y = f(x)$ is now \emph{below} $y = 0$.
+This turns out to be enough to build our general definition of the definite integral:
+
+\begin{definition}
+  \label{def:defint}
+  Let $f$ be a function which is continuous over an interval $\closedint{a,b}$.
+  The \emph{definite integral} of $f$ over $\sbrac{a, b}$, denoted $\Int{f(x)}{x,a,b}$, is the \enquote{signed area} of the region bounded by the curves $y = 0$, $y = f(x)$, $x = a$, and $x = b$, computed by measuring the area of the regions where $y=f(x)$ is below $y = 0$ and subtracting it from the area of the regions where $y=f(x)$ is above $y = 0$.
+  If $\Int{f(x)}{x,a,b}$ is defined, we say that $f$ is \emph{integrable} over $\closedint{a,b}$.
+\end{definition}
+
+\begin{example}
+  Compute $\Int{3x}{x,-1,2}$.
+\end{example}
+
+\begin{solution}
+  We need to consider the region bounded by $y = 3x$, $y = 0$, $x = -1$, and $x = 2$.
+  As shown in \cref{fig:intpm}, this region has both \enquote{positive} and \enquote{negative} pieces.
+  The \enquote{negative} piece is a triangle of sides $1$ and $3$, so its area is $\frac{1}{2} \cdot 1 \cdot 3 = \frac{3}{2}$.
+  Similarly, the \enquote{positive} piece is a triangle with sides $2$ and $6$, so its area is $\frac{1}{2} \cdot 2 \cdot 6 = 6$.
+  Therefore, $\Int{3x}{x,-1,2} = 6 - \frac{3}{2} = \frac{9}{2}$.
+
+  \begin{marginfigure}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        ymin = -4,
+        ymax = 7,
+        ytick = \empty,
+        xtick = {-1,2},
+        ]
+        \addplot+ [domain=-1:0] {3*x} \closedcycle;
+        \addplot+ [domain=0:2] {3*x} \closedcycle;
+
+        \addplot [thick, domain=-2:3] {3*x} node [pos=0.5,pin={130:$y = 3x$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = 3x$ over $\closedint{-1,2}$}
+    \label{fig:intpm}
+  \end{marginfigure}
+\end{solution}
+
+With this definition in hand, we can state this idea as a theorem.
+
+\begin{theorem}[Constant multiple rule for integrals]
+  \label{thm:intcmult}
+  For any function $f$ which is integrable over $\closedint{a,b}$ and any constant $k \in \RR$,
+  \begin{equation}
+    \label{eq:intcmult}
+    \Int{k f(x)}{x,a,b} = k \Int{f(x)}{x,a,b}.
+  \end{equation}
+\end{theorem}
+
+\subsubsection*{Sums}
+Now suppose that, for two non-negative functions $f$ and $g$, we know the values $\Int{f(x)}{x,a,b}$ and $\Int{g(x)}{x,a,b}$.
+Is this enough information to compute $\Int{f(x) + g(x)}{x,a,b}$?
+
+\begin{example}
+  \label{ex:intsum}
+  Let $f(x) = 1$ and $g(x) = 2x$.
+  Consider their integrals over $\closedint{1,3}$.
+  We showed in \cref{ex:inttrap} that $\Int{g(x)}{x,1,3} = 8$.
+  Since the region under $y = f(x)$ over $\closedint{1,3}$ is just a rectangle of height $1$ and base $2$, its area s $2$, so this is the value of $\Int{f(x)}{x,1,3}$.
+  Now consider the function $h(x) = f(x) + g(x)$.
+  What is $\Int{h(x)}{x,1,3}$?
+  As shown in \cref{fig:intstack}, this is the area of a trapezoid with base $2$ and heights $3$ and $7$, so $\Int{h(x)}{x,1,3} = 2 \cdot \frac{3+7}{2} = 10$.
+  But this is also $\Int{f(x)}{x,1,3} + \Int{g(x)}{x,1,3}$!
+
+  \begin{marginfigure}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        ymin = -.4,
+        ymax = 9,
+        ytick = \empty,
+        xtick = {1,3},
+        ]
+        \addplot+ [domain=1:3] {2*x+1} \closedcycle;
+        \addplot+ [domain=1:3] {2*x} \closedcycle;
+
+        \addplot [thick, domain=0:4] {2*x} node [pos=0.65,pin={-90:$y = 2x$}] {};
+        \addplot [thick, domain=0:4] {2*x+1} node [pos=0.65,pin={150:$y = 2x+1$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = 2x+1$ over $\closedint{1,3}$}
+    \label{fig:intstack}
+  \end{marginfigure}
+\end{example}
+
+Will this always work?
+It turns out that it will---and the reason why is surprisingly straightforward.
+Consider \cref{fig:intstack} again, which shows the region of the plane whose area is $\Int{f(x) + g(x)}{x, a, b}$.
+The lower piece is exactly the region bounded by $y = g(x)$, so clearly its area is $\Int{g(x)}{x,a,b}$.
+
+But what about the upper piece?
+This was formed by taking the region bounded by $y = f(x)$ and \enquote{sliding it up} so it sits on top of the curve $y = g(x)$.
+Crucially, the length of each vertical line in this piece is unchanged; they're merely skewed from a rectangle into a parallelogram.
+It turns out\sidefootnote{This result is known as \enquote{Cavlieri's principle}, after fifteenth-century Italian mathematician Bonaventura Cavalieri, although it was known in various forms for hundreds of years before him.} that this means that the rectangle and the parallelogram have the same area!
+(To see why, imagine taking a stack of coins and setting it edges-down on an uneven surface; the individual coins will slide up and down to match the contour of the surface, but the volume of the stack is clearly unchanged.)
+
+From this, we obtain another important theorem about definite integrals.
+
+\begin{theorem}[Sum rule for integrals]
+  \label{thm:intsum}
+  For any functions $f$ and $g$ which are integrable over $\closedint{a,b}$,
+  \begin{equation}
+    \label{eq:intsum}
+    \Int{f(x) + g(x)}{x,a,b} = \Int{f(x)}{x,a,b} + \Int{g(x)}{x,a,b}.
+  \end{equation}
+\end{theorem}
+
+\subsubsection*{Combining intervals}
+
+Now suppose that we know several different integrals of the \emph{same} function; for example, perhaps we know $\Int{f(x)}{x,a,b}$ and $\Int{f(x)}{x,b,c}$.
+Is this enough information to compute $\Int{f(x)}{x,a,c}$?
+
+\begin{example}
+  \label{ex:intsplit}
+  Let $f(x) = \sqrt{9 - x^{2}}$.
+  Find $\Int{f(x)}{x,-3,0}$ and $\Int{f(x)}{x,0,3}$, then compare to $\Int{f(x)}{x,-3,3}$ as computed in \cref{ex:intcirc}.
+\end{example}
+
+\begin{solution}
+  Each of $\Int{f(x)}{x,-3,0}$ and $\Int{f(x)}{x,0,3}$ represents the area of one-quarter of a circle of radius $3$, as illustrated in \cref{fig:intcircsplit}.
+  Therefore, each is equal to $\frac{1}{4} \pi \pbrac*{3}^{2} = \frac{9}{4} \pi$.
+  These two values add up to $\frac{9}{2} \pi$, which was the value of $\Int{f(x)}{x,-3,3}$ computed in \cref{ex:intcirc}.
+
+  \begin{marginfigure}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      agdplot,
+      rectify,
+      ymin = -.4,
+      ymax = 4,
+      xmin = -4,
+      xmax = 4,
+      ytick = \empty,
+      xtick = {-3,3},
+      ]
+      \addplot+ [domain=-3:0] {sqrt(9-x^2)} \closedcycle;
+      \addplot+ [domain=0:3] {sqrt(9-x^2)} \closedcycle;
+
+      \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
+  \label{fig:intcircsplit}
+\end{marginfigure}
+\end{solution}
+
+Will this always work?
+Once again, it turns out that it will, as is clearly seen from \cref{fig:intcircsplit}.
+Fixing an integrable function $f$ and three values $a < b < c$, it is clear that $\Int{f(x)}{x,a,b}$ and $\Int{f(x)}{x,b,c}$ represent the (signed) areas of two regions which, when combined, form the region whose (signed) area is measured by $\Int{f(x)}{x,a,c}$.
+
+Now suppose that we want to compute an integral $\Int{f(x)}{x,b,a}$ where $a < b$.
+Once again, we'd like to preserve the lovely property that $\Int{f(x)}{x,a,b} + \Int{f(x)}{x,b,c} = \Int{f(x)}{x,a,c}$.
+We should consider two interesting special cases of this equation.
+\begin{itemize}
+\item
+  If we set $a = b = c$, this implies that we should have $\Int{f(x)}{x,a,a} + \Int{f(x)}{x,a,a} = \Int{f(x)}{x,a,a}$.
+  In other words, $2 \Int{f(x)}{x,a,a} = \Int{f(x)}{x,a,a}$.
+  This can only be true if $\Int{f(x)}{x,a,a} = 0$.
+
+\item
+  Meanwhile, if we set $c = a$, this implies that we should have $\Int{f(x)}{x,a,b} + \Int{f(x)}{x,b,a} = \Int{f(x)}{x,a,a} = 0$.
+  This can only be true if $\Int{f(x)}{x,a,b} = - \Int{f(x)}{x,b,a}$.
+\end{itemize}
+
+This gives us two more important results about definite integrals, which we will collect into a single theorem.
+
+\begin{theorem}[Combined intervals rule for integrals]
+  Let $f$ be integrable over an interval $\closedint{a,b}$.
+  Then
+  \begin{equation}
+    \label{eq:intreverse}
+    \Int{f(x)}{x,a,b} = - \Int{f(x)}{x,b,a}
+  \end{equation}
+  and
+  \begin{equation}
+    \label{eq:inttrivint}
+    \Int{f(x)}{x,a,a} = 0.
+  \end{equation}
+\end{theorem}
 \end{document}
