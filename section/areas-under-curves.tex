@@ -292,28 +292,28 @@ Is this enough information to compute $\Int{f(x)}{x,a,c}$?
   These two values add up to $\frac{9}{2} \pi$, which was the value of $\Int{f(x)}{x,-3,3}$ computed in \cref{ex:intcirc}.
 
   \begin{marginfigure}
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      agdplot,
-      rectify,
-      ymin = -.4,
-      ymax = 4,
-      xmin = -4,
-      xmax = 4,
-      ytick = \empty,
-      xtick = {-3,3},
-      ]
-      \addplot+ [domain=-3:0] {sqrt(9-x^2)} \closedcycle;
-      \addplot+ [domain=0:3] {sqrt(9-x^2)} \closedcycle;
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        rectify,
+        ymin = -.4,
+        ymax = 4,
+        xmin = -4,
+        xmax = 4,
+        ytick = \empty,
+        xtick = {-3,3},
+        ]
+        \addplot+ [domain=-3:0] {sqrt(9-x^2)} \closedcycle;
+        \addplot+ [domain=0:3] {sqrt(9-x^2)} \closedcycle;
 
-      \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
+        \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
 
-    \end{axis}
-  \end{tikzpicture}
-  \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
-  \label{fig:intcircsplit}
-\end{marginfigure}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
+    \label{fig:intcircsplit}
+  \end{marginfigure}
 \end{solution}
 
 Will this always work?
