@@ -159,9 +159,9 @@ Of course, this argument only makes sense if $f$ is a non-negative function over
 But this gives us a clue about how to handle the problem of negative-valued functions!
 
 However we end up defining the integral of an arbitrary function, we'd like to keep this delightful propertly that $\Int{k f(x)}{x,a,b} = k \Int{f (x)}{x,a,b}$.
-Suppose $f$ is a non-positive function and that we know the value of $\Int{f(x)}{x,a,b}$; if our property is to hold, we'd better have that $\Int{-f(x)}{x,a,b} = -\Int{f(x)}{x,a,b}$.
-But this will be a negative number!
-It's still equal in value to the area bounded between $y = 0$ and $y = f(x)$ over $\closedint{a,b}$, but the sign has been flipped, since $y = f(x)$ is now \emph{below} $y = 0$.
+Suppose $f$ is a non-positive function and that we know the value of $\Int{f(x)}{x,a,b}$; if our property is to hold, we'd better have that $\Int{f(x)}{x,a,b} = -\Int{-f(x)}{x,a,b}$.
+But this implies that $\Int{f(x)}{x,a,b}$ is a negative number!
+It's still equal in absolute value to the area bounded between $y = 0$ and $y = f(x)$ over $\closedint{a,b}$, but the sign has been flipped, since $y = f(x)$ is now \emph{below} $y = 0$.
 This turns out to be enough to build our general definition of the definite integral:
 
 \begin{definition}
@@ -262,7 +262,7 @@ But what about the upper piece?
 This was formed by taking the region bounded by $y = f(x)$ and \enquote{sliding it up} so it sits on top of the curve $y = g(x)$.
 Crucially, the length of each vertical line in this piece is unchanged; they're merely skewed from a rectangle into a parallelogram.
 It turns out\sidefootnote{This result is known as \enquote{Cavlieri's principle}, after fifteenth-century Italian mathematician Bonaventura Cavalieri, although it was known in various forms for hundreds of years before him.} that this means that the rectangle and the parallelogram have the same area!
-(To see why, imagine taking a stack of coins and setting it edges-down on an uneven surface; the individual coins will slide up and down to match the contour of the surface, but the volume of the stack is clearly unchanged.)
+(To see why, imagine taking a tall stack of index cards and setting it edges-down on an uneven surface; the individual cards will slide up and down to match the contour of the surface, but the volume of the stack is clearly unchanged.)
 
 From this, we obtain another important theorem about definite integrals.
 
