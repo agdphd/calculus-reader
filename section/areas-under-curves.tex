@@ -66,7 +66,7 @@ For example, the region in question may be a nice geometric shape.
   Compute $\Int{2x}{x,1,3}$.
 \end{example}
 
-\begin{solution}
+\begin{soln}
   As shown in \cref{fig:int2x}, the region bounded by $y = 2x$, $y = 1$, $x = 0$, and $x = 3$ is a trapezoid with base $2$ and heights $2$ and $6$.
   Therefore, $\Int{2x}{x,1,3} = 2 \cdot \frac{2 + 6}{2} = 8$.
 
@@ -89,14 +89,14 @@ For example, the region in question may be a nice geometric shape.
     \caption{Region bounded by $y = 2x$ over $\closedint{1,3}$}
     \label{fig:int2x}
   \end{marginfigure}
-\end{solution}
+\end{soln}
 
 \begin{example}
   \label{ex:intcirc}
   Compute $\Int{\sqrt{9 - x^{2}}}{x,-3,3}$.
 \end{example}
 
-\begin{solution}
+\begin{soln}
   As shown in \cref{fig:intcirc}, the region bounded by $y = \sqrt{9 - x^{2}}$, $y = 0$, $x = -3$, and $x = 3$ is a semicircle of radius $3$.
   Therefore, $\Int{\sqrt{9 - x^{2}}}{x,-3,3} = \frac{1}{2} \pi \pbrac*{3}^{2} = \frac{9}{2} \pi$.
 
@@ -122,7 +122,7 @@ For example, the region in question may be a nice geometric shape.
     \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
     \label{fig:intcirc}
   \end{marginfigure}
-\end{solution}
+\end{soln}
 
 Of course, if we were only interested in finding areas of triangles and circles, we wouldn't need to bring calculus into it!
 The problems start when the regions \emph{don't} make nice geometric shapes (as was the case in \cref{fig:boundregex}).
@@ -175,7 +175,7 @@ This turns out to be enough to build our general definition of the definite inte
   Compute $\Int{3x}{x,-1,2}$.
 \end{example}
 
-\begin{solution}
+\begin{soln}
   We need to consider the region bounded by $y = 3x$, $y = 0$, $x = -1$, and $x = 2$.
   As shown in \cref{fig:intpm}, this region has both \enquote{positive} and \enquote{negative} pieces.
   The \enquote{negative} piece is a triangle of sides $1$ and $3$, so its area is $\frac{1}{2} \cdot 1 \cdot 3 = \frac{3}{2}$.
@@ -202,7 +202,7 @@ This turns out to be enough to build our general definition of the definite inte
     \caption{Region bounded by $y = 3x$ over $\closedint{-1,2}$}
     \label{fig:intpm}
   \end{marginfigure}
-\end{solution}
+\end{soln}
 
 With this definition in hand, we can state this idea as a theorem.
 
@@ -286,7 +286,7 @@ Is this enough information to compute $\Int{f(x)}{x,a,c}$?
   Find $\Int{f(x)}{x,-3,0}$ and $\Int{f(x)}{x,0,3}$, then compare to $\Int{f(x)}{x,-3,3}$ as computed in \cref{ex:intcirc}.
 \end{example}
 
-\begin{solution}
+\begin{soln}
   Each of $\Int{f(x)}{x,-3,0}$ and $\Int{f(x)}{x,0,3}$ represents the area of one-quarter of a circle of radius $3$, as illustrated in \cref{fig:intcircsplit}.
   Therefore, each is equal to $\frac{1}{4} \pi \pbrac*{3}^{2} = \frac{9}{4} \pi$.
   These two values add up to $\frac{9}{2} \pi$, which was the value of $\Int{f(x)}{x,-3,3}$ computed in \cref{ex:intcirc}.
@@ -314,7 +314,7 @@ Is this enough information to compute $\Int{f(x)}{x,a,c}$?
     \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
     \label{fig:intcircsplit}
   \end{marginfigure}
-\end{solution}
+\end{soln}
 
 Will this always work?
 Once again, it turns out that it will, as is clearly seen from \cref{fig:intcircsplit}.
@@ -355,6 +355,8 @@ We've now collected three more more important results about definite integrals, 
     \Int{f(x)}{x,a,b} + \Int{f(x)}{x,b,c} = \Int{f(x)}{x,a,c}.
   \end{equation}
 \end{theorem}
+
+\exercises
 \end{document}
 
 %%% Local Variables:

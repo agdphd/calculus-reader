@@ -48,6 +48,10 @@
 % Load the listings package for code listings
 \usepackage{listings}
 
+% Load the exsheets package for exercises with later solutions
+\let\vary\undefined % NewTXMath also defines a \vary command that we don't need but which causes errors
+\usepackage{exsheets}
+
 % Load the hyperref package for hyperlinking (MUST BE LAST)
 \usepackage{hyperref}
 
@@ -121,7 +125,7 @@
 \newtheorem{note}[theorem]{Note}
 \newtheorem*{note*}{Note}
 
-\newtheorem*{solution}{Solution}
+\newtheorem*{soln}{Solution}
 
 % Use roman d for differentiation and integration
 \Style{DSymb={\mathrm d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
@@ -152,6 +156,9 @@
 
 % Area function from integral calculus
 \newcommand*{\areafunc}[3]{\ensuremath{A_{{#1},{#2}} \pbrac*{#3}}}
+
+% Command to switch section to exercise mode
+\newcommand*{\exercises}{\subsection*{Exercises}}
 
 %% CONFIGURE LAYOUT
 
@@ -243,6 +250,22 @@
     \centering
   }{
   \end{marginfigure}
+}
+
+% Configure exsheets package
+\SetupExSheets{
+  % question numbering: »chapter.question«
+  % use `ch.se.qu' for »chapter.section.question«
+  counter-format = ch.se.qu,
+  counter-within = chapter,
+  headings = runin-nr,
+}
+% Adjust the heading so there's are gap between heading and
+% the previous paragraph a littler larger than the default:
+\DeclareInstance{exsheets-heading}{runin-nr}{default}{
+  runin = true ,
+  number-post-code = \space ,
+  join = { main[r,vc]number[l,vc](0pt,0pt) },
 }
 
 %%% Local Variables:

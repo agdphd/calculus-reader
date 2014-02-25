@@ -20,7 +20,7 @@ First, let's get our feet wet with a quick example involving this area function.
   What is its derivative?
 \end{example}
 
-\begin{solution}
+\begin{soln}
   We first compute the area function $\areafunc{f}{1}{x}$.
   Since $f$ is linear, the region bounded by $y = f(x)$ over $\sbrac{1, x}$ is a trapezoid, as shown in \cref{fig:areafunc}
   The left height of this trapezoid is $1$, its right height is $2 \cdot x - 1$, and its base is $x - 1$.
@@ -49,7 +49,7 @@ First, let's get our feet wet with a quick example involving this area function.
     \caption{Region bounded by $y = 2x-1$ over $\closedint{1,x}$}
     \label{fig:areafunc}
   \end{smallfig}
-\end{solution}
+\end{soln}
 
 Now \emph{that's} a strange coincidence.
 Why on Earth should it be the case that $\D{}{x} \areafunc{f}{1}{x} = f(x)$?
@@ -147,10 +147,10 @@ This is a vast improvement over the ad-hoc methods we used in the last section, 
   What is $\Int{f(x)}{x,0,4}$?
 \end{example}
 
-\begin{solution}
+\begin{soln}
   We first find that $F(x) = \frac{1}{3} x^{3}$ is an antiderivative of the given function $f(x) = x^{2}$.
   Thus, by \cref{thm:ftc.calc}, $\Int{x^{2}}{x, 0, 4} = F(4) - F(0) = \frac{1}{3} \pbrac{4}^{3} - \frac{1}{3} \pbrac{0}^{3} = \frac{64}{3}$.
-\end{solution}
+\end{soln}
 
 Before we move on, take a moment to think about how much harder the calculation in \cref{ex:ftc.calc} would have been without \cref{thm:ftc.calc}.
 We'd have needed to find the area under the curve of $y = x^{2}$ using purely geometric methods.
@@ -172,6 +172,8 @@ This interpretation is quite natural in settings where rates of change have phys
   The definite integral $\Int{f(t)}{t,a,b}$ measures the \emph{total displacement} of the car (in \si{\mile}) over the time interval $t \in \closedint{a,b}$; in particular, if $v$ is nonnegative, then the integral measures the distance traveled by the car, which is the distance between the car's positions at time $a$ and time $b$.
   (If the car changes direction during its trip, this is not the same as total distance traveled; it is important to bear in mind the significance of sign in this calculation!)
 \end{example}
+
+\exercises
 \end{document}
 
 %%% Local Variables:
