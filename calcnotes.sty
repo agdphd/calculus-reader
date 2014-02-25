@@ -39,6 +39,9 @@
 % Load the float package for fine-grained control over float placement
 \usepackage{float}
 
+% Load the fullwidth package for figures that span the margin
+\usepackage{fullwidth}
+
 % Load the booktabs package for professional-looking tables
 \usepackage{booktabs}
 
@@ -71,14 +74,14 @@
     axis equal image, % Unit vectors of equal lengths in both directions
   },
   agdplot/.style={
-    font = \tiny,
-    width = \textwidth, % Overall width of the plot
+    width = \textwidth,
     axis lines = middle, % Put axes at x=0, y=0
     axis line style = {-latex}, % Use LaTeX arrowheads
     smooth, % Smooth all curves
     samples = 100, % A decent default for most curves
     area style, % Fill regions bounded by \closedcycle
-  }
+    scale only axis, % Fit axes to size rather than fiddling with labels
+  },
 }
 
 % Configure cleveref
@@ -144,6 +147,9 @@
 \newcommand*{\RR}{\fieldname{R}}
 \newcommand*{\QQ}{\fieldname{Q}}
 \newcommand*{\CC}{\fieldname{C}}
+
+% Area function from integral calculus
+\newcommand*{\areafunc}[3]{\ensuremath{A_{{#1},{#2}} \pbrac*{#3}}}
 
 %% CONFIGURE LAYOUT
 
@@ -231,9 +237,39 @@
 \setlength{\marginparsep}{2eM}
 \checkandfixthelayout
 
+\newlength{\marginwidth}
+\setlength{\marginwidth}{\marginparsep+\marginparwidth}
+
+\newlength{\blockwidth}
+\setlength{\blockwidth}{\marginwidth+\textwidth}
+
+\fullwidthsetup{width=\blockwidth, outermargin=-\marginwidth}
+
 % Use small font for captions
 \captionnamefont{\tiny}
 \captiontitlefont{\tiny}
+
+% Configure an environment for full-block figures
+\newenvironment*{widefig}[1][htbp]{
+  \begin{figure}[{#1}]
+    % \begin{adjmulticols*}{1}{0in}{-\marginparwidth}
+    %\checkoddpage
+    %\edef\side{\ifoddpage l\else r\fi}
+    %\begin{\minipage}[\side]{\fullwidth}
+    \begin{fullwidth}[width=\blockwidth]
+    }{
+    \end{fullwidth}
+    %\end{minipage}
+    % \end{adjmulticols*}
+  \end{figure}
+}
+
+\newenvironment*{smallfig}{
+  \begin{marginfigure}
+    \centering
+  }{
+  \end{marginfigure}
+}
 
 %%% Local Variables:
 %%% mode: latex
