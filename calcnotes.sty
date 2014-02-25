@@ -175,56 +175,28 @@
 }
 
 % Next, we configure the chapter style
-\definecolor{chaptercolor}{gray}{0.8}
-% helper macros
-\newcommand\numlifter[1]{\raisebox{-2cm}[0pt][0pt]{\smash{#1}}}
-\newcommand\numindent{\kern37pt}
-\newlength\chaptertitleboxheight
-\makechapterstyle{hansen}{
-  \renewcommand\printchaptername{\raggedleft}
-  \renewcommand\printchapternum{%
-    \begingroup%
-    \leavevmode%
-    \chapnumfont%
-    \strut%
-    \numlifter{\thechapter}%
-    \numindent%
-    \endgroup%
-  }
-  \renewcommand
-  *
-  {\printchapternonum}{%
-    \vphantom{\begingroup%
-      \leavevmode%
-      \chapnumfont%
-      \numlifter{\vphantom{9}}%
-      \numindent%
-      \endgroup}
-    \afterchapternum}
-  \setlength\midchapskip{0pt}
-  \setlength\beforechapskip{0.5\baselineskip}
-  \setlength{\afterchapskip}{3\baselineskip}
-  \renewcommand\chapnumfont{%
-    \fontsize{4cm}{0cm}%
-    \bfseries%
-    \sffamily%
-    \color{chaptercolor}%
-  }
-  \renewcommand\chaptitlefont{%
-    \normalfont%
-    \huge%
-    \bfseries%
-    \raggedleft%
-  }%
-  \settototalheight\chaptertitleboxheight{%
-    \parbox{\textwidth}{\chaptitlefont \strut bg\\bg\strut}}
-  \renewcommand\printchaptertitle[1]{%
-    \parbox[t][\chaptertitleboxheight][t]{\textwidth}{%
-      % \microtypesetup{protrusion=false}% add this if you use microtype
-      \chaptitlefont\strut ##1\strut}%
-  }
+\definecolor{chapternumbercolor}{gray}{0.8}
+\definecolor{chaptertitlecolor}{gray}{0}
+\newlength{\chapternumlift} \setlength{\chapternumlift}{2\baselineskip+\headsep+\headheight}
+\makechapterstyle{calcnotes}{%
+  \chapterstyle{default}
+  % \setlength{\beforechapskip}{-\parskip-\headsep-\headheight}
+  % \setlength{\afterchapskip}{0in}
+  \renewcommand*{\chapterheadstart}{\vspace*{-\chapternumlift}}
+  \renewcommand*{\chapnamefont}{\LARGE\bfseries\sffamily\color{chapternumbercolor}}
+  \renewcommand*{\chapnumfont}{\HUGE\bfseries\sffamily\color{chapternumbercolor}}
+  \renewcommand*{\chaptitlefont}{\raggedleft\huge\bfseries\sffamily\color{chaptertitlecolor}}
+  \renewcommand*{\afterchapternum}{}
+  \renewcommand*{\printchaptername}{}
+  \setlength{\midchapskip}{30mm} % Determines height of chapter number
+  \renewcommand*{\chapternamenum}{}
+  \renewcommand*{\printchapternum}{%
+    \sidebar{\raisebox{0pt}[0pt][0pt]{\makebox[0pt][l]{%
+      \resizebox{!}{\midchapskip}{\chapnumfont\thechapter}}}}}
+  \renewcommand*{\printchaptertitle}[1]{\chaptitlefont ##1}
 }
-\chapterstyle{hansen}
+
+\chapterstyle{calcnotes}
 
 % Next, we configure the page style
 \pagestyle{companion}
