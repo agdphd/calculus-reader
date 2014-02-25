@@ -1,0 +1,172 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{The fundamental theorem of integral calculus}
+
+In the last section, we defined the \emph{definite integral} $\Int{f(x)}{x,a,b}$ of a function $f$ over an interval $\closedint{a,b}$ to be the \enquote{signed area} of the region bounded between the curve $y = f(x)$ and the $x$-axis.
+However, this doesn't really solve our original problem!
+We want \emph{methods} for computing these areas, not just a name and some notation.
+
+To progress towards this goal, we're going to need some heavy machinery---and, perhaps surprisingly, we'll need the tools of differential calculus!
+This suggests a refined version of our motivating problem:
+\begin{motprob}
+  Given a continuous function $f$ which is integrable over some interval $I = \sbrac{a, b}$, what is the analytic behavior of the \enquote{area function} $\areafunc{f}{a}{x} = \Int{f(t)}{t,a,x}$?
+\end{motprob}
+
+First, let's get our feet wet with a quick example involving this area function.
+\begin{example}
+  Let $f(x) = 2x+1$.
+  What is the area function $\areafunc{f}{1}{x}$?
+  What is its derivative?
+\end{example}
+
+\begin{solution}
+  We first compute the area function $\areafunc{f}{1}{x}$.
+  Since $f$ is linear, the region bounded by $y = f(x)$ over $\sbrac{1, x}$ is a trapezoid, as shown in \cref{fig:areafunc}
+  The left height of this trapezoid is $1$, its right height is $2 \cdot x - 1$, and its base is $x - 1$.
+  Thus, its area is $\areafunc{f}{1}{x} = \pbrac{x-1} \cdot \frac{1}{2} \pbrac{2x-1 + 1} = x^{2} - x$.
+  It is then straightforward to compute that $\D{}{x} \areafunc{f}{1}{x} = 2x-1$; we note that this is in fact $f(x)$ again.
+
+  \begin{smallfig}
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        ymin = -1.2,
+        ymax = 8,
+        xmin = -1,
+        xmax = 4,
+        ytick = \empty,
+        xtick = {1},
+        extra x ticks = {2.5},
+        extra x tick labels = {$x$},
+        ]
+        \addplot+ [domain=1:2.5] {2*x-1} \closedcycle;
+
+        \addplot [thick, domain=-1:4] {2*x-1} node [pos=0.45,pin={90:$y = 2x-1$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Region bounded by $y = 2x-1$ over $\closedint{1,x}$}
+    \label{fig:areafunc}
+  \end{smallfig}
+\end{solution}
+
+Now \emph{that's} a strange coincidence.
+Why on Earth should it be the case that $\D{}{x} \areafunc{f}{1}{x} = f(x)$?
+Is this true for other functions?
+
+In fact, it's actually true for \emph{all} integrable functions.
+To see why, let's look at an example more closely.
+Consider \cref{fig:ftc}.
+
+\begin{widefig}
+  \begin{tikzpicture}
+    \begin{axis}[
+      agdplot,
+      rectify,
+      ymin = -0.2,
+      ymax = .6,
+      xmin = -1,
+      xmax = 6.5,
+      ytick = \empty,
+      xtick = \empty,
+      extra x ticks = {1,4.5,4.75},
+      extra x tick labels = {$a$,$x$,$x+\Delta x$},
+      tick label style = {rotate = 45, anchor = east},
+      ]
+      \addplot+ [domain=1:4.5] {1/2*sin(deg(pi*x/8))} \closedcycle;
+      \addplot+ [domain=4.5:4.75] {1/2*sin(deg(pi*x/8))} \closedcycle;
+
+      \addplot [thick, domain=-1:8] {1/2*sin(deg(pi*x/8))} node [pos=0.25,pin={150:$y = f(x)$}] {};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Demonstration of the fundamental theorem of calculus}
+  \label{fig:ftc}
+\end{widefig}
+
+$\D{}{x} \areafunc{f}{a}{x}$ measures the rate of change of the area under $y = f(x)$ as the right border of the region is moved.
+Let's use \cref{def:deriv} to unpack what this means.
+Formally, we have that
+\begin{align*}
+  \D{}{x} \areafunc{f}{a}{x} &= \lim_{\Delta x \to 0} \frac{\areafunc{f}{a}{x + \Delta x} - \areafunc{f}{a}{x}}{\Delta x} \\
+  &= \lim_{\Delta x \to 0} \frac{\Int{f(t)}{t, a, x + \Delta x} - \Int{f(t)}{t, a, x}}{\Delta x},
+  \intertext{So, applying \cref{thm:int.combint}, we have that}
+  &= \lim_{\Delta x \to 0} \frac{1}{\Delta x} \Int{f(t)}{t, x, x + \Delta x}.
+\end{align*}
+
+This integral measures the area under the curve of $y = f(x)$ over the interval $\closedint{x, x + \Delta x}$.
+if $\Delta x$ is small enough, this is essentially a rectangle of height $f(x)$, whose area is of course given by $f(x) \cdot \Delta x$.
+Thus, $\D{}{x} \areafunc{f}{a}{x} = f(x)$!
+
+This result will turn out to be \emph{incredibly} important in what's to come, so we should record it as a theorem.
+In fact, this result is so important that history has hallowed it with a very fancy name---no small feat, given the solemnity of your average mathematician!
+
+\begin{theorem}[Fundamental theorem of integral calculus]
+  \label{thm:ftc.deriv}
+  If $f$ is integrable over $\closedint{a,b}$ and $x \in \openint{a,b}$, then
+  \begin{equation}
+    \label{eq:ftc.deriv}
+    \D{}{x} \Int{f(t)}{t,a,x} = f(x).
+  \end{equation}
+  In other words, the area function $\areafunc{f}{a}{x}$ is an antiderivative of $f$.
+\end{theorem}
+
+Taken at face value, this theorem doesn't seem all that interesting---after all, we've already seen in \cref{sec:antiderivs} how to find antiderivatives of functions, and integration is a lot of work!
+Why have we gone to all this trouble just to find one more antiderivative of a function?
+
+In fact, this theorem isn't about finding antiderivatives at all; instead, it's about computing definite integrals!
+Recall from \cref{thm:antideriv.constant} that the antiderivatives of a continuous function are all the same up to a constant.
+In particular, if $f$ is continuous and $F$ is \emph{any} antiderivative of $f$, then there's some number $C$ such that $\Int{f(t)}{t,a,x} = F(x) + C$ for \emph{all} values of $x$!
+If we can figure out that value $C$, we'll have an \emph{extremely} powerful tool for computing definite integrals at very low cost.
+
+So what is this number $C$?
+If we rearrange the equation above, we find that $C = \Int{f(t)}{t,a,x} - F(x)$ for every $x$.
+To make this easy to calculate, let's take $x = a$; then the integral is $0$, showing that $C = - F(a)$.
+(That wasn't so hard!)
+In other words, $\Int{f(t)}{t,a,x} = F(x) - F(a)$.
+
+Bringing all this together, we can wrap up our results about definite integrals in the following theorem, which represents the payoff of all our analytic work on definite integrals.
+
+\begin{theorem}
+  \label{thm:ftc.calc}
+  If $f$ is continuous and integrable on $\closedint{a,b}$ and $F$ is an antiderivative of $f$ on $\closedint{a,b}$ then
+  \begin{equation}
+    \label{eq:ftc.calc}
+    \Int{f(x)}{x,a,b} = F(b) - F(a).
+  \end{equation}
+\end{theorem}
+
+Thus, if we want to compute a definite integral of a continuous function, \emph{we can use any antiderivative of $f$ we like!}
+This is a vast improvement over the ad-hoc methods we used in the last section, since it means we can easily integrate functions with very complicated geometry.
+
+\begin{example}
+  \label{ex:ftc.calc}
+  Let $f(x) = x^{2}$.
+  What is $\Int{f(x)}{x,0,4}$?
+\end{example}
+
+\begin{solution}
+  We first find that $F(x) = \frac{1}{3} x^{3}$ is an antiderivative of the given function $f(x) = x^{2}$.
+  Thus, by \cref{thm:ftc.calc}, $\Int{x^{2}}{x, 0, 4} = F(4) - F(0) = \frac{1}{3} \pbrac{4}^{3} - \frac{1}{3} \pbrac{0}^{3} = \frac{64}{3}$.
+\end{solution}
+
+Before we move on, take a moment to think about how much harder the calculation in \cref{ex:ftc.calc} would have been without \cref{thm:ftc.calc}.
+We'd have needed to find the area under the curve of $y = x^{2}$ using purely geometric methods.
+This problem was solved by Archimedes, but it was a \emph{lot} of work---and we just dispensed with it in one line of calculations!
+
+This theorem (and the explanation above) also suggest an important \emph{interpretation} of the area function.
+The function $\Int{f(t)}{t,a,x}$ doesn't just measure the area of a region in the plane; it measures the \emph{accumulation} of a quantity whose rate of change is given by $f$.
+This interpretation is quite natural in settings where rates of change have physical interpretations.
+
+\begin{example}
+  \label{ex:velocityint}
+  A car is traveling on a highway from Minneapolis to Chicago; at time $t$ (in \si{\hour}), its velocity (in \si{\mile\per\hour}) is given by $v(t)$.
+  The definite integral $\Int{f(t)}{t,a,b}$ measures the \emph{total displacement} of the car over the time interval $\closedint{a,b}$; in particular, if $v(t) \geq 0$, then it measures the distance traveled by the car.
+  More generally, the define integral measures the distance between the car's positions at time $a$ and time $b$; if the car changes direction during its trip, this is not the same as total distance traveled.
+\end{example}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:
