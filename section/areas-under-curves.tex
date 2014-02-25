@@ -144,7 +144,7 @@ Suppose that, for a certain function $f$, we know the define integral $\Int{f(x)
 Is this enough information to compute $\Int{k f(x)}{x,a,b}$ for some given constant $k \in \RR$?
 
 \begin{example}
-  \label{ex:intcmult}
+  \label{ex:int.constmul}
   Let $f(x) = 2x$ and let $k = 2$.
   We showed in \cref{ex:inttrap} that $\Int{f(x)}{x,1,3} = 8$.
   By similar arguments, $\Int{k f(x)}{x,1,3} = \Int{4x}{x,1,3} = 16$.
@@ -207,10 +207,10 @@ This turns out to be enough to build our general definition of the definite inte
 With this definition in hand, we can state this idea as a theorem.
 
 \begin{theorem}[Constant multiple rule for integrals]
-  \label{thm:intcmult}
+  \label{thm:int.constmult}
   For any function $f$ which is integrable over $\closedint{a,b}$ and any constant $k \in \RR$,
   \begin{equation}
-    \label{eq:intcmult}
+    \label{eq:int.constmul}
     \Int{k f(x)}{x,a,b} = k \Int{f(x)}{x,a,b}.
   \end{equation}
 \end{theorem}
@@ -220,7 +220,7 @@ Now suppose that, for two non-negative functions $f$ and $g$, we know the values
 Is this enough information to compute $\Int{f(x) + g(x)}{x,a,b}$?
 
 \begin{example}
-  \label{ex:intsum}
+  \label{ex:int.sum}
   Let $f(x) = 1$ and $g(x) = 2x$.
   Consider their integrals over $\closedint{1,3}$.
   We showed in \cref{ex:inttrap} that $\Int{g(x)}{x,1,3} = 8$.
@@ -267,10 +267,10 @@ It turns out\sidefootnote{This result is known as \enquote{Cavlieri's principle}
 From this, we obtain another important theorem about definite integrals.
 
 \begin{theorem}[Sum rule for integrals]
-  \label{thm:intsum}
+  \label{thm:int.sum}
   For any functions $f$ and $g$ which are integrable over $\closedint{a,b}$,
   \begin{equation}
-    \label{eq:intsum}
+    \label{eq:int.sum}
     \Int{f(x) + g(x)}{x,a,b} = \Int{f(x)}{x,a,b} + \Int{g(x)}{x,a,b}.
   \end{equation}
 \end{theorem}
@@ -281,7 +281,7 @@ Now suppose that we know several different integrals of the \emph{same} function
 Is this enough information to compute $\Int{f(x)}{x,a,c}$?
 
 \begin{example}
-  \label{ex:intsplit}
+  \label{ex:int.split}
   Let $f(x) = \sqrt{9 - x^{2}}$.
   Find $\Int{f(x)}{x,-3,0}$ and $\Int{f(x)}{x,0,3}$, then compare to $\Int{f(x)}{x,-3,3}$ as computed in \cref{ex:intcirc}.
 \end{example}
@@ -320,7 +320,7 @@ Will this always work?
 Once again, it turns out that it will, as is clearly seen from \cref{fig:intcircsplit}.
 Fixing an integrable function $f$ and three values $a < b < c$, it is clear that $\Int{f(x)}{x,a,b}$ and $\Int{f(x)}{x,b,c}$ represent the (signed) areas of two regions which, when combined, form the region whose (signed) area is measured by $\Int{f(x)}{x,a,c}$.
 
-Now suppose that we want to compute an integral $\Int{f(x)}{x,b,a}$ where $a < b$.
+Similarly, suppose that we want to compute an integral $\Int{f(x)}{x,b,a}$ where $a < b$.
 Once again, we'd like to preserve the lovely property that $\Int{f(x)}{x,a,b} + \Int{f(x)}{x,b,c} = \Int{f(x)}{x,a,c}$.
 We should consider two interesting special cases of this equation.
 \begin{itemize}
@@ -334,19 +334,25 @@ We should consider two interesting special cases of this equation.
   This can only be true if $\Int{f(x)}{x,a,b} = - \Int{f(x)}{x,b,a}$.
 \end{itemize}
 
-This gives us two more important results about definite integrals, which we will collect into a single theorem.
+We've now collected three more more important results about definite integrals, which we will collect into a single theorem.
 
 \begin{theorem}[Combined intervals rule for integrals]
+  \label{thm:int.combint}
   Let $f$ be integrable over an interval $\closedint{a,b}$.
   Then
   \begin{equation}
-    \label{eq:intreverse}
+    \label{eq:int.reverse}
     \Int{f(x)}{x,a,b} = - \Int{f(x)}{x,b,a}
   \end{equation}
   and
   \begin{equation}
-    \label{eq:inttrivint}
+    \label{eq:int.trivint}
     \Int{f(x)}{x,a,a} = 0.
+  \end{equation}
+  If $f$ is also integrable over the interval $\closedint{b,c}$, then
+  \begin{equation}
+    \label{eq:int.split}
+    \Int{f(x)}{x,a,b} + \Int{f(x)}{x,b,c} = \Int{f(x)}{x,a,c}.
   \end{equation}
 \end{theorem}
 \end{document}
