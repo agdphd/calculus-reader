@@ -2,13 +2,20 @@
 
 \begin{document}
 \section{Antiderivatives}
-\label{s:antiderivs}
+\label{sec:antiderivs}
 
 \begin{definition}
   \label{def:antideriv}
   Let $f$ and $F$ be functions which are continuous on an interval $I = \closedint{a, b}$.
   Then $F$ is an \emph{antiderivative of $f$ on $I$} if $\D{F}{x} = f \pbrac{x}$ on $I$.
 \end{definition}
+
+\begin{theorem}
+  \label{thm:antideriv.constant}
+  Let $F$ and $G$ be antiderivatives of a continuous function $F$.
+  Then there is some constant $C \in \RR$ such that $F(x) = G(x) + C$.
+  In other words, if $f$ is a continuous function, all its antiderivatives are equal up to a constant term.
+\end{theorem}
 \end{document}
 
 %%% Local Variables:
