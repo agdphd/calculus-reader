@@ -64,20 +64,22 @@ Consider \cref{fig:ftc}.
     \begin{axis}[
       agdplot,
       rectify,
-      ymin = -0.2,
-      ymax = .6,
-      xmin = -1,
-      xmax = 6.5,
+      ymin = -.2,
+      ymax = 1.3,
+      xmin = -.2,
+      xmax = 5.5,
       ytick = \empty,
       xtick = \empty,
       extra x ticks = {1,4.5,4.75},
       extra x tick labels = {$a$,$x$,$x+\Delta x$},
       tick label style = {rotate = 45, anchor = east},
       ]
-      \addplot+ [domain=1:4.5] {1/2*sin(deg(pi*x/8))} \closedcycle;
-      \addplot+ [domain=4.5:4.75] {1/2*sin(deg(pi*x/8))} \closedcycle;
+      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{3/4+1/2*sin(deg(pi*#1^2/8))}}
 
-      \addplot [thick, domain=-1:8] {1/2*sin(deg(pi*x/8))} node [pos=0.25,pin={150:$y = f(x)$}] {};
+      \addplot+ [domain=1:4.5] {ftcfunc(x)} \closedcycle;
+      \addplot+ [domain=4.5:4.75] {ftcfunc(x)} \closedcycle;
+
+      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.45,pin={150:$y = f(x)$}] {};
     \end{axis}
   \end{tikzpicture}
   \caption{Demonstration of the fundamental theorem of calculus}
@@ -159,10 +161,16 @@ The function $\Int{f(t)}{t,a,x}$ doesn't just measure the area of a region in th
 This interpretation is quite natural in settings where rates of change have physical interpretations.
 
 \begin{example}
+  \label{ex:flowint}
+  Water is draining out of a tank through a pipe; at time $t$ (in \si{\minute}), its flow rate is $r(t)$ (in \si{\gallon\per\minute}).
+  The definite integral $\Int{r(t)}{t,a,b}$ measures the total volume of water (in \si{\gallon}) that flows through the pipe during the time interval $t \in \closedint{a, b}$.
+\end{example}
+
+\begin{example}
   \label{ex:velocityint}
   A car is traveling on a highway from Minneapolis to Chicago; at time $t$ (in \si{\hour}), its velocity (in \si{\mile\per\hour}) is given by $v(t)$.
-  The definite integral $\Int{f(t)}{t,a,b}$ measures the \emph{total displacement} of the car over the time interval $\closedint{a,b}$; in particular, if $v(t) \geq 0$, then it measures the distance traveled by the car.
-  More generally, the define integral measures the distance between the car's positions at time $a$ and time $b$; if the car changes direction during its trip, this is not the same as total distance traveled.
+  The definite integral $\Int{f(t)}{t,a,b}$ measures the \emph{total displacement} of the car (in \si{\mile}) over the time interval $t \in \closedint{a,b}$; in particular, if $v$ is nonnegative, then the integral measures the distance traveled by the car, which is the distance between the car's positions at time $a$ and time $b$.
+  (If the car changes direction during its trip, this is not the same as total distance traveled; it is important to bear in mind the significance of sign in this calculation!)
 \end{example}
 \end{document}
 
