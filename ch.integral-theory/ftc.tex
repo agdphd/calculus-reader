@@ -11,7 +11,7 @@ We want \emph{methods} for computing these areas, not just a name and some notat
 To progress towards this goal, we're going to need some heavy machinery---and, perhaps surprisingly, we'll need the tools of differential calculus!
 This suggests a refined version of our motivating problem:
 \begin{motprob}
-  Given a continuous function $f$ which is integrable over some interval $I = \sbrac{a, b}$, what is the analytic behavior of the \enquote{area function} $\areafunc{f}{a}{x} = \Int{f(t)}{t,a,x}$?
+  Given a function $f$ which is integrable over some interval $I = \sbrac{a, b}$, what is the analytic behavior of the \enquote{area function} $\areafunc{f}{a}{x} = \Int{f(t)}{t,a,x}$?
 \end{motprob}
 
 First, let's get our feet wet with a quick example involving this area function.
@@ -118,7 +118,7 @@ Taken at face value, this theorem doesn't seem all that interesting---after all,
 Why have we gone to all this trouble just to find one more antiderivative of a function?
 
 In fact, this theorem isn't about finding antiderivatives at all; instead, it's about computing definite integrals!
-Recall from \cref{thm:antideriv.constant} that the antiderivatives of a continuous function are all the same up to a constant.
+Recall from \cref{thm:antideriv.constant} that the antiderivatives of a continuous\sidefootnote{The functions we're interested in are almost always continuous, so this restriction won't cost us much.} function are all the same up to a constant.
 In particular, if $f$ is continuous and $F$ is \emph{any} antiderivative of $f$, then there's some number $C$ such that $\Int{f(t)}{t,a,x} = F(x) + C$ for \emph{all} values of $x$!
 If we can figure out that value $C$, we'll have an \emph{extremely} powerful tool for computing definite integrals at very low cost.
 
@@ -128,7 +128,7 @@ To make this easy to calculate, let's take $x = a$; then the integral is $0$, sh
 (That wasn't so hard!)
 In other words, $\Int{f(t)}{t,a,x} = F(x) - F(a)$.
 
-Bringing all this together, we can wrap up our results about definite integrals in the following theorem, which represents the payoff of all our analytic work on definite integrals.
+Bringing all this together, we can wrap up our most powerful results about definite integrals in the following theorem, which represents the payoff of all our analytic work on definite integrals.
 
 \begin{theorem}[Fundamental theorem of integral calculus II]
   \label{thm:ftc.calc}
