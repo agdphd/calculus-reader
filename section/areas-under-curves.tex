@@ -3,41 +3,6 @@
 \begin{document}
 \section{Areas under curves}
 \label{sec:areasundercurves}
-We now turn our attention to a brand new problem.
-
-\begin{motprob}
-  Given a continuous function $f$ which is non-negative over an interval $I = \closedint{a, b}$, calculate the area of the region above the $x$-axis and below the curve $y = f(x)$ over the interval $I$.
-\end{motprob}
-
-\begin{motex}
-  Consider the function $f$ whose graph is shown in \cref{fig:boundregex}.
-  What is the area of the shaded region?
-
-  \begin{marginfigure}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        rectify,
-        ymin = -.4,
-        ymax = 3,
-        ytick = \empty,
-        xtick = {1,3},
-        ]
-        \addplot+ [domain=1:3] {1.5+sin(deg(x^2))} \closedcycle;
-
-        \addplot [thick, domain=0:3.5] {1.5+sin(deg(x^2))} node [pos=0.65,pin={130:$y = f(x)$}] {};
-
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Region bounded by $y = f(x)$ over $\closedint{1, 3}$}
-    \label{fig:boundregex}
-  \end{marginfigure}
-\end{motex}
-
-This kind of problem has a long history, and many of the greatest mathematical thinkers of the last millenium have dedicated substantial energy to it.
-Fortunately, it won't take \emph{us} a thousand years to solve!
-Still, we do have our work cut out for us.
 
 As usual, we'll start by laying the groundwork with some foundational definitons and properties.
 
