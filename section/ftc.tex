@@ -65,7 +65,7 @@ Consider \cref{fig:ftc}.
       agdplot,
       rectify,
       ymin = -.2,
-      ymax = 1.3,
+      ymax = .6,
       xmin = -.2,
       xmax = 5.5,
       ytick = \empty,
@@ -74,12 +74,12 @@ Consider \cref{fig:ftc}.
       extra x tick labels = {$a$,$x$,$x+\Delta x$},
       tick label style = {rotate = 45, anchor = east},
       ]
-      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{3/4+1/2*sin(deg(pi*#1^2/8))}}
+      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/3+1/4*sin(deg(pi*#1^2/8))}}
 
       \addplot+ [domain=1:4.5] {ftcfunc(x)} \closedcycle;
       \addplot+ [domain=4.5:4.75] {ftcfunc(x)} \closedcycle;
 
-      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.45,pin={150:$y = f(x)$}] {};
+      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.45,pin={90:$y = f(x)$}] {};
     \end{axis}
   \end{tikzpicture}
   \caption{Demonstration of the fundamental theorem of calculus}
