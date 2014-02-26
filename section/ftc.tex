@@ -104,7 +104,7 @@ Thus, $\D{}{x} \areafunc{f}{a}{x} = f(x)$!
 This result will turn out to be \emph{incredibly} important in what's to come, so we should record it as a theorem.
 In fact, this result is so important that history has hallowed it with a very fancy name---no small feat, given the solemnity of your average mathematician!
 
-\begin{theorem}[Fundamental theorem of integral calculus]
+\begin{theorem}[Fundamental theorem of integral calculus I]
   \label{thm:ftc.deriv}
   If $f$ is integrable over $\closedint{a,b}$ and $x \in \openint{a,b}$, then
   \begin{equation}
@@ -130,7 +130,7 @@ In other words, $\Int{f(t)}{t,a,x} = F(x) - F(a)$.
 
 Bringing all this together, we can wrap up our results about definite integrals in the following theorem, which represents the payoff of all our analytic work on definite integrals.
 
-\begin{theorem}
+\begin{theorem}[Fundamental theorem of integral calculus II]
   \label{thm:ftc.calc}
   If $f$ is continuous and integrable on $\closedint{a,b}$ and $F$ is an antiderivative of $f$ on $\closedint{a,b}$ then
   \begin{equation}
@@ -139,7 +139,8 @@ Bringing all this together, we can wrap up our results about definite integrals 
   \end{equation}
 \end{theorem}
 
-Thus, if we want to compute a definite integral of a continuous function, \emph{we can use any antiderivative of $f$ we like!}
+Thus, if we want to compute a definite integral of a continuous function $f$, we don't need to bother with the geometry of the region under the curve.
+Instead, we need only \emph{evaluate some antiderivative of $f$ at two points!}
 This is a vast improvement over the ad-hoc methods we used in the last section, since it means we can easily integrate functions with very complicated geometry.
 
 \begin{example}
