@@ -203,28 +203,27 @@
 }
 
 % Next, we configure the chapter style
-\definecolor{chapternumbercolor}{gray}{0.8}
-\definecolor{chaptertitlecolor}{gray}{0}
-\newlength{\chapternumlift} \setlength{\chapternumlift}{2\baselineskip+\headsep+\headheight}
-\makechapterstyle{calcnotes}{%
-  \chapterstyle{default}
-  % \setlength{\beforechapskip}{-\parskip-\headsep-\headheight}
-  % \setlength{\afterchapskip}{0in}
-  \renewcommand*{\chapterheadstart}{\vspace*{-\chapternumlift}}
-  \renewcommand*{\chapnamefont}{\LARGE\bfseries\sffamily\color{chapternumbercolor}}
-  \renewcommand*{\chapnumfont}{\HUGE\bfseries\sffamily\color{chapternumbercolor}}
-  \renewcommand*{\chaptitlefont}{\raggedleft\huge\bfseries\sffamily\color{chaptertitlecolor}}
-  \renewcommand*{\afterchapternum}{}
-  \renewcommand*{\printchaptername}{}
-  \setlength{\midchapskip}{30mm} % Determines height of chapter number
-  \renewcommand*{\chapternamenum}{}
-  \renewcommand*{\printchapternum}{%
-    \sidebar{\raisebox{0pt}[0pt][0pt]{\makebox[0pt][l]{%
-      \resizebox{!}{\midchapskip}{\chapnumfont\thechapter}}}}}
-  \renewcommand*{\printchaptertitle}[1]{\chaptitlefont ##1}
+\chapterstyle{default} % Start with defaults
+
+\renewcommand*{\chapterheadstart}{} % Don't do anything (like vertical space) before printing chapter heading
+
+\definecolor{chaptertitlecolor}{gray}{0} % Black chapter title
+\renewcommand*{\chaptitlefont}{\fontsize{1cm}{0cm}\bfseries\sffamily} % Printed in large bold sans-serif
+
+\definecolor{chapternumbercolor}{gray}{0.8} % Light gray chapter number
+\renewcommand*{\chapnumfont}{\fontsize{4cm}{0cm}\bfseries\sffamily} % Printed in huge bold sans-serif
+
+\renewcommand*{\printchaptername}{} % Suppress internal chapter name printing
+\renewcommand*{\printchapternum}{} % Suppress internal number printing
+\renewcommand*{\printchaptertitle}[1]{%
+  \raggedleft
+  \begin{tikzpicture}%
+    \draw[color=chapternumbercolor] (0, 0) node { \chapnumfont \thechapter };
+    \draw[color=chaptertitlecolor] (1.5cm, 0) node[left] { \chaptitlefont #1};
+  \end{tikzpicture}
 }
 
-\chapterstyle{calcnotes}
+\renewcommand*{\afterchapternum}{}
 
 % Next, we configure section headings
 \newcommand*{\seccommon}{\bfseries\sffamily}
