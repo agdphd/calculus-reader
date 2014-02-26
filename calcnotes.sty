@@ -182,6 +182,26 @@
   \cleardoublepage
 }
 
+% Next, we define the part style
+\aliaspagestyle{part}{empty} % No page numbers on part pages
+
+\definecolor{partnumbercolor}{gray}{0.9} % Light gray part number
+\renewcommand{\partnumfont}{\fontsize{8cm}{0cm}\bfseries} % Printed in giant bold serif face (because Biolinum I looks silly)
+
+\definecolor{parttitlecolor}{gray}{0} % Black part name
+\renewcommand{\parttitlefont}{\fontsize{1.5cm}{0cm}\bfseries\sffamily} % Printed in large bold sans-serif
+
+\renewcommand{\printpartname}{} % Suppress internal part printing
+\renewcommand{\printpartnum}{} % Suppress internal number printing
+%\setlength{\midpartskip}{0pt} % Suppress space before printout
+
+\renewcommand{\printparttitle}[1]{%
+  \begin{tikzpicture}%
+    \draw[color=partnumbercolor] (0, 0) node { \partnumfont \thepart };%
+    \draw[color=parttitlecolor] (0, 0) node { \parttitlefont #1 };%
+  \end{tikzpicture}%
+}
+
 % Next, we configure the chapter style
 \definecolor{chapternumbercolor}{gray}{0.8}
 \definecolor{chaptertitlecolor}{gray}{0}
