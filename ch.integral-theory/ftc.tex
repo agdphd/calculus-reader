@@ -14,6 +14,9 @@ This suggests a refined version of our motivating problem:
   Given a function $f$ which is integrable over some interval $I = \sbrac{a, b}$, what is the analytic behavior of the \enquote{area function} $\areafunc{f}{a}{x} = \Int{f(t)}{t,a,x}$?
 \end{motprob}
 
+\subsection{Integrals and derivatives}
+\label{sec:integrals-and-derivatives}
+
 First, let's get our feet wet with a quick example involving this area function.
 \begin{example}
   Let $f(x) = 2x+1$.
@@ -158,7 +161,10 @@ Before we move on, take a moment to think about how much harder the calculation 
 We'd have needed to find the area under the curve of $y = x^{2}$ using purely geometric methods.
 This problem was solved by Archimedes, but it required a \emph{lot} of work and extreme cleverness---and we just dispensed with it in one line of calculations!
 
-This theorem (and the explanation above) also suggest an important interpretation of the area function.
+\subsection{Net change}
+\label{sec:netchange}
+
+\Cref{thm:ftc.calc} suggests an important interpretation of the area function.
 The function $\Int{f(t)}{t,a,x}$ doesn't just measure the area of a region in the plane; it measures the \emph{accumulation} or \emph{net change} of a quantity whose rate of change is given by $f$.
 This interpretation is quite natural in settings where rates of change have physical interpretations.
 
