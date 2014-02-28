@@ -1,0 +1,23 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{The chain rule}
+\label{sec:chainrule}
+
+\begin{theorem}
+  \label{thm:chainrule}
+  Let $f$ and $g$ be functions such that $g$ is differentiable at $x$ and $f$ is differentiable at $g(x)$.
+  Then $f \circ g$ is differentiable at $x$, and
+  \begin{equation}
+    \label{eq:chainrule}
+    \D{}{x} f \pbrac*{g \pbrac*{x}} = g' \pbrac{x} f' \pbrac*{g \pbrac{x}}.
+  \end{equation}
+\end{theorem}
+
+\exercises
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:
