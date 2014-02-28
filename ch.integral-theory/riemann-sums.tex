@@ -1,0 +1,280 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{Riemann sums and numerical integration}
+\label{sec:riemann-sums}
+
+The theory we developed in \cref{sec:ftc}---and especially the result of \cref{thm:ftc.calc}---represent remarkable progress on our original problem.
+Given a function $f$, we can now compute the value of $\Int{f(x)}{x, a, b}$ simply by evaluating some antiderivative of $f$ at two points!
+When this is possible, it should be relatively straightforward to compute---although of course the process of \emph{finding} such an antiderivative may be complicated!
+(Indeed, the art of finding antiderivatives occupies most of the rest of this chapter.)
+
+However, there are many situations in which this is not possible.
+\begin{example*}
+  The \enquote{Gaussian function} $f(x) = e^{-x^{2}}$ has many applications in the theory of probability, where it is important to be able to compute integrals $\Int{e^{-t^{2}}}{t, 0, x}$.
+  However, this function has no antiderivative in elementary functions!%
+  \sidefootnote{The \emph{elementary functions} are those produced from power, exponential, logarithmic, trigonometric, and constant functions by composition, multiplication, division, addition, and subtraction. In other words, they're the \enquote{normal} functions that we've been studying all along. Naturally, the proof that $e^{-x^{2}}$ has \emph{no} elementary antiderivative is quite technical!}
+  Thus, we need to take another path to compute these integrals.
+\end{example*}
+
+\begin{example*}
+  In many \enquote{real-world} applications, we need to compute an integral $\Int{f(x)}{x, a, b}$ of a function $f$ for which we have no analytic expression.
+  In particular, we may only have sample values of $f$, which could represent the amplitude of a sound wave (sampled at \SI{44.1}{\kilo\hertz} with a microphone and digital recorder) or the acceleration of a car (measured with an accelerometer every \SI{10}{\milli\second}).
+  In these cases, it is not possible to find an exact antiderivative of $f$.
+\end{example*}
+
+To resolve this problem, we'll develop an alternative approach to integration which returns to the original \enquote{signed area} idea from \cref{def:defint}.
+Consider a function $f$ whose values we know on $\closedint{a, b}$.
+How can we estimate $\Int{f(x)}{x, a, b}$ without using any analytic information about $f$?
+
+Let's try overlaying the region under $y = f(x)$ with some rectangles, as illustrated in \cref{fig:riemannleftex}.
+This isn't a great approximation, but it has one important feature: the signed area will be \emph{very} easy to compute.
+Let's try to work out what it will be (at least as well as we can without knowing what the function $f$ is).
+
+\begin{medfig}
+  \begin{tikzpicture}
+    \begin{axis}[
+      agdplot,
+      rectify,
+      ymin = -.3,
+      ymax = .6,
+      xmin = -.1,
+      xmax = 5.5,
+      ytick = \empty,
+      xtick = \empty,
+      extra x ticks = {1,2,3,4,5},
+      extra x tick labels = {$a$,$x_{1}$, $x_{2}$, $x_{3}$, $b$},
+      ]
+      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/16+1/4*sin(deg(pi*#1^2/8))}}
+
+      \addplot [leftriemann=1:5, integral segments=4, box1] {ftcfunc(x)};
+
+      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.50,pin={150:$y = f(x)$}] {};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Demonstration of approximation of an integral with four rectangles at left endpoints}
+  \label{fig:riemannleftex}
+\end{medfig}
+
+To produce \cref{fig:riemannleftex}, we split the region $\closedint{a, b}$ into four equal subintervals, each of width $\frac{b - a}{4}$.
+The height of each interval is determined by the value of $f$ at the left endpoint of the interval; we'll denote the $i$th of these left endpoints by $x_{i}^{*}$.
+Then the signed area of the $i$th rectangle is just $f \pbrac*{x_{i}^{*}} \cdot \frac{b - a}{4}$, so the total signed area of the four-rectangle approximation is given by
+\begin{equation}
+  \label{eq:riemannleftex}
+  A = \Sum{f \pbrac*{x_{i}^{*}} \cdot \frac{b - a}{4}}{i, 1, 4}.
+\end{equation}
+If we instead wanted to use $5$ or $72$ rectangles (or, more generally, some positive integer $n$), we'd merely need to replace both occurrences of $4$ in \cref{eq:riemannleftex} with $n$; that's the magic of sigma notation!
+
+Of course, our choice to use the left endpoints of the intervals for the values $x_{i}^{*}$ was completely arbitrary.
+If we want our approximation to make sense, the heights of the rectangles clearly should be given by values of $f$---but which ones?
+There are plenty of reasonable choices: $x_{i}^{*}$ could be the left endpoint, the right endpoint, the midpoint, or even a randomly chosen point from the $i$th subinterval.
+The form of \cref{eq:riemannleftex} won't change---only the procedure for choosing the values $x_{i}^{*}$.
+
+Let's take a moment to pin down exactly what the values of $x_{i}^{*}$ will be in each of these cases.
+Suppose we partition the interval $\closedint{a, b}$ into $n$ subintervals of width $\frac{b - a}{n}$, which we'll denote by $\Delta x$ for convenience..
+Let the endpoints of these intervals be $x_{0}, x_{1}, \dots, x_{n}$, where $x_{0} = a$ and $x_{n} = b$.
+The spacing between them is given by $\frac{b - a}{n} = \Delta x$, so clearly $x_{i} = a + i \Delta x$.
+\begin{itemize}
+\item
+  The left endpoint of subinterval $i$ is $x_{i - 1} = a + \pbrac*{i-1} \Delta x$.
+
+\item
+  The right endpoint of subinterval $i$ is $x_{i} = a + i \Delta x$.
+
+\item
+  The midpoint of subinterval $i$ is $\frac{1}{2} \pbrac*{x_{i-1} + x_{i}} = a + \pbrac*{i - \sfrac{1}{2}} \Delta x$.
+\end{itemize}
+
+From each of these choices of $x_{i}^{*}$ we obtain an approximation of $\Int{f(x)}{x, a, b}$.
+A left-endpoint approximation of an integral using four rectangles was illustrated in \cref{fig:riemannleftex}; the corresponding right-endpoint approximation is shown in \cref{fig:riemannrightex} and the midpoint approximation is shown in \cref{fig:riemannmidex}.
+
+\begin{medfig}
+  \begin{tikzpicture}
+    \begin{axis}[
+      agdplot,
+      rectify,
+      ymin = -.3,
+      ymax = .6,
+      xmin = -.1,
+      xmax = 5.5,
+      ytick = \empty,
+      xtick = \empty,
+      extra x ticks = {1,2,3,4,5},
+      extra x tick labels = {$a$,$x_{1}$, $x_{2}$, $x_{3}$, $b$},
+      ]
+      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/16+1/4*sin(deg(pi*#1^2/8))}}
+
+      \addplot [rightriemann=1:5, integral segments=4, box2] {ftcfunc(x)};
+
+      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.50,pin={150:$y = f(x)$}] {};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Demonstration of approximation of an integral with four rectangles at right endpoints}
+  \label{fig:riemannrightex}
+\end{medfig}
+
+\begin{medfig}
+  \begin{tikzpicture}
+    \begin{axis}[
+      agdplot,
+      rectify,
+      ymin = -.3,
+      ymax = .6,
+      xmin = -.1,
+      xmax = 5.5,
+      ytick = \empty,
+      xtick = \empty,
+      extra x ticks = {1,2,3,4,5},
+      extra x tick labels = {$a$,$x_{1}$, $x_{2}$, $x_{3}$, $b$},
+      ]
+      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/16+1/4*sin(deg(pi*#1^2/8))}}
+
+      \addplot [midriemann=1:5, integral segments=4, box3] {ftcfunc(x)};
+
+      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.50,pin={150:$y = f(x)$}] {};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Demonstration of approximation of an integral with four rectangles at midpoints}
+  \label{fig:riemannmidex}
+\end{medfig}
+
+These three approximations will be very useful, so let's write them all down in one place for future reference.
+
+\begin{definition}
+  \label{def:riemannsum}
+  Let $f$ be defined over $\closedint{a, b}$, fix an integer $n \geq 1$ (the number of subintervals), and let $\Delta x = \frac{b - a}{n}$ (the width of each subinterval).
+  Then the \emph{$n$th left, right, and midpoint Riemann sums of $f$ over $\closedint{a, b}$} are $L_{n}$, $R_{n}$, and $M_{n}$, given by the following:
+  \begin{subequations}
+    \label{eq:riemanndef}
+    \begin{align}
+      L_{n} &= \Sum{f \pbrac*{a + \pbrac*{i-1} \Delta x} \Delta x}{i, 1, n} \label{eq:riemanndef.left} \\
+      R_{n} &= \Sum{f \pbrac*{a + i \Delta x} \Delta x}{i, 1, n} \label{eq:riemanndef.right} \\
+      M_{n} &= \Sum{f \pbrac*{a + \pbrac*{i - \sfrac{1}{2}} \Delta x} \Delta x}{i, 1, n} \label{eq:riemanndef.mid}
+    \end{align}
+  \end{subequations}
+\end{definition}
+
+Of course, an approximation wouldn't be any use if we couldn't be sure that it was good.
+Fortunately, it turns out that Riemann sums actually do approximate integrals quite well.
+In particular, as $n$ gets very large, the values of $L_{n}$, $R_{n}$, and $M_{n}$ all converge on the actual value of the associated integral.
+
+\begin{theorem}
+  \label{thm:riemannint}
+  Let $L_{n}$, $R_{n}$, and $M_{n}$ be the Riemann sums of an integrable function $f$ over an interval $\closedint{a, b}$ in the sense of \cref{def:riemannsum}.
+  Then\sidefootnote{Many authors, including Riemann himself, use this approach as their \emph{definition} of the definite integral.}
+  \begin{equation}
+    \label{eq:riemannint}
+    \lim_{n \to \infty} L_{n} = \lim_{n \to \infty} R_{n} = \lim_{n \to \infty} M_{n} = \Int{f(x)}{x, a, b}.
+  \end{equation}
+\end{theorem}
+
+So, any time we compute a finite Riemann sum, we're estimating the value of a definite integral!
+Before we look at the many important applications of this idea, let's get a bit of practice computing these Riemann sums.
+
+\begin{example}
+  \label{ex:riemannx2}
+  Let $f(x) = x^{2}$.
+  Compute the fourth right-endpoint Riemann sum of $f$ over $\closedint{1, 3}$.
+  Compare the result to the value of $\Int{f(x)}{x, 1, 3}$.
+\end{example}
+
+\begin{soln}
+  We need to construct four rectangles over the interval $\closedint{1, 3}$ whose heights are the values of $f(x)$ at $x = 1.5$, $x = 2$, $x = 2.5$, and $x = 3$.
+  This is illustrated in \cref{fig:riemannx2}.
+
+  \begin{marginfigure}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+        agdplot,
+        xmin= -.1,
+        xmax = 3.3,
+        ymin = -.4,
+        ymax = 10,
+        ytick = \empty,
+        xtick = {1,3},
+        ]
+        \pgfmathdeclarefunction{func}{1}{\pgfmathparse{#1^2}}
+
+        \addplot [rightriemann=1:3, integral segments=4, box1] {func(x)};
+        \addplot [thick, domain=0:4] {func(x)} node [pos=0.45,pin={130:$y = x^{2}$}] {};
+
+      \end{axis}
+    \end{tikzpicture}
+    \caption{$R_{4}$ for $f(x) = x^{2}$ over $\closedint{1,3}$}
+    \label{fig:riemannx2}
+  \end{marginfigure}
+  Since $f(x) = x^{2}$, we can easily compute the appropriate heights.
+  These values, along with the corresponding values of $\Delta x$ and the resulting areas of the rectangles, are shown in \cref{tab:riemann2x}.
+  From these, we can calculate that $R_{4} = \frac{9}{8} + 2 + \frac{25}{8} + \frac{9}{2} = \frac{43}{4} = 10.75$.
+
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{c c c c}
+      \toprule
+      $x$ & $f(x)$ & $\Delta x$ & Area \\
+      \midrule
+      $\sfrac{3}{2}$ & $\sfrac{9}{4}$ & $\sfrac{1}{2}$ & $\sfrac{9}{8}$ \\
+      $2$ & $4$ & $\sfrac{1}{2}$ & $2$ \\
+      $\sfrac{5}{2}$ & $\sfrac{25}{4}$ & $\sfrac{1}{2}$ & $\sfrac{25}{8}$ \\
+      $3$ & $9$ & $\sfrac{1}{2}$ & $\sfrac{9}{2}$ \\ \bottomrule
+    \end{tabular}
+    \label{tab:riemann2x}
+    \caption{Values for Riemann sum calculation in \cref{ex:riemannx2}}
+  \end{table}
+
+  We can also calculate $\Int{x^{2}}{x, 1, 3}$ exactly using \cref{thm:ftc.calc}.
+  Since $F(x) + \frac{1}{3} x^{3}$ is an antiderivative of $f$, we have that $\Int{x^{2}}{x, 1, 3} = F(3) - F(1) = 9 - \frac{1}{3} = \frac{26}{3} = 8.\overline{66}$.
+  These values are quite different---but, of course, we only used four rectangles!
+\end{soln}
+
+Now let's consider a situation where the Riemann sum is really necessary.
+
+\begin{example}
+  \label{ex:riemannex.car}
+  A car accelerates on a racetrack.
+  Its velocity is measured every second by an onboard computer, which records the values shown in \cref{tab:riemannex.car}.
+  How far has the car gone after six seconds, in your best estimation?
+
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{c c}
+      \toprule
+      $t$ (\si{\second}) & $v$ (\si{\meter\per\second}) \\
+      \midrule
+      0 & 0 \\
+      1 & 3 \\
+      2 & 8 \\
+      3 & 15 \\
+      4 & 22 \\
+      5 & 25 \\
+      6 & 27 \\
+      \bottomrule
+    \end{tabular}
+    \caption{Velocity of a car}
+    \label{tab:riemannex.car}
+  \end{table}
+\end{example}
+
+\begin{soln}
+  We'd like to compute $\Int{v(t)}{t, 0, 6}$.
+  However, we only know discrete values of $v$, so we have no hope of finding an antideriv4ative!
+  Thus, we're going to need a Riemann sum.
+  Over each \SI{1}{\second} time interval, the distance traveled by the car is approximated by $v \pbrac{t_{i}^{*}} \cdot \SI{1}{\second}$, where $t_{i}^{*}$ is a time during that interval.
+  We can compute the values of $L_{6}$ and $R_{6}$ for this car using \cref{eq:riemanndef.left,eq:riemanndef.right} as follows:
+  \begin{gather*}
+    L_{6} = \SI{0}{\meter\per\second} \cdot \SI{1}{\second} + \SI{3}{\meter\per\second} \cdot \SI{1}{\second} + \SI{8}{\meter\per\second} \cdot \SI{1}{\second} + \SI{15}{\meter\per\second} \cdot \SI{1}{\second} + \SI{22}{\meter\per\second} \cdot \SI{1}{\second} + \SI{25}{\meter\per\second} \cdot \SI{1}{\second} = \SI{73}{\meter} \\
+    R_{6} = \SI{3}{\meter\per\second} \cdot \SI{1}{\second} + \SI{8}{\meter\per\second} \cdot \SI{1}{\second} + \SI{15}{\meter\per\second} \cdot \SI{1}{\second} + \SI{22}{\meter\per\second} \cdot \SI{1}{\second} + \SI{25}{\meter\per\second} \cdot \SI{1}{\second} + \SI{27}{\meter\per\second} \cdot \SI{1}{\second} = \SI{100}{\meter} \\
+  \end{gather*}
+  So how far did the car go?
+  Presumably, something between \SI{73}{\meter} and \SI{100}{\meter}.
+  In fact, their average, \SI{86.5}{\meter}, is probably a better estimate than either $L_{6}$ or $R_{6}$, so let's call that our best estimation.
+\end{soln}
+
+\exercises
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:

@@ -101,7 +101,40 @@
     draw=green,
     fill=green!10,
   },
+  % from http://tex.stackexchange.com/a/30782
+  integral segments/.code={\pgfmathsetmacro\integralsegments{#1}},
+  leftriemann/.style args={#1:#2}{
+    ybar interval,
+    domain=#1:#2,
+    samples=\integralsegments+1,
+    x filter/.code=\pgfmathparse{\pgfmathresult)}
+  },
+  rightriemann/.style args={#1:#2}{
+    ybar interval,
+    domain=#1+((#2-#1)/\integralsegments):#2+((#2-#1)/\integralsegments),
+    samples=\integralsegments+1,
+    x filter/.code=\pgfmathparse{\pgfmathresult-((#2-#1)/\integralsegments)}
+  },
+  midriemann/.style args={#1:#2}{
+    ybar interval,
+    domain=#1+((#2-#1)/\integralsegments)/2:#2+((#2-#1)/\integralsegments)/2,
+    samples=\integralsegments+1,
+    x filter/.code=\pgfmathparse{\pgfmathresult-((#2-#1)/\integralsegments)/2}
+  },
+  trapezoid/.style args={#1:#2}{
+    samples = \integralsegments+1,
+    domain = #1:#2,
+  },
+  trapezoid divisions/.style args={#1:#2}{
+    trapezoid = #1:#2,
+    ycomb,
+  },
+  trapezoid interiors/.style args={#1:#2}{
+    trapezoid = #1:#2,
+    sharp plot,
+  },
 }
+
 
 % Configure cleveref
 \crefname{lstlisting}{listing}{listings}
