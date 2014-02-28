@@ -251,29 +251,31 @@
 }
 
 % Next, we configure the chapter style
-\chapterstyle{default} % Start with defaults
+\makechapterstyle{calcnotes}{
+  \renewcommand*{\chapterheadstart}{} % Don't do anything (like vertical space) before printing chapter heading
 
-\renewcommand*{\chapterheadstart}{} % Don't do anything (like vertical space) before printing chapter heading
+  \definecolor{chaptertitlecolor}{gray}{0} % Black chapter title
+  \renewcommand*{\chaptitlefont}{\fontsize{1cm}{0cm}\bfseries\sffamily} % Printed in large bold sans-serif
 
-\definecolor{chaptertitlecolor}{gray}{0} % Black chapter title
-\renewcommand*{\chaptitlefont}{\fontsize{1cm}{0cm}\bfseries\sffamily} % Printed in large bold sans-serif
+  \definecolor{chapternumbercolor}{gray}{0.8} % Light gray chapter number
+  \renewcommand*{\chapnumfont}{\fontsize{4cm}{0cm}\bfseries\sffamily} % Printed in huge bold sans-serif
 
-\definecolor{chapternumbercolor}{gray}{0.8} % Light gray chapter number
-\renewcommand*{\chapnumfont}{\fontsize{4cm}{0cm}\bfseries\sffamily} % Printed in huge bold sans-serif
+  \renewcommand*{\printchaptername}{} % Suppress internal chapter name printing
+  \renewcommand*{\printchapternum}{} % Suppress internal number printing
+  \renewcommand*{\printchaptertitle}[1]{%
+    \raggedleft
+    \begin{tikzpicture}%
+      \ifm@m@And
+      \draw[color=chapternumbercolor] (0, 0) node { \chapnumfont \thechapter };
+      \fi
+      \draw[color=chaptertitlecolor] (1.5cm, 0) node[left] { \chaptitlefont ##1};
+    \end{tikzpicture}
+  }
 
-\renewcommand*{\printchaptername}{} % Suppress internal chapter name printing
-\renewcommand*{\printchapternum}{} % Suppress internal number printing
-\renewcommand*{\printchaptertitle}[1]{%
-  \raggedleft
-  \begin{tikzpicture}%
-    \ifm@m@And
-    \draw[color=chapternumbercolor] (0, 0) node { \chapnumfont \thechapter };
-    \fi
-    \draw[color=chaptertitlecolor] (1.5cm, 0) node[left] { \chaptitlefont #1};
-  \end{tikzpicture}
+  \renewcommand*{\afterchapternum}{}
 }
 
-\renewcommand*{\afterchapternum}{}
+\chapterstyle{calcnotes}
 
 % Next, we configure section headings
 \newcommand*{\seccommon}{\bfseries\sffamily}
