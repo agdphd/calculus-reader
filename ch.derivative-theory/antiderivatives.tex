@@ -5,17 +5,28 @@
 \label{sec:antiderivatives}
 
 \begin{definition}
-  \label{def:antideriv}
+  \label{def:antiderivative}
   Let $f$ and $F$ be functions which are continuous on an interval $I = \closedint{a, b}$.
   Then $F$ is an \emph{antiderivative of $f$ on $I$} if $\D{F}{x} = f \pbrac{x}$ on $I$.
 \end{definition}
 
 \begin{theorem}
-  \label{thm:antideriv.constant}
+  \label{thm:antiderivative.constant}
   Let $F$ and $G$ be antiderivatives of a continuous function $F$.
   Then there is some constant $C \in \RR$ such that $F(x) = G(x) + C$.
   In other words, if $f$ is a continuous function, all its antiderivatives are equal up to a constant term.
 \end{theorem}
+
+\begin{definition}
+  \label{def:antiderivative.general}
+  Let $F$ be an antiderivative of a continuous function $f$.
+  Then the \emph{general antiderivative of $f$} is the one-parameter family of functions $\AD{}{x} f(x) = F(x) + C$ where $C$ takes values from $\RR$.
+\end{definition}
+
+\begin{note}
+  In many settings, the general antiderivative of $f$ is denoted by $\Int{f(x)}{x}$ instead of $\AD{}{x} f(x)$, for reasons that will become clear in \cref{sec:integral-theory}.
+  We'll stick with the $\AD{f}{x}$ notation for now, but you should be aware of this other one in case you see it show up in other settings.
+\end{note}
 
 \exercises
 \end{document}
