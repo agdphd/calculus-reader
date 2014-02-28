@@ -251,8 +251,6 @@
 \newlength{\blockwidth}
 \setlength{\blockwidth}{\marginwidth+\textwidth}
 
-\fullwidthsetup{width=\blockwidth, outermargin=-\marginwidth}
-
 % Use small font for captions
 \captionnamefont{\tiny}
 \captiontitlefont{\tiny}
@@ -260,15 +258,17 @@
 % Configure an environment for full-block figures
 \newenvironment*{widefig}[1][htbp]{
   \begin{figure}[{#1}]
-    % \begin{adjmulticols*}{1}{0in}{-\marginparwidth}
-    %\checkoddpage
-    %\edef\side{\ifoddpage l\else r\fi}
-    %\begin{\minipage}[\side]{\fullwidth}
-    \begin{fullwidth}[width=\blockwidth]
+    \centering
+    \begin{fullwidth}[width=\blockwidth,outermargin=-\marginwidth]
     }{
     \end{fullwidth}
-    %\end{minipage}
-    % \end{adjmulticols*}
+  \end{figure}
+}
+
+\newenvironment*{medfig}[1][hbtp]{
+  \begin{figure}[{#1}]
+    \centering
+  }{
   \end{figure}
 }
 
