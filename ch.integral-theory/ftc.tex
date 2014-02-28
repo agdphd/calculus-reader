@@ -121,7 +121,7 @@ Taken at face value, this theorem doesn't seem all that interesting---after all,
 Why have we gone to all this trouble just to find one more antiderivative of a function?
 
 In fact, this theorem isn't about finding antiderivatives at all; instead, it's about computing definite integrals!
-Recall from \cref{thm:antideriv.constant} that the antiderivatives of a continuous\sidefootnote{The functions we're interested in are almost always continuous, so this restriction won't cost us much.} function are all the same up to a constant.
+Recall from \cref{thm:antiderivative.constant} that the antiderivatives of a continuous\sidefootnote{The functions we're interested in are almost always continuous, so this restriction won't cost us much.} function are all the same up to a constant.
 In particular, if $f$ is continuous and $F$ is \emph{any} antiderivative of $f$, then there's some number $C$ such that $\Int{f(t)}{t,a,x} = F(x) + C$ for \emph{all} values of $x$!
 If we can figure out that value $C$, we'll have an \emph{extremely} powerful tool for computing definite integrals at very low cost.
 
@@ -144,6 +144,19 @@ Bringing all this together, we can wrap up our most powerful results about defin
 
 Thus, if we want to compute a definite integral of a continuous function $f$, we don't need to bother with the geometry of the region under the curve.
 Instead, we need only \emph{evaluate some antiderivative of $f$ at two points!}
+This is the motivation for the alternate notation for the antiderivative which we mentioned in \cref{sec:antiderivatives}.
+
+\begin{definition}
+  \label{def:indefinite.integral}
+  Let $F$ be an antiderivative of a continuous function $f$.
+  Then the \emph{indefinite integral of $f$} is the general antiderivative of $f$, a one-parameter family of functions given by
+  \begin{equation}
+    \label{eq:indefinite.integral}
+    \Int{f(x)}{x} = \AD{}{x} f(x) = F(x) + C
+  \end{equation}
+  where $C$ takes values from $\RR$.
+\end{definition}
+
 This is a vast improvement over the ad-hoc methods we used in the last section, since it means we can easily integrate functions with very complicated geometry.
 
 \begin{example}
