@@ -233,7 +233,9 @@
 \renewcommand*{\printchaptertitle}[1]{%
   \raggedleft
   \begin{tikzpicture}%
+    \ifm@m@And
     \draw[color=chapternumbercolor] (0, 0) node { \chapnumfont \thechapter };
+    \fi
     \draw[color=chaptertitlecolor] (1.5cm, 0) node[left] { \chaptitlefont #1};
   \end{tikzpicture}
 }
