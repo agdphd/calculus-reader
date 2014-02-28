@@ -45,7 +45,7 @@ For example, the region in question may be a nice geometric shape.
         ytick = \empty,
         xtick = {1,3},
         ]
-        \addplot+ [domain=1:3] {2*x} \closedcycle;
+        \addplot+ [domain=1:3,box1] {2*x} \closedcycle;
 
         \addplot [thick, domain=0:4] {2*x} node [pos=0.65,pin={130:$y = 2x$}] {};
 
@@ -78,7 +78,7 @@ For example, the region in question may be a nice geometric shape.
         ytick = \empty,
         xtick = {-3,3},
         ]
-        \addplot+ [domain=-3:3] {sqrt(9-x^2)} \closedcycle;
+        \addplot+ [domain=-3:3,box1] {sqrt(9-x^2)} \closedcycle;
 
         \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
 
@@ -157,8 +157,8 @@ This turns out to be enough to build our general definition of the definite inte
         ytick = \empty,
         xtick = {-1,2},
         ]
-        \addplot+ [domain=-1:0] {3*x} \closedcycle;
-        \addplot+ [domain=0:2] {3*x} \closedcycle;
+        \addplot+ [domain=-1:0,box1] {3*x} \closedcycle;
+        \addplot+ [domain=0:2,box2] {3*x} \closedcycle;
 
         \addplot [thick, domain=-2:3] {3*x} node [pos=0.5,pin={130:$y = 3x$}] {};
 
@@ -205,8 +205,8 @@ Is this enough information to compute $\Int{f(x) + g(x)}{x,a,b}$?
         ytick = \empty,
         xtick = {1,3},
         ]
-        \addplot+ [domain=1:3] {2*x+1} \closedcycle;
-        \addplot+ [domain=1:3] {2*x} \closedcycle;
+        \addplot+ [domain=1:3,box1] {2*x+1} \closedcycle;
+        \addplot+ [domain=1:3,box2] {2*x} \closedcycle;
 
         \addplot [thick, domain=0:4] {2*x} node [pos=0.65,pin={-90:$y = 2x$}] {};
         \addplot [thick, domain=0:4] {2*x+1} node [pos=0.65,pin={150:$y = 2x+1$}] {};
@@ -269,8 +269,8 @@ Is this enough information to compute $\Int{f(x)}{x,a,c}$?
         ytick = \empty,
         xtick = {-3,3},
         ]
-        \addplot+ [domain=-3:0] {sqrt(9-x^2)} \closedcycle;
-        \addplot+ [domain=0:3] {sqrt(9-x^2)} \closedcycle;
+        \addplot+ [domain=-3:0,box1] {sqrt(9-x^2)} \closedcycle;
+        \addplot+ [domain=0:3,box2] {sqrt(9-x^2)} \closedcycle;
 
         \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
 
