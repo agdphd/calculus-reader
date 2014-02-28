@@ -178,6 +178,9 @@
 % Use roman d for differentiation and integration
 \Style{DSymb={\mathrm d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
 
+% Define command for antidifferentiation
+\newcommand*{\AD}[2]{\ensuremath{\frac{\COOL@notation@DSymb^{-1} {#1}}{\COOL@notation@DSymb {#2}^{-1}}}}
+
 % Use fancy paired delimiters
 \DeclarePairedDelimiter{\pbrac}{(}{)}
 \DeclarePairedDelimiter{\sbrac}{[}{]}
