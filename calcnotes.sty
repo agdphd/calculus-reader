@@ -208,8 +208,12 @@
 % Area function from integral calculus
 \newcommand*{\areafunc}[3]{\ensuremath{A_{{#1},{#2}} \pbrac*{#3}}}
 
-% Command to switch section to exercise mode
-\newcommand*{\exercises}{\subsection*{Exercises}}
+% Environment to switch section to exercise mode
+\newenvironment*{exercises}{
+  \subsection*{Exercises}
+}{
+  %
+}
 
 %% CONFIGURE LAYOUT
 
@@ -341,6 +345,7 @@
   counter-format = ch.se.qu,
   counter-within = chapter,
   headings = runin-nr,
+  use-ref = true,
 }
 % Adjust the heading so there's are gap between heading and
 % the previous paragraph a littler larger than the default:
