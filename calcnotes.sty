@@ -224,8 +224,12 @@
 \setlength{\droptitle}{1in}
 
 \newcommand{\subtitle}[1]{\gdef\thesubtitle{#1}}
-\newcommand{\titlefont}{\fontsize{3cm}{0cm}\sffamily\bfseries}
-\newcommand{\subtitlefont}{\fontsize{3cm}{0cm}\sffamily\itshape}
+
+\definecolor{titlecolor}{gray}{0} % Black title
+\newcommand{\titlefont}{\color{titlecolor}\fontsize{3cm}{0cm}\sffamily\bfseries} % Printed in giant bold sans-serif
+
+\definecolor{subtitlecolor}{gray}{0.5} % Gray subtitle
+\newcommand{\subtitlefont}{\color{subtitlecolor}\fontsize{3cm}{0cm}\sffamily\itshape} % Printed in giant italic sans-serif
 \newcommand{\authorfont}{\fontsize{1cm}{0cm}\sffamily}
 
 \renewcommand{\maketitle}{
