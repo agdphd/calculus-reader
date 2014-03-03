@@ -295,15 +295,23 @@
 \chapterstyle{calcnotes}
 
 % Next, we configure section headings
-\newcommand*{\seccommon}{\bfseries\sffamily}
-\renewcommand{\secheadstyle}{\huge\seccommon}
-\renewcommand{\subsecheadstyle}{\Large\seccommon}
-\renewcommand{\subsubsecheadstyle}{\large\seccommon}
-\renewcommand{\paraheadstyle}{\normalsize\seccommon}
-\renewcommand{\subparaheadstyle}{\normalsize\seccommon}
+\newcommand*{\seccommonfont}{\bfseries\sffamily}
+\renewcommand{\secheadstyle}{\huge\seccommonfont}
+\renewcommand{\subsecheadstyle}{\Large\seccommonfont}
+\renewcommand{\subsubsecheadstyle}{\large\seccommonfont}
+\renewcommand{\paraheadstyle}{\normalsize\seccommonfont}
+\renewcommand{\subparaheadstyle}{\normalsize\seccommonfont}
 
 % Next, we configure the page style
-\pagestyle{companion}
+\copypagestyle{calcnotes}{companion}
+
+\newcommand{\headerfont}{\seccommonfont}
+\makeevenhead{calcnotes}{\headerfont\thepage}{}%
+                        {\headerfont\leftmark}
+\makeoddhead{calcnotes}{\headerfont\rightmark}{}%
+                       {\headerfont\thepage}
+
+\pagestyle{calcnotes}
 
 % Memoir only numbers down to sections by default. We need to go deeper.
 \setsecnumdepth{subsubsection}
