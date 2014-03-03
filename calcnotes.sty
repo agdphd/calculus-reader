@@ -324,13 +324,20 @@
 \captionnamefont{\tiny}
 \captiontitlefont{\tiny}
 
+% Configure an environment for full-block things
+\newenvironment*{widething}{
+  \begin{fullwidth}[width=\blockwidth,outermargin=-\marginwidth]
+  }{
+  \end{fullwidth}
+}
+
 % Configure an environment for full-block figures
 \newenvironment*{widefig}[1][htbp]{
   \begin{figure}[{#1}]
     \centering
-    \begin{fullwidth}[width=\blockwidth,outermargin=-\marginwidth]
+    \begin{widething}
     }{
-    \end{fullwidth}
+    \end{widething}
   \end{figure}
 }
 
