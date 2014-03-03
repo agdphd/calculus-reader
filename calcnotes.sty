@@ -81,7 +81,7 @@
     axis equal image, % Unit vectors of equal lengths in both directions
   },
   agdplot/.style={
-    width = \textwidth,
+    width = \linewidth,
     axis lines = middle, % Put axes at x=0, y=0
     axis line style = {-latex}, % Use LaTeX arrowheads
     smooth, % Smooth all curves
@@ -177,6 +177,9 @@
 
 % Use roman d for differentiation and integration
 \Style{DSymb={\mathrm d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
+
+% Define command for writing differentials
+\newcommand*{\diff}[1]{\ensuremath{\COOL@notation@IntegrateDifferentialDSymb #1}}
 
 % Define command for antidifferentiation
 \newcommand*{\AD}[2]{\ensuremath{\frac{\COOL@notation@DSymb^{-1} {#1}}{\COOL@notation@DSymb {#2}^{-1}}}}
@@ -357,6 +360,9 @@
   number-post-code = \space ,
   join = { main[r,vc]number[l,vc](0pt,0pt) },
 }
+
+% Let memoir set up subfigure stuff
+\newsubfloat{figure}
 
 %%% Local Variables:
 %%% mode: latex

@@ -1,0 +1,285 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{Integration by substitution}
+\label{sec:int.subs}
+In light of \cref{thm:ftc.deriv,thm:ftc.calc}, if we want to develop a theory of definite integrals, what we really need is a theory of antiderivatives.
+We've already explored this topic in \cref{sec:antiderivatives}, but there's a lot more we can do!
+
+As a first step, let's investigate what happens when we integrate composite functions.
+\begin{example}
+  \label{ex:integrate.composite}
+  Let $f(x) = \sin x$.
+  Compare the definite integrals $\Int{f(x)}{x, 0, \pi}$ and $\Int{f(2x)}{x, 0, \sfrac{\pi}{2}}$.
+\end{example}
+
+\begin{soln}
+  As a first step, let's think about what each of these integrals represents.
+  $\Int{f(x)}{x, 0, \pi}$ is the result of \enquote{adding up} all the values of $\sin x$ as $x$ ranges over $\closedint{0, \pi}$, while $\Int{f(2x)}{x, 0, \sfrac{\pi}{2}}$ is the result of \enquote{adding up} all the values of $\sin 2x$ as $x$ ranges over $\closedint{0, \frac{\pi}{2}}$.
+  This seems to suggest that they might have the same value!
+
+  However, there is a flaw in our reasoning.
+  We note that $-\cos x$ is an antiderivative of $f(x)$ and $- \frac{1}{2} \cos 2x$ is an antiderivative of $f(2x)$.
+  Thus, we can calculate the integrals explicitly; ${f(x)}{x, 0, \pi} = \pbrac*{- \cos \pi} - \pbrac*{- \cos 0} = 2$, while $\Int{f(2x)}{x, 0, \sfrac{\pi}{2}} = \pbrac*{-\frac{1}{2} \cos 2 \frac{\pi}{2}} - \pbrac*{-\frac{1}{2} \cos 2 \cdot 0} = 1$.
+  Thus, $\Int{f(x)}{x, 0, \pi} = 2 \Int{f(2x)}{x, 0, \sfrac{\pi}{2}}$.
+\end{soln}
+
+What went wrong with our initial reasoning there?
+Let's take a look at the graphical situation, illustrated in \cref{fig:subsex}, to see if we can make sense of the problem.
+
+\begin{medfig}
+  \parbox{.6\textwidth}{
+    \subbottom[\enquote{Wide} function\label{fig:subsex.wide}]{
+      \begin{tikzpicture}
+        \begin{axis}[
+          agdplot,
+          rectify,
+          ymin = -.2,
+          ymax = 1.2,
+          ytick = \empty,
+          xtick = {0,1.5708,3.1415},
+          xticklabels = {$0$, $\sfrac{\pi}{2}$, $\pi$},
+          ]
+          \addplot+ [domain=0:pi,box1] {sin(deg(x))} \closedcycle;
+
+          \addplot [thick, domain=-.2:pi+.2] {sin(deg(x))} node [pos=0.55,pin={0:$y = \sin x$}] {};
+        \end{axis}
+      \end{tikzpicture}
+    }
+  }
+  \quad
+  \parbox{.35\textwidth}{
+    \subbottom[\enquote{Narrow} function\label{fig:subsex.narrow}]{
+      \begin{tikzpicture}
+        \begin{axis}[
+          agdplot,
+          rectify,
+          ymin = -.2,
+          ymax = 1.2,
+          ytick = \empty,
+          xtick = {0,0.7854,1.5708},
+          xticklabels = {$0$, $\sfrac{\pi}{4}$, $\sfrac{\pi}{2}$},
+          ]
+          \addplot+ [domain=0:pi/2,box1] {sin(2*deg(x))} \closedcycle;
+
+          \addplot [thick, domain=-.2:pi/2+.2] {sin(2*deg(x))} node [pos=0.4,pin={-85:$y = \sin 2x$}] {};
+        \end{axis}
+      \end{tikzpicture}
+    }
+  }
+  \label{fig:subsex}
+  \caption{Two related integrals}
+\end{medfig}
+
+Each of $\Int{\sin x}{x, 0, \pi}$ and $\Int{\sin 2x}{x, 0, \sfrac{\pi}{2}}$ represents an area, represented in \cref{fig:subsex.wide} and \cref{fig:subsex.narrow} respectively.
+But these areas are clearly not equal!
+Multiplying the variable $x$ by $2$ \enquote{compresses} the region in \cref{fig:subsex.narrow} by a factor of $2$ in the horizontal direction, just as multiplying the function by $\frac{1}{2}$ does in the vertical direction.
+
+The key lesson here is that we cannot blithely substitute one function for another when computing integrals.
+We should think more carefully about what happens in these situations.
+
+Thinking back to \cref{sec:chainrule}, we know that differentiating composite functions is relatively straightforward.
+In particular, we have \cref{eq:chainrule} (the \enquote{Chain Rule}), which tells us that
+\begin{equation*}
+  \D{}{x} f \pbrac*{g \pbrac{x}} = f' \pbrac*{g \pbrac{x}} g' \pbrac{x}.
+\end{equation*}
+We can, of course, turn this into an antidifferentiation (and thus integration!) tool simply by antidifferentiating both sides.
+Let's write that down for safekeeping.
+
+\begin{theorem}
+  \label{thm:subs.long}
+  Suppose $f$ and $g$ are differentiable functions.
+  Then the general antiderivative of $f' \pbrac*{g \pbrac{x}} g' \pbrac{x}$ is $f \pbrac*{g \pbrac{x}} + C$.
+  In other words,
+  \begin{equation}
+    \label{eq:subs.long}
+    \Int{f' \pbrac*{g \pbrac{x}} g' \pbrac{x}}{x} = f \pbrac*{g \pbrac{x}}.
+  \end{equation}
+\end{theorem}
+
+We can use \cref{thm:subs.long} to compute the integral of any function that \enquote{looks like} the outcome of the chain rule.
+Let's try an example to start to get a feel for how this works.
+
+\begin{example}
+  \label{ex:subs.simple.long}
+  Find $\Int{3x^{2} \sqrt{x^{3} + 3}}{x}$.
+\end{example}
+
+\begin{soln}
+  We note that $\D{}{x} x^{3} + 3 = 3 x^{2}$.
+  This is good news!
+  It suggests that we should set $g(x) = x^{3} + 3$; then $g'(x) = 3x^{2}$.
+  If we let $f'(x) = \sqrt{x}$, we can rewrite our integrated: $3x^{2} \sqrt{x^{3} + 3} = g' \pbrac{x} f' \pbrac*{g \pbrac{x}}$.
+  This is exactly the form required by \cref{thm:subs.long}!
+  We can apply that result, once we find an antiderivative of $f'$: $f(x) = \frac{2}{3} x^{\sfrac{3}{2}}$ will do nicely.
+  Then we can compute that
+  \begin{equation*}
+    \Int{3x^{2} \sqrt{x^{3} + 3}}{x} = \Int{g' \pbrac{x} f' \pbrac*{g \pbrac{x}}}{x} = f \pbrac*{g \pbrac{x}} + C = \frac{2}{3} \pbrac*{x^{3} + 3}^{\sfrac{3}{2}} + C.
+  \end{equation*}
+\end{soln}
+
+\subsection{Change of variables and definite integrals}
+\label{sec:int.subs.change-of-variables}
+Ultimately, we'd like to use this tool to compute definite integrals.
+These kinds of calculations can get pretty messy, with all those $f$s and $g$s and $'$s laying around to trip us up.
+Let's take a moment to dig in and see if we can clean things up a bit.
+
+Suppose we want to compute a definite integral using substitution---that is, we're looking for the value $\Int{f' \pbrac*{g \pbrac{x}} g' \pbrac{x}}{x, x=a, x=b}$.
+(We write $x = a$ and $x = b$ as the limits of integration to emphasize that these are values of $x$; the significance of this will become evident shortly.)
+By \cref{thm:subs.long,thm:ftc.calc}, this is given by $f \pbrac*{g \pbrac{b}} - f \pbrac*{g \pbrac{a}}$.
+But this is the same value we would have obtained by integrating $f$ over the interval $\closedint{g \pbrac{a}, g \pbrac{b}}$!
+Thus, we can instead compute this integral by \enquote{change of variables}.
+
+\begin{theorem}
+  \label{thm:subs.change-of-variables}
+  Suppose $f$ and $g$ are differentiable functions.
+  Then
+  \begin{equation}
+    \label{eq:subs.change-of-variables}
+    \Int{f' \pbrac*{g \pbrac{x}}}{x, x=a, x=b} = f \pbrac*{g \pbrac{b}} - f \pbrac*{g \pbrac{a}} = \Int{f' \pbrac{u}}{u, u = g(a), u = g(b)}.
+  \end{equation}
+\end{theorem}
+
+This notion of change of variables suggests a new form of \cref{thm:subs.long} which incorporates the intermediate variable $u$.
+\begin{theorem}
+  \label{thm:subs.short}
+  Suppose $f$ and $g$ are differentiable functions.
+  Let $u = g(x)$ and $\diff{u} = g'(x) \, \diff{x}$.
+  Then
+  \begin{equation}
+    \label{eq:subs.short}
+    \Int{f' \pbrac*{g \pbrac{x}}}{x} = \Int{f' \pbrac*{u}}{u} = f \pbrac{u} + C = f \pbrac{g \pbrac{x}} + C.
+  \end{equation}
+  This process is known as \enquote{$u$-substitution}.
+\end{theorem}
+
+\begin{note*}
+  When applying \cref{thm:subs.short}, it is essential to keep track of the difference between the original variable $x$ and the new variable $u$!
+\end{note*}
+
+Let's give this a try with a couple of examples.
+First, we'll revisit \cref{ex:subs.simple.short} using $u$-substitution.
+
+\begin{example}
+  \label{ex:subs.simple.short}
+  Find $\Int{3x^{2} \sqrt{x^{3} + 3}}{x}$ using $u$-substitution.
+\end{example}
+
+\begin{soln}
+  Set $u = x^{3} + 3$; then $\diff{u} = 3x^{2} \, \diff{x}$.
+  Thus, applying \cref{eq:subs.short} and reordering our original integrand, we have that
+  \begin{equation*}
+    \int \underbrace{\sqrt{x^{3} + 3}}_{\sqrt{u}} \underbrace{3x^{2} \, \diff{x}}_{\diff{u}} = \Int{\sqrt{u}}{u} = \frac{2}{3} u^{\sfrac{3}{2}} + C = \frac{2}{3} \pbrac*{x^{3} + 3}^{\sfrac{3}{2}} + C.
+  \end{equation*}
+  Pleasingly, this agrees with the result of \cref{ex:subs.simple.long}!
+\end{soln}
+
+Now let's try a new integral.
+
+\begin{example}
+  \label{ex:subs.constantmult}
+  Find $\Int{x e^{x^{2}}}{x}$ using $u$-substitution.
+\end{example}
+
+\begin{soln}
+  This seems like a natural candidate for substitution with $u = e^{x^{2}}$.
+  However, there's a slight problem---we can compute $\diff{u} = 2x \, \diff{x}$, but then we don't quite have this term in our original integral!
+  The solution to this seeming conundrum is to look for what we \emph{do} have, which in this case is $x \, \diff{x} = \frac{1}{2} \diff{u}$.
+  Thus, we can still rewrite our integral in terms of $\diff{u}$ and some function of $u$, which means we're in business!
+  All that remains is to compute:
+  \begin{equation*}
+    \int \underbrace{e^{x^{2}}}_{e^{u}} \underbrace{x \, \diff{x}}_{\frac{1}{2} \diff{u}} = \Int{\frac{1}{2} e^{u}}{u} = \frac{1}{2} e^{u} + C = \frac{1}{2} e^{x^{2}} + C.
+  \end{equation*}
+\end{soln}
+
+Of course, we can use this technique to compute definite integrals as well!
+
+\begin{example}
+  \label{ex:subs.definite}
+  Find $\Int{\frac{2x}{x^{2} + 1}}{x, 0, 1}$.
+\end{example}
+
+\begin{soln}
+  It's evident that we should use the substitution $u = x^{2} + 1$.
+  Then $\diff{u} = 2x \, \diff{x}$, and we can proceed, using \cref{eq:subs.change-of-variables} to handle the limits of integration.
+  \begin{multline*}
+    \Int{\frac{2x}{x^{2} + 1}}{x, 0, 1} = \Int{\frac{1}{u}}{u, u(0), u(1)} = \ln \abs{u(1)} - \ln \abs{u(0)} \\
+    = \ln \abs{1^{2} + 1} - \ln \abs{0^{2} + 1} = \ln 2 - \ln 1 = \ln 2.
+  \end{multline*}
+\end{soln}
+
+\subsection{Substitution trickery}
+\label{sec:int.subs.tricks}
+
+So far, we've only considered applications of substitution where the choices of $f'$, $u$, and $\diff{u}$ are relatively obvious.
+However, some of the most interesting and applications occur when this is not the case.
+We'll close out this section by considering some examples of this phenomenon.
+
+First, let's consider a case where there are several choices for $u$, some of which are better than others.
+
+\begin{example}
+  \label{ex:subs.hard-u}
+  Find $\Int{\frac{x \cos x^{2}}{\sqrt{\sin x^{2}}}}{x}$ using $u$-substitution.
+\end{example}
+
+\begin{soln}
+  One natural choice of $u$ in this problem is $u = x^{2}$.
+  Then $\diff{u} = 2x \, \diff{x}$, which does in fact appear in our integral (after correcting for the constant $2$, anyway)!
+  However, this leaves us with the rather unpleasant-looking integral $\Int{\frac{\cos u}{\sqrt{\sin u}}}{u}$.
+
+  To make things more manageable, we need to make a different choice.
+  This time, let $u = \sin x^{2}$.
+  Then $\diff{u} = 2x \cos x^{2} \, \diff{x}$, which again appears in our original integral (after correcting for the constant $2$).
+  This time, the resulting integral is much more approachable!
+  All that remains is to compute:
+  \begin{equation*}
+    \Int{\frac{x \cos x^{2}}{\sqrt{\sin x^{2}}}}{x} = \Int{\frac{1}{\sqrt{u}} \frac{1}{2}}{u} = \sqrt{u} + C = \sqrt{\sin x^{2}} + C.
+  \end{equation*}
+\end{soln}
+
+Next, we'll consider a couple of cases where we need to manipulate the integral in order to find the $f'(u)$ part after the substitution.
+
+\begin{example}
+  \label{ex:subs.easy-rewrite}
+  Find $\Int{x \sqrt{x - 4}}{x}$.
+\end{example}
+
+\begin{soln}
+  The substitution $u = x - 4$ seems reasonable---after all, it simplifies the expression under the radical, and $\diff{u} = \diff{x}$ is easy enough to find!
+  However, this leaves us with the question of what to do with the leftover $x$.
+  To handle this, we note that we can solve $u = x - 4$ for $x = u + 4$.
+  Thus, we can rewrite our integral and then apply the substitution:
+  \begin{multline*}
+    \Int{x \sqrt{x - 4}}{x} = \Int{\pbrac*{\pbrac{x - 4} + 4} \sqrt{x - 4}}{x} = \\ \Int{\pbrac{u + 4} \sqrt{u}}{u} = \Int{u \sqrt{u} + 4 \sqrt{u}}{u} = \frac{2}{5} u^{\sfrac{5}{2}} + 4 \frac{2}{3} u^{\sfrac{3}{2}} + C \\
+    = \frac{2}{5} \pbrac{x - 4}^{\sfrac{5}{2}} + \frac{8}{3} \pbrac{x - 4}^{\sfrac{3}{2}} + C.
+  \end{multline*}
+\end{soln}
+
+This technique can also be applied in much messier settings.
+
+\begin{example}
+  \label{ex:subs.hard-rewrite}
+  Find $\Int{\sqrt{1 + \sqrt{x}}}{x}$ using $u$-substitution.
+\end{example}
+
+\begin{soln}
+  Let $u = 1 + \sqrt{x}$; then $\diff{u} = \frac{1}{2 \sqrt{x}} \diff{x}$.
+  Our integrand is evidently $\sqrt{u}$, but where is the $\diff{u}$?
+  It turns out that the way to proceed here is simply to \emph{make} $\diff{u}$ appear in the integrand, by solving for $\diff{x}$ and substituting the result.
+  Since $\diff{u} = \frac{1}{2 \sqrt{x}} \diff{x}$, we can solve to find that $\diff{x} = 2 \sqrt{x} \, \diff{u}$.
+  We defined $u = 1 + \sqrt{x}$, so $2 \sqrt{x} = 2u - 2$; thus, $\diff{x} = \pbrac{2u - 2} \, \diff{u}$.
+  We can now substitute $u$ and $\diff{x}$ into our original integral:
+  \begin{multline*}
+    \Int{\sqrt{1 + \sqrt{x}}}{x} = \Int{\sqrt{u} \pbrac{2u - 2}}{u} = \Int{2u \sqrt{u} - 2 \sqrt{u}}{u} \\
+    = 2 \cdot \frac{2}{5} u^{\sfrac{5}{2}} - 2 \cdot \frac{2}{3} u^{\sfrac{3}{2}} + C = \frac{4}{5} \pbrac*{1 + \sqrt{x}}^{\sfrac{5}{2}} - \frac{4}{3} \pbrac*{1 + \sqrt{x}}^{\sfrac{3}{2}} + C.
+  \end{multline*}
+\end{soln}
+
+\begin{exercises}
+\end{exercises}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:
