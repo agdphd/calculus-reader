@@ -262,10 +262,12 @@ Now let's consider a situation where the Riemann sum is really necessary.
   Thus, we're going to need a Riemann sum.
   Over each \SI{1}{\second} time interval, the distance traveled by the car is approximated by $v \pbrac{t_{i}^{*}} \cdot \SI{1}{\second}$, where $t_{i}^{*}$ is a time during that interval.
   We can compute the values of $L_{6}$ and $R_{6}$ for this car using \cref{eq:riemanndef.left,eq:riemanndef.right} as follows:
-  \begin{gather*}
-    L_{6} = \SI{0}{\meter\per\second} \cdot \SI{1}{\second} + \SI{3}{\meter\per\second} \cdot \SI{1}{\second} + \SI{8}{\meter\per\second} \cdot \SI{1}{\second} + \SI{15}{\meter\per\second} \cdot \SI{1}{\second} + \SI{22}{\meter\per\second} \cdot \SI{1}{\second} + \SI{25}{\meter\per\second} \cdot \SI{1}{\second} = \SI{73}{\meter} \\
-    R_{6} = \SI{3}{\meter\per\second} \cdot \SI{1}{\second} + \SI{8}{\meter\per\second} \cdot \SI{1}{\second} + \SI{15}{\meter\per\second} \cdot \SI{1}{\second} + \SI{22}{\meter\per\second} \cdot \SI{1}{\second} + \SI{25}{\meter\per\second} \cdot \SI{1}{\second} + \SI{27}{\meter\per\second} \cdot \SI{1}{\second} = \SI{100}{\meter} \\
-  \end{gather*}
+  \begin{multline*}
+    L_{6} = \SI{0}{\meter\per\second} \cdot \SI{1}{\second} + \SI{3}{\meter\per\second} \cdot \SI{1}{\second} + \SI{8}{\meter\per\second} \cdot \SI{1}{\second} + \\ \SI{15}{\meter\per\second} \cdot \SI{1}{\second} + \SI{22}{\meter\per\second} \cdot \SI{1}{\second} + \SI{25}{\meter\per\second} \cdot \SI{1}{\second} = \SI{73}{\meter}
+  \end{multline*}
+  \begin{multline*}
+    R_{6} = \SI{3}{\meter\per\second} \cdot \SI{1}{\second} + \SI{8}{\meter\per\second} \cdot \SI{1}{\second} + \SI{15}{\meter\per\second} \cdot \SI{1}{\second} + \\ \SI{22}{\meter\per\second} \cdot \SI{1}{\second} + \SI{25}{\meter\per\second} \cdot \SI{1}{\second} + \SI{27}{\meter\per\second} \cdot \SI{1}{\second} = \SI{100}{\meter}
+  \end{multline*}
   So how far did the car go?
   Presumably, something between \SI{73}{\meter} and \SI{100}{\meter}.
   In fact, their average, \SI{86.5}{\meter}, is probably a better estimate than either $L_{6}$ or $R_{6}$, so let's call that our best estimation.
