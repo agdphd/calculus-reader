@@ -221,19 +221,22 @@
 \setlength{\droptitle}{1in}
 
 \newcommand{\subtitle}[1]{\gdef\thesubtitle{#1}}
+\newcommand{\titlefont}{\fontsize{3cm}{0cm}\sffamily\bfseries}
+\newcommand{\subtitlefont}{\fontsize{3cm}{0cm}\sffamily\itshape}
+\newcommand{\authorfont}{\fontsize{1cm}{0cm}\sffamily}
 
 \renewcommand{\maketitle}{
   \thispagestyle{empty}
-  \vspace*{\stretch{4}}
-  \begin{flushright}
-    \textsf{\textbf{\HUGE\thetitle}} \\[\baselineskip]
-    \textsf{\textit{\Huge\thesubtitle}}
-  \end{flushright}
   \vspace*{\stretch{1}}
   \begin{flushright}
-    \textsf{\Large\theauthor}
+    {\titlefont\thetitle}\\[\baselineskip]
+    {\subtitlefont\thesubtitle}
   \end{flushright}
-  \vspace*{\stretch{9}}
+  \vspace*{\stretch{2}}
+  \begin{flushright}
+    {\authorfont\theauthor}
+  \end{flushright}
+  \vspace*{\stretch{4}}
   \cleardoublepage
 }
 
