@@ -176,13 +176,16 @@
 \newtheorem*{soln}{Solution}
 
 % Use roman d for differentiation and integration
-\Style{DSymb={\mathrm d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
+\Style{DSymb=\mathrm{d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
 
 % Define command for writing differentials
 \newcommand*{\diff}[1]{\ensuremath{\COOL@notation@IntegrateDifferentialDSymb #1}}
 
+% Override CoOL's derivative command, which breaks with some font packages
+\renewcommand*{\D}[3][]{\ensuremath{\frac{\COOL@notation@DSymb^{#1} {#2}}{\COOL@notation@DSymb {#3}^{#1}}}}
+
 % Define command for antidifferentiation
-\newcommand*{\AD}[2]{\ensuremath{\frac{\COOL@notation@DSymb^{-1} {#1}}{\COOL@notation@DSymb {#2}^{-1}}}}
+\newcommand*{\AD}[2]{\D[-1]{#1}{#2}}
 
 % Use fancy paired delimiters
 \DeclarePairedDelimiter{\pbrac}{(}{)}
