@@ -24,35 +24,37 @@ First, let's get our feet wet with a quick example involving this area function.
   What is its derivative?
 \end{example}
 
+  \begin{smallfig}
+    \begin{asy}
+      smallsize();
+
+      real f(real x) {return x/2-1/4;}
+
+      real start=-.5, end=3.5;
+
+      real a=1, b=2.5;
+
+      xaxis("$t$",start,end,Ticks(new real[] {a,b},ticklabel = OmitFormat(a,b)), Arrow);
+      labelx("$1$",a);
+      labelx("$x$",b);
+
+      yaxis("$y$",-.2, Arrow);
+
+      path fplot = funcplot(f, start, end);
+      draw(fplot);
+
+      fillunder(f, a, b, box1);
+    \end{asy}
+    \caption{Region bounded by $y = 2t-1$ over $\closedint{1,x}$}
+    \label{fig:areafunc}
+  \end{smallfig}
+
 \begin{soln}
   We first compute the area function $\areafunc{f}{1}{x}$.
   Since $f$ is linear, the region bounded by $y = f(x)$ over $\sbrac{1, x}$ is a trapezoid, as shown in \cref{fig:areafunc}
   The left height of this trapezoid is $1$, its right height is $2 \cdot x - 1$, and its base is $x - 1$.
   Thus, its area is $\areafunc{f}{1}{x} = \pbrac{x-1} \cdot \frac{1}{2} \pbrac{2x-1 + 1} = x^{2} - x$.
   It is then straightforward to compute that $\D{}{x} \areafunc{f}{1}{x} = 2x-1$; we note that this is in fact $f(x)$ again.
-
-  \begin{smallfig}
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        ymin = -1.2,
-        ymax = 8,
-        xmin = -1,
-        xmax = 4,
-        ytick = \empty,
-        xtick = {1},
-        extra x ticks = {2.5},
-        extra x tick labels = {$x$},
-        ]
-        \addplot+ [domain=1:2.5,box1] {2*x-1} \closedcycle;
-
-        \addplot [thick, domain=-1:4] {2*x-1} node [pos=0.45,pin={90:$y = 2x-1$}] {};
-
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Region bounded by $y = 2x-1$ over $\closedint{1,x}$}
-    \label{fig:areafunc}
-  \end{smallfig}
 \end{soln}
 
 Now \emph{that's} a strange coincidence.
@@ -64,28 +66,29 @@ To see why, let's look at an example more closely.
 Consider \cref{fig:ftc}.
 
 \begin{widefig}
-  \begin{tikzpicture}
-    \begin{axis}[
-      agdplot,
-      rectify,
-      ymin = -.2,
-      ymax = .6,
-      xmin = -.2,
-      xmax = 5.5,
-      ytick = \empty,
-      xtick = \empty,
-      extra x ticks = {1,4.5,4.75},
-      extra x tick labels = {$a$,$x$,$x+\Delta x$},
-      tick label style = {rotate = 45, anchor = east},
-      ]
-      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/3+1/4*sin(deg(pi*#1^2/8))}}
+  \begin{asy}
+    largesize();
 
-      \addplot+ [domain=1:4.5,box1] {ftcfunc(x)} \closedcycle;
-      \addplot+ [domain=4.5:4.75,box2] {ftcfunc(x)} \closedcycle;
+    real xstart=-.2, xend=5.5;
+    real ystart=-.2, yend=.6;
 
-      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.45,pin={90:$y = f(x)$}] {};
-    \end{axis}
-  \end{tikzpicture}
+    real a=1, b=4.5, c=4.75;
+
+    xaxis("$x$",xstart,xend,Ticks(new real[] {a,b,c}, ticklabel=OmitFormat(a,b,c)), Arrow);
+    labelx("$a$",a);
+    labelx("$x$",b);
+    labelx("$x + \Delta x$",c);
+
+    yaxis("$y$",ystart,yend,Arrow);
+
+    real f(real x) {return 1/3 + 1/4*sin(pi*x^2/8);}
+
+    path fplot = funcplot(f, xstart, xend);
+    draw(fplot);
+
+    fillunder(f, a, b, box1);
+    fillunder(f, b, c, box2);
+  \end{asy}
   \caption{Demonstration of the fundamental theorem of calculus}
   \label{fig:ftc}
 \end{widefig}

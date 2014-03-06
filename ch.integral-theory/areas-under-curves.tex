@@ -35,25 +35,28 @@ For example, the region in question may be a nice geometric shape.
   As shown in \cref{fig:int2x}, the region bounded by $y = 2x$, $y = 1$, $x = 0$, and $x = 3$ is a trapezoid with base $2$ and heights $2$ and $6$.
   Therefore, $\Int{2x}{x,1,3} = 2 \cdot \frac{2 + 6}{2} = 8$.
 
-  \begin{marginfigure}
+  \begin{smallfig}
     \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        ymin = -.4,
-        ymax = 9,
-        ytick = \empty,
-        xtick = {1,3},
-        ]
-        \addplot+ [domain=1:3,box1] {2*x} \closedcycle;
+    \begin{asy}
+      smallsize();
 
-        \addplot [thick, domain=0:4] {2*x} node [pos=0.65,pin={130:$y = 2x$}] {};
+      real f(real x) {return x/2;}
 
-      \end{axis}
-    \end{tikzpicture}
+      real start=0, end=3.5;
+
+      real a=1, b=3;
+
+      xaxis("$x$",start,end,Ticks(new real[] {a,b}), Arrow);
+      yaxis("$y$",-.2, Arrow);
+
+      path fplot = funcplot(f, start, end);
+      draw(fplot);
+
+      fillunder(f, a, b, box1);
+    \end{asy}
     \caption{Region bounded by $y = 2x$ over $\closedint{1,3}$}
     \label{fig:int2x}
-  \end{marginfigure}
+  \end{smallfig}
 \end{soln}
 
 \begin{example}
@@ -65,28 +68,29 @@ For example, the region in question may be a nice geometric shape.
   As shown in \cref{fig:intcirc}, the region bounded by $y = \sqrt{9 - x^{2}}$, $y = 0$, $x = -3$, and $x = 3$ is a semicircle of radius $3$.
   Therefore, $\Int{\sqrt{9 - x^{2}}}{x,-3,3} = \frac{1}{2} \pi \pbrac*{3}^{2} = \frac{9}{2} \pi$.
 
-  \begin{marginfigure}
+  \begin{smallfig}
     \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        rectify,
-        ymin = -.4,
-        ymax = 4,
-        xmin = -4,
-        xmax = 4,
-        ytick = \empty,
-        xtick = {-3,3},
-        ]
-        \addplot+ [domain=-3:3,box1] {sqrt(9-x^2)} \closedcycle;
+    \begin{asy}
+      smallsize();
 
-        \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
+      real start=-4, end=4;
 
-      \end{axis}
-    \end{tikzpicture}
+      real a=-3, b=3;
+
+      real center = (b+a)/2;
+      real radius = (b-a)/2;
+
+      xaxis("$x$",start,end,Ticks(new real[] {a,b}), Arrow);
+      yaxis("$y$",-.2,end,Arrow);
+
+      path fplot = arc((center, 0), radius, 0, 180);
+      draw(fplot);
+
+      fill(fplot -- (a, 0) -- (b, 0) -- cycle, box1);
+    \end{asy}
     \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
     \label{fig:intcirc}
-  \end{marginfigure}
+  \end{smallfig}
 \end{soln}
 
 Of course, if we were only interested in finding areas of triangles and circles, we wouldn't need to bring calculus into it!
@@ -147,26 +151,28 @@ This turns out to be enough to build our general definition of the definite inte
   Similarly, the \enquote{positive} piece is a triangle with sides $2$ and $6$, so its area is $\frac{1}{2} \cdot 2 \cdot 6 = 6$.
   Therefore, $\Int{3x}{x,-1,2} = 6 - \frac{3}{2} = \frac{9}{2}$.
 
-  \begin{marginfigure}
+  \begin{smallfig}
     \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        ymin = -4,
-        ymax = 7,
-        ytick = \empty,
-        xtick = {-1,2},
-        ]
-        \addplot+ [domain=-1:0,box1] {3*x} \closedcycle;
-        \addplot+ [domain=0:2,box2] {3*x} \closedcycle;
+    \begin{asy}
+      smallsize();
 
-        \addplot [thick, domain=-2:3] {3*x} node [pos=0.5,pin={130:$y = 3x$}] {};
+      real f(real x) {return x/2;}
 
-      \end{axis}
-    \end{tikzpicture}
+      real start=-1.2, end=2.2;
+      real a=-1, b=0, c=2;
+
+      xaxis("$x$",start,end,LeftTicks(new real[] {a,c}), Arrow);
+      yaxis("$y$",-.2,Arrow);
+
+      path fplot = funcplot(f,start,end);
+      draw(fplot);
+
+      fillunder(f, a, b, box1);
+      fillunder(f, b, c, box2);
+    \end{asy}
     \caption{Region bounded by $y = 3x$ over $\closedint{-1,2}$}
     \label{fig:intpm}
-  \end{marginfigure}
+  \end{smallfig}
 \end{soln}
 
 With this definition in hand, we can state this idea as a theorem.
@@ -197,22 +203,31 @@ Is this enough information to compute $\Int{f(x) + g(x)}{x,a,b}$?
 
   \begin{marginfigure}
     \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        ymin = -.4,
-        ymax = 9,
-        ytick = \empty,
-        xtick = {1,3},
-        ]
-        \addplot+ [domain=1:3,box1] {2*x+1} \closedcycle;
-        \addplot+ [domain=1:3,box2] {2*x} \closedcycle;
+    \begin{asy}
+      smallsize();
 
-        \addplot [thick, domain=0:4] {2*x} node [pos=0.65,pin={-90:$y = 2x$}] {};
-        \addplot [thick, domain=0:4] {2*x+1} node [pos=0.65,pin={150:$y = 2x+1$}] {};
+      real f(real x) {return x/2;}
+      real g(real x) {return x/2+1/4;}
 
-      \end{axis}
-    \end{tikzpicture}
+      real start=0, end=3.5;
+
+      real a=1, b=3;
+
+      xaxis("$x$",start,end,Ticks(new real[] {a,b}), Arrow);
+      yaxis("$y$",-.2, Arrow);
+
+      path fplot = funcplot(f, start, end);
+      draw(fplot);
+
+      path ffill = graph(f,a,b,operator ..);
+      fill(ffill -- (b, 0) -- (a, 0) -- cycle, box1);
+
+      path gplot = graph(g,start,end,operator ..);
+      draw(gplot);
+
+      path gfill = graph(g,a,b,operator ..);
+      fill(gfill -- (b, f(b)) -- (a, f(a)) -- cycle, box2);
+    \end{asy}
     \caption{Region bounded by $y = 2x+1$ over $\closedint{1,3}$}
     \label{fig:intstack}
   \end{marginfigure}
@@ -256,29 +271,32 @@ Is this enough information to compute $\Int{f(x)}{x,a,c}$?
   Therefore, each is equal to $\frac{1}{4} \pi \pbrac*{3}^{2} = \frac{9}{4} \pi$.
   These two values add up to $\frac{9}{2} \pi$, which was the value of $\Int{f(x)}{x,-3,3}$ computed in \cref{ex:intcirc}.
 
-  \begin{marginfigure}
+  \begin{smallfig}
     \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        rectify,
-        ymin = -.4,
-        ymax = 4,
-        xmin = -4,
-        xmax = 4,
-        ytick = \empty,
-        xtick = {-3,3},
-        ]
-        \addplot+ [domain=-3:0,box1] {sqrt(9-x^2)} \closedcycle;
-        \addplot+ [domain=0:3,box2] {sqrt(9-x^2)} \closedcycle;
+    \begin{asy}
+      smallsize();
 
-        \addplot [thick, domain=-3:3] {sqrt(9-x^2)} node [pos=0.25,pin={90:$y = \sqrt{9-x^{2}}$}] {};
+      real start=-4, end=4;
 
-      \end{axis}
-    \end{tikzpicture}
+      real a=-3, b=3;
+
+      real center = (b+a)/2;
+      real radius = (b-a)/2;
+
+      xaxis("$x$",start,end,Ticks(new real[] {a,b}), Arrow);
+      yaxis("$y$",-.2,end,Arrow);
+
+      path leftarc = arc((center, 0), radius, 90, 180);
+      draw(leftarc);
+      fill(leftarc -- (center, 0) -- cycle, box1);
+
+      path rightarc = arc((center, 0), radius, 0, 90);
+      draw(rightarc);
+      fill(rightarc -- (center, 0) -- cycle, box2);
+    \end{asy}
     \caption{Region bounded by $y = \sqrt{9-x^{2}}$ over $\closedint{-3,3}$}
     \label{fig:intcircsplit}
-  \end{marginfigure}
+  \end{smallfig}
 \end{soln}
 
 Will this always work?

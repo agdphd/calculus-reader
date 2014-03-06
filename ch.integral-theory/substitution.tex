@@ -28,50 +28,52 @@ What went wrong with our initial reasoning there?
 Let's take a look at the graphical situation, illustrated in \cref{fig:subsex}, to see if we can make sense of the problem.
 
 \begin{medfig}
-  \parbox{.6\textwidth}{
-    \subbottom[\enquote{Wide} function\label{fig:subsex.wide}]{
-      \begin{tikzpicture}
-        \begin{axis}[
-          agdplot,
-          rectify,
-          ymin = -.2,
-          ymax = 1.2,
-          ytick = \empty,
-          xtick = {0,1.5708,3.1415},
-          xticklabels = {$0$, $\sfrac{\pi}{2}$, $\pi$},
-          ]
-          \addplot+ [domain=0:pi,box1] {sin(deg(x))} \closedcycle;
+  \begin{asy}
+    medsize();
 
-          \addplot [thick, domain=-.2:pi+.2] {sin(deg(x))} node [pos=0.55,pin={0:$y = \sin x$}] {};
-        \end{axis}
-      \end{tikzpicture}
-    }
-  }
-  \quad
-  \parbox{.35\textwidth}{
-    \subbottom[\enquote{Narrow} function\label{fig:subsex.narrow}]{
-      \begin{tikzpicture}
-        \begin{axis}[
-          agdplot,
-          rectify,
-          ymin = -.2,
-          ymax = 1.2,
-          ytick = \empty,
-          xtick = {0,0.7854,1.5708},
-          xticklabels = {$0$, $\sfrac{\pi}{4}$, $\sfrac{\pi}{2}$},
-          ]
-          \addplot+ [domain=0:pi/2,box1] {sin(2*deg(x))} \closedcycle;
+    // First graph
+    real start1=0, end1=3.5;
 
-          \addplot [thick, domain=-.2:pi/2+.2] {sin(2*deg(x))} node [pos=0.4,pin={-85:$y = \sin 2x$}] {};
-        \end{axis}
-      \end{tikzpicture}
-    }
-  }
+    real f1(real x) {return sin(x-start1);}
+
+    real a1=start1, b1=start1+pi;
+    real[] xticks = {(a1+b1)/2, b1};
+
+    xaxis("$x$",start1,end1,Ticks(xticks, ticklabel = Unlabel(xticks)), Arrow);
+    labelx("$\sfrac{\pi}{2}$", (a1+b1)/2);
+    labelx("$\pi$", b1);
+
+    xequals("$y$", x=start1, extend=true, Arrow);
+
+    path f1plot = funcplot(f1, start1, end1);
+    draw(f1plot);
+
+    fillunder(f1, a1, b1, box1);
+
+    // Second graph
+    real start2=4, end2=start2+1.75;
+
+    real f2(real x) {return sin(2(x-start2));}
+
+    real a2=start2, b2=start2+pi/2;
+    real[] xticks = {(a2+b2)/2, b2};
+
+    xaxis("$x$",start2,end2,Ticks(xticks, ticklabel = Unlabel(xticks)), Arrow);
+    labelx("$\sfrac{\pi}{4}$", (a2+b2)/2);
+    labelx("$\sfrac{\pi}{2}$", b2);
+
+    xequals("$y$", x=start2, extend=true, Arrow);
+
+    path f2plot = funcplot(f2, start2, end2);
+    draw(f2plot);
+
+    fillunder(f2, a2, b2, box1);
+  \end{asy}
   \label{fig:subsex}
   \caption{Two related integrals}
 \end{medfig}
 
-Each of $\Int{\sin x}{x, 0, \pi}$ and $\Int{\sin 2x}{x, 0, \sfrac{\pi}{2}}$ represents an area, represented in \cref{fig:subsex.wide} and \cref{fig:subsex.narrow} respectively.
+Each of $\Int{\sin x}{x, 0, \pi}$ and $\Int{\sin 2x}{x, 0, \sfrac{\pi}{2}}$ represents an area, illustrated in \cref{fig:subsex}.
 But these areas are clearly not equal!
 Multiplying the variable $x$ by $2$ \enquote{compresses} the region in \cref{fig:subsex.narrow} by a factor of $2$ in the horizontal direction, just as multiplying the function by $\frac{1}{2}$ does in the vertical direction.
 

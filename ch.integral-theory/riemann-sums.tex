@@ -32,26 +32,37 @@ This isn't a great approximation, but it has one important feature: the signed a
 Let's try to work out what it will be (at least as well as we can without knowing what the function $f$ is).
 
 \begin{medfig}
-  \begin{tikzpicture}
-    \begin{axis}[
-      agdplot,
-      rectify,
-      ymin = -.3,
-      ymax = .6,
-      xmin = -.1,
-      xmax = 5.5,
-      ytick = \empty,
-      xtick = \empty,
-      extra x ticks = {1,2,3,4,5},
-      extra x tick labels = {$a$,$x_{1}$, $x_{2}$, $x_{3}$, $b$},
-      ]
-      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/16+1/4*sin(deg(pi*#1^2/8))}}
+    \begin{asy}
+      medsize();
 
-      \addplot [leftriemann=1:5, integral segments=4, box1] {ftcfunc(x)};
+      real f(real x) {return 1/16+1/4*sin(pi*x^2/8);}
 
-      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.50,pin={150:$y = f(x)$}] {};
-    \end{axis}
-  \end{tikzpicture}
+      real xstart = -.2, xend = 5.5;
+      real ystart = -.2, yend = .6;
+
+      real a=1, b=5;
+      int n = 4;
+
+      real[][] rects = leftrierects(f, a, b, n);
+
+      real[] xintticks = transpose(rects)[1];
+      real[] ends = {a, b};
+      real[] allticks = copy(xintticks);
+      allticks.append(ends);
+
+      xaxis("$x$",xstart,xend,Ticks(allticks, ticklabel = Unlabel(allticks)), Arrow);
+      labelx("$a$", a);
+      labelx("$b$", b);
+      labelxticks(xintticks);
+
+      yaxis("$y$",ystart,yend,Arrow);
+
+      path fplot = funcplot(f, xstart, xend);
+      draw(fplot);
+
+      drawrects(rects, box1);
+      drawtests(rects);
+    \end{asy}
   \caption{Demonstration of approximation of an integral with four rectangles at left endpoints}
   \label{fig:riemannleftex}
 \end{medfig}
@@ -89,51 +100,75 @@ From each of these choices of $x_{i}^{*}$ we obtain an approximation of $\Int{f(
 A left-endpoint approximation of an integral using four rectangles was illustrated in \cref{fig:riemannleftex}; the corresponding right-endpoint approximation is shown in \cref{fig:riemannrightex} and the midpoint approximation is shown in \cref{fig:riemannmidex}.
 
 \begin{medfig}
-  \begin{tikzpicture}
-    \begin{axis}[
-      agdplot,
-      rectify,
-      ymin = -.3,
-      ymax = .6,
-      xmin = -.1,
-      xmax = 5.5,
-      ytick = \empty,
-      xtick = \empty,
-      extra x ticks = {1,2,3,4,5},
-      extra x tick labels = {$a$,$x_{1}$, $x_{2}$, $x_{3}$, $b$},
-      ]
-      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/16+1/4*sin(deg(pi*#1^2/8))}}
+    \begin{asy}
+      medsize();
 
-      \addplot [rightriemann=1:5, integral segments=4, box2] {ftcfunc(x)};
+      real f(real x) {return 1/16+1/4*sin(pi*x^2/8);}
 
-      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.50,pin={150:$y = f(x)$}] {};
-    \end{axis}
-  \end{tikzpicture}
+      real xstart = -.2, xend = 5.5;
+      real ystart = -.2, yend = .6;
+
+      real a=1, b=5;
+      int n = 4;
+
+      real[][] rects = rightrierects(f, a, b, n);
+
+      real[] xintticks = transpose(rects)[1];
+      real[] ends = {a, b};
+      real[] allticks = copy(xintticks);
+      allticks.append(ends);
+
+      xaxis("$x$",xstart,xend,Ticks(allticks, ticklabel = Unlabel(allticks)), Arrow);
+      labelx("$a$", a);
+      labelx("$b$", b);
+      labelxticks(xintticks);
+
+      yaxis("$y$",ystart,yend,Arrow);
+
+      path fplot = funcplot(f, xstart, xend);
+      draw(fplot);
+
+      drawrects(rects, box1);
+      drawtests(rects);
+    \end{asy}
   \caption{Demonstration of approximation of an integral with four rectangles at right endpoints}
   \label{fig:riemannrightex}
 \end{medfig}
 
 \begin{medfig}
-  \begin{tikzpicture}
-    \begin{axis}[
-      agdplot,
-      rectify,
-      ymin = -.3,
-      ymax = .6,
-      xmin = -.1,
-      xmax = 5.5,
-      ytick = \empty,
-      xtick = \empty,
-      extra x ticks = {1,2,3,4,5},
-      extra x tick labels = {$a$,$x_{1}$, $x_{2}$, $x_{3}$, $b$},
-      ]
-      \pgfmathdeclarefunction{ftcfunc}{1}{\pgfmathparse{1/16+1/4*sin(deg(pi*#1^2/8))}}
+    \begin{asy}
+      medsize();
 
-      \addplot [midriemann=1:5, integral segments=4, box3] {ftcfunc(x)};
+      real f(real x) {return 1/16+1/4*sin(pi*x^2/8);}
 
-      \addplot [thick, domain=-1:8] {ftcfunc(x)} node [pos=0.50,pin={150:$y = f(x)$}] {};
-    \end{axis}
-  \end{tikzpicture}
+      real xstart = -.2, xend = 5.5;
+      real ystart = -.2, yend = .6;
+
+      real a=1, b=5;
+      int n = 4;
+
+      real[][] rects = midrierects(f, a, b, n);
+
+      real[] xintticks = transpose(rects)[1];
+      real[] xintminticks = transpose(rects)[2];
+      real[] ends = {a, b};
+      real[] allticks = copy(xintticks);
+      allticks.append(ends);
+
+      xaxis("$x$",xstart,xend,Ticks(Ticks = allticks, ticks = xintminticks, ticklabel = Unlabel(allticks)), Arrow);
+      labelx("$a$", a);
+      labelx("$b$", b);
+      labelxticks(xintticks);
+      labelxstarticks(xintminticks);
+
+      yaxis("$y$",ystart,yend,Arrow);
+
+      path fplot = funcplot(f, xstart, xend);
+      draw(fplot);
+
+      drawrects(rects, box1);
+      drawtests(rects);
+    \end{asy}
   \caption{Demonstration of approximation of an integral with four rectangles at midpoints}
   \label{fig:riemannmidex}
 \end{medfig}
@@ -184,23 +219,37 @@ Before we look at the many important applications of this idea, let's get a bit 
 
   \begin{marginfigure}
     \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        agdplot,
-        xmin= -.1,
-        xmax = 3.3,
-        ymin = -.4,
-        ymax = 10,
-        ytick = \empty,
-        xtick = {1,3},
-        ]
-        \pgfmathdeclarefunction{func}{1}{\pgfmathparse{#1^2}}
+    \begin{asy}
+      smallsize();
 
-        \addplot [rightriemann=1:3, integral segments=4, box1] {func(x)};
-        \addplot [thick, domain=0:4] {func(x)} node [pos=0.45,pin={130:$y = x^{2}$}] {};
+      real f(real x) {return x^2/3;}
 
-      \end{axis}
-    \end{tikzpicture}
+      real xstart = -.1, xend = 3.6;
+      real ystart = -.1, yend = 3.3;
+
+      real a=1, b=3;
+      int n = 4;
+
+      real[][] rects = rightrierects(f, a, b, n);
+
+      real[] xintticks = transpose(rects)[1];
+      real[] ends = {a, b};
+      real[] allticks = copy(xintticks);
+      allticks.append(ends);
+
+      xaxis("$x$",xstart,xend,Ticks(Ticks = allticks, ticklabel = Unlabel(allticks)), Arrow);
+      labelx("$1$", a);
+      labelx("$3$", b);
+      labelxticks(xintticks);
+
+      yaxis("$y$",ystart,yend,Arrow);
+
+      path fplot = funcplot(f, xstart, xend);
+      draw(fplot);
+
+      drawrects(rects, box1);
+      drawtests(rects);
+    \end{asy}
     \caption{$R_{4}$ for $f(x) = x^{2}$ over $\closedint{1,3}$}
     \label{fig:riemannx2}
   \end{marginfigure}

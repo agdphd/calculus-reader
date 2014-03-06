@@ -35,9 +35,11 @@
 % Load the csquotes package for semantic quotation marks
 \usepackage{csquotes}
 
-% Load the TikZ package for figures and diagrams
+% Load the TikZ package for header design
 \usepackage{tikz}
-\usepackage{pgfplots}
+
+% Load the Asymptote package for figures and diagrams
+\usepackage[inline]{asymptote}
 
 % Load the float package for fine-grained control over float placement
 \usepackage{float}
@@ -74,67 +76,6 @@
   stepnumber=2,
   showstringspaces=false,
 }
-
-% Configure PGFPlots
-\pgfplotsset{ % Define a common style, so we don't repeat ourselves
-  rectify/.style={
-    axis equal image, % Unit vectors of equal lengths in both directions
-  },
-  agdplot/.style={
-    width = \linewidth,
-    axis lines = middle, % Put axes at x=0, y=0
-    axis line style = {-latex}, % Use LaTeX arrowheads
-    smooth, % Smooth all curves
-    samples = 100, % A decent default for most curves
-    area style, % Fill regions bounded by \closedcycle
-    scale only axis, % Fit axes to size rather than fiddling with labels
-  },
-  box1/.style={
-    draw=blue,
-    fill=blue!10,
-  },
-  box2/.style={
-    draw=red,
-    fill=red!10,
-  },
-  box3/.style={
-    draw=green,
-    fill=green!10,
-  },
-  % from http://tex.stackexchange.com/a/30782
-  integral segments/.code={\pgfmathsetmacro\integralsegments{#1}},
-  leftriemann/.style args={#1:#2}{
-    ybar interval,
-    domain=#1:#2,
-    samples=\integralsegments+1,
-    x filter/.code=\pgfmathparse{\pgfmathresult)}
-  },
-  rightriemann/.style args={#1:#2}{
-    ybar interval,
-    domain=#1+((#2-#1)/\integralsegments):#2+((#2-#1)/\integralsegments),
-    samples=\integralsegments+1,
-    x filter/.code=\pgfmathparse{\pgfmathresult-((#2-#1)/\integralsegments)}
-  },
-  midriemann/.style args={#1:#2}{
-    ybar interval,
-    domain=#1+((#2-#1)/\integralsegments)/2:#2+((#2-#1)/\integralsegments)/2,
-    samples=\integralsegments+1,
-    x filter/.code=\pgfmathparse{\pgfmathresult-((#2-#1)/\integralsegments)/2}
-  },
-  trapezoid/.style args={#1:#2}{
-    samples = \integralsegments+1,
-    domain = #1:#2,
-  },
-  trapezoid divisions/.style args={#1:#2}{
-    trapezoid = #1:#2,
-    ycomb,
-  },
-  trapezoid interiors/.style args={#1:#2}{
-    trapezoid = #1:#2,
-    sharp plot,
-  },
-}
-
 
 % Configure cleveref
 \crefname{lstlisting}{listing}{listings}
@@ -220,6 +161,128 @@
 }{
   %
 }
+
+% Configure Asymptote plots
+\begin{asydef}
+  import graph;
+
+  void smallsize() {size(1.8inches,0);}
+  void medsize() {size(5.5inches,0);}
+  void largesize() {size(7.4inches,0);}
+
+  pen thickplot = linewidth(1);
+
+  pen dashedline = dashed+linewidth(1);
+
+  pen transparency = opacity(0.25);
+  pen box1 = blue+transparency;
+  pen box2 = green+transparency;
+  pen box3 = red+transparency;
+
+  void drawbox(real left, real right, real height, pen fillpen = lightgray)
+  {
+    path thebox = box((left,0),(right,height));
+    filldraw(thebox, fillpen);
+  }
+
+  void drawrects(real[][] samplepoints, pen fillpen = lightgray){
+    for(real[] rect : samplepoints){
+      drawbox(rect[0], rect[1], rect[3], fillpen);
+    }
+  }
+
+  void drawtests(real[][] samplepoints, pen drawpen = dashed){
+    for(real[] rect : samplepoints){
+      draw((rect[2], 0) -- (rect[2], rect[3]), drawpen);
+    }
+  }
+
+  real[][] leftrierects(real f(real), real a, real b, int n)
+  {
+    real dx = (b-a)/n;
+    real[][] rects;
+    for(int i=0; i<n; ++i) {
+      real left = a + i*dx;
+      real right = left + dx;
+      real test = left;
+      rects[i] = new real[] {left, right, test, f(test)};
+    }
+    return rects;
+  }
+
+  real[][] midrierects(real f(real), real a, real b, int n)
+  {
+    real dx = (b-a)/n;
+    real[][] rects;
+    for(int i=0; i<n; ++i) {
+      real left = a + i*dx;
+      real right = left + dx;
+      real mid = (left + right)/2;
+      real test = mid;
+      rects[i] = new real[] {left, right, test, f(test)};
+    }
+    return rects;
+  }
+
+  real[][] rightrierects(real f(real), real a, real b, int n)
+  {
+    real dx = (b-a)/n;
+    real[][] rects;
+    for(int i=0; i<n; ++i) {
+      real left = a + i*dx;
+      real right = left + dx;
+      real test = right;
+      rects[i] = new real[] {left, right, test, f(test)};
+    }
+    return rects;
+  }
+
+  void labelxticks(real[] xtickpoints)
+  {
+    int n = xtickpoints.length;
+    for(int i=1; i<n; ++i) {
+      string ilabel = (string) i;
+      labelx("$x_{"+ilabel+"}$", xtickpoints[i-1]);
+    }
+  }
+
+  void labelxstarticks(real[] xtickpoints)
+  {
+    int n = xtickpoints.length;
+    for(int i=1; i<n; ++i) {
+      string ilabel = (string) i;
+      labelx("$x^{*}_{"+ilabel+"}$", xtickpoints[i-1]);
+    }
+  }
+
+  void fillbetween(real f(real), real g(real), real a, real b, pen fillpen)
+  {
+    path uppercurve = graph(f, a, b, operator ..);
+    path lowercurve = graph(g, b, a, operator ..);
+    fill (uppercurve -- lowercurve -- cycle, fillpen);
+  }
+
+  void fillunder(real f(real), real a, real b, pen fillpen)
+  {
+    real zero(real x) {return 0;}
+    fillbetween(f, zero, a, b, fillpen);
+  }
+
+  path funcplot(real f(real), real a, real b, pen drawpen = thickplot)
+  {
+    path fplot = graph(f, a, b, operator ..);
+    draw(fplot, drawpen);
+    return fplot;
+  }
+
+  ticklabel Unlabel(real[] x)
+  {
+    return new string(real v)
+    {
+      return "";
+    };
+  }
+\end{asydef}
 
 %% CONFIGURE LAYOUT
 

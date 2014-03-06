@@ -6,3 +6,6 @@ auto/
 *.log
 *.out
 *.toc
+*.asy
+*.pre
+calcnotes-*.tex
