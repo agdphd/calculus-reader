@@ -320,16 +320,17 @@
 \setsecnumdepth{subsubsection}
 
 % Add some space to the outer margin for marginalia
-\addtolength{\textwidth}{-.1\textwidth}
-\addtolength{\foremargin}{.1\textwidth}
-\setlength{\marginparsep}{2eM}
+\setlrmarginsandblock{1in}{2in}{*}
 \checkandfixthelayout
 
 \newlength{\marginwidth}
-\setlength{\marginwidth}{\marginparsep+\marginparwidth}
+\setlength{\marginwidth}{1.8in}
+
+\newlength{\mainwidth}
+\setlength{\mainwidth}{5.5in}
 
 \newlength{\blockwidth}
-\setlength{\blockwidth}{\marginwidth+\textwidth}
+\setlength{\blockwidth}{\marginwidth+\mainwidth+\marginparsep}
 
 % Use small font for captions
 \captionnamefont{\tiny}
