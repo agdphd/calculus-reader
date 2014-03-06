@@ -249,7 +249,7 @@
   void labelxstarticks(real[] xtickpoints)
   {
     int n = xtickpoints.length;
-    for(int i=1; i<n; ++i) {
+    for(int i=1; i<=n; ++i) {
       string ilabel = (string) i;
       labelx("$x^{*}_{"+ilabel+"}$", xtickpoints[i-1]);
     }
