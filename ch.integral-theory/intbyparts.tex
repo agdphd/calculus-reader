@@ -1,0 +1,214 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{Integration by parts}
+\label{sec:int.parts}
+In \cref{sec:int.subs}, we developed an antidifferentiation procedure which allowed us to \enquote{undo} the Chain Rule of \cref{sec:chainrule}.
+Can we do the same thing for the Product Rule of \cref{sec:productrule}?
+
+As a first step, let's see what happens if we simply antidifferentiate both sides of \cref{eq:productrule}.
+\begin{theorem}
+  \label{thm:productrule.reversed}
+  Suppose $f$ and $g$ are differentiable functions.
+  Then the general antiderivative of $f' \pbrac{x} g \pbrac{x} + f \pbrac{x} g' \pbrac{x}$ is $f \pbrac{x} g \pbrac{x} + C$.
+  In other words,
+  \begin{equation}
+    \label{eq:productrule.reversed}
+    \Int{\pbrac[\big]{f' \pbrac{x} g \pbrac{x} + f \pbrac{x} g' \pbrac{x}}}{x} = f \pbrac{x} g \pbrac{x} + C.
+  \end{equation}
+\end{theorem}
+
+Yikes!
+When we developed the idea of integration by substitution, we were a bit spooked by the mess on the left-hand side of \cref{eq:subs.long}, but that wasn't nearly as nasty as the left-hand side of \cref{eq:productrule.reversed}.
+It turned out, of course, that we could in fact use \cref{eq:subs.long} to calculate antiderivatives, since (somewhat unexpectedly) the form of the left-hand side was relatively easy to find.
+It seems a bit too much to hope that the same will be true now; we're almost never going to see integrals that already look like the left-hand side of \cref{eq:productrule.reversed}.
+
+So what can we do?
+Rather than simply give up on integrating product functions altogether, let's try rearranging \cref{eq:productrule.reversed} a bit.
+We're hoping to find a formula that lets us compute integrals of products, so, as a first step, we should break up the integral on the left-hand side into two separate integrals of product functions:
+\begin{equation}
+  \label{eq:int.byparts.wrongside}
+  \Int{f' \pbrac{x} g \pbrac{x}}{x} + \Int{f \pbrac{x} g' \pbrac{x}}{x} = f \pbrac{x} g \pbrac{x} + C.
+\end{equation}
+Of course, this only helps us if we're trying to calculate \emph{two} integrals!
+This seems even less useful than the original form.
+
+Still, we've started down this road, so let's keep going.
+If we move one of the integrals to the other side of \cref{eq:int.byparts.wrongside}, we'll at least have something that treats one integral at a time.
+\begin{equation}
+  \label{eq:int.byparts.prelim}
+  \Int{f \pbrac{x} g' \pbrac{x}}{x} = f \pbrac{x} g \pbrac{x} - \Int{f' \pbrac{x} g \pbrac{x}}{x}.
+\end{equation}
+(The $+C$ term is no longer needed, since there are indefinite integrals on both sides.)
+
+Is \emph{this} of any use?
+Remarkably, it is!
+It tells us that we can \emph{replace} a product integral with another one, at the cost of differentiating one term and antidifferentiating the other.
+In many circumstances, this will actually improve our situation quite a bit.
+
+\begin{example}
+  \label{ex:parts.easy.funcnames}
+  Find $\Int{x \cos x}{x}$.
+\end{example}
+
+\begin{soln}
+  The integrand $x \cos x$ is clearly a product function, with factors $x$ and $\cos x$.
+  Our situation would be substantially improved if we differentiated the $x$ term (since that would eliminate it!), and antidifferentiating the $\cos x$ term won't hurt anything (since that will simply replace it with $\sin x$).
+  Thus, we take $f(x) = x$ and $g'(x) = \cos x$; then, by \cref{eq:int.byparts.prelim}, we have
+  \begin{align*}
+    \Int{x \cos x}{x} &= \Int{f \pbrac{x} g' \pbrac{x}}{x} \\
+    &= f \pbrac{x} g \pbrac{x} - \Int{f' \pbrac{x} g \pbrac{x}}{x} \\
+    &= x \sin x - \Int{1 \cdot \sin x}{x} \\
+    &= x \sin x - \pbrac{- \cos x}\\
+    &= x \sin x + \sin x + C.
+  \end{align*}
+\end{soln}
+
+And there we have it!
+This technique will allow us to integrate many product functions.
+The key, of course, will be finding the right decomposition of the integrand into $f$ and $g'$---in particular, one for which $\Int{f'(x) g(x)}{x}$ is more manageable than $\Int{f(x) g'(x)}{x}$ was.
+
+Just as with substitution, though, this technique is going to result in a lot of messy bookkeeping.
+We'll use a similar notational trick to help us manage things.
+When we were finding an integral $\Int{f' \pbrac*{g \pbrac{x}} g' \pbrac{x}}{x}$, we made the change of variables $u = g \pbrac{x}$ and let $\diff{u} = g' \pbrac{x} \, \diff{x}$.
+Now, we'll need to work with four pieces: $f$, $f'$, $g$, and $g'$.
+Conventionally, we'll let $u = f \pbrac{x}$, $\diff{u} = f' \pbrac{x} \, \diff x$, $v = g \pbrac{x}$, and $\diff{v} = g' \pbrac{x} \, \diff{x}$; then \cref{eq:int.byparts.prelim} can be rewritten very compactly.
+
+\begin{theorem}[Integration by parts] %TODO: Explain "parts" in theorem name?
+  \label{thm:int.byparts}
+  Suppose $f$ and $g$ are differentiable functions.
+  Let $u = f \pbrac{x}$, $\diff{u} = f' \pbrac{x} \, \diff{x}$, $v = g \pbrac{x}$, and $\diff{v} = g' \pbrac{x} \, \diff{x}$.
+  Then
+  \begin{equation}
+    \label{eq:int.byparts}
+    \Int{f \pbrac{x} g' \pbrac{x}}{x} = \boxed{ \Int{u}{v} = uv - \Int{v}{u} } = f \pbrac{x} g \pbrac{x} - \Int{g \pbrac{x} f' \pbrac{x}}{x}.
+  \end{equation}
+\end{theorem}
+
+Now, let's give this theorem a test-drive with some examples.
+
+\begin{example}
+  \label{ex:parts.easy.uv}
+  Find $\Int{x \cos x}{x}$ by parts.
+\end{example}
+
+\begin{soln}
+  Let $u = x$ and $\diff{v} = \cos x \, \diff{x}$.
+  (Then $\diff{u} = 1 \, \diff{x}$ and $v = \sin x$.)
+  By \cref{eq:int.byparts}, we then have
+  \begin{multline*}
+    \Int{x \cos x}{x} = \Int{u}{v} = uv - \Int{v}{u} \\
+    = x \sin x - \Int{1 \cdot \sin x}{x} = x \sin x + \cos x + C.
+  \end{multline*}
+  This agrees with the result of our work in \cref{ex:parts.easy.funcnames}, which is good news!
+  (Of course, we really did exactly the same calculation only minor changes in the notation, so it's not exactly \emph{surprising} news.)
+\end{soln}
+
+\begin{example}
+  \label{ex:byparts.tworounds}
+  Find $\Int{x^{2} e^{x}}{x}$ by parts.
+\end{example}
+
+\begin{soln}
+  Let $u = x^{2}$ and $\diff{v} = e^{x} \, \diff{x}$.
+  (Then $\diff{u} = 2x \, \diff{x}$ and $v = e^{x}$.)
+  By \cref{eq:int.byparts}, we then have\sidefootnote{At this point, we'll stop writing out all the intermediate $\Int{u}{v}$ terms to save space.}
+  \begin{equation*}
+    \Int{x^{2} e^{x}}{x} = x^{2} e^{x} - \Int{2x e^{x}}{x}.
+  \end{equation*}
+  This leaves us with a new integral to calculate.
+  But this is another parts integral!
+  Thus, we need to go around again.
+  This time, we'll take $u_{2} = 2x$ and $\diff{v_{2}} = e^{x} \, \diff{x}$, so $\diff{u_{2}} = 2 \, \diff{x}$ and $v_{2} = e^{x}$.
+  Applying \cref{eq:int.byparts} again, we have that
+  \begin{equation*}
+    \Int{x^{2} e^{x}}{x} = x^{2} e^{x} - \Int{2x e^{x}}{x} = x^{2} e^{x} - \pbrac*{2x e^{x} - \Int{2 e^{x}}{x}} = x^{2} e^{x} - 2x e^{x} + 2 e^{x} + C.
+  \end{equation*}
+\end{soln}
+
+Applying integration by parts more than once is a minor nuisance computationally, but it's still good to know that the option is there.
+This suggests a heuristic for parts decompositions: we should look for a factorization of our integrand into a $u$ which becomes simpler when differentiated and a $\diff{v}$ which doesn't become worse when antidifferentiated.
+(Occasionally, we'll stumble on a $\diff{v}$ which actually gets simpler when antidifferentiated, but this is relatively rare.)
+
+\subsection{Parts trickery}
+\label{sec:int.byparts.tricks}
+So far, we've only considered cases where the choices of $u$ and $\diff{v}$ are relatively obvious.
+Just as with substitution, however, some of the most interesting applications of integration by parts come when we have to make sneaky choices for the new variables.
+Let's close out the section with a few examples of this idea.
+
+In \cref{ex:byparts.tworounds}, we saw a case where we had to use two \enquote{rounds} of integration by parts to break our integral down into something manageable.
+Of course, we can construct examples that require any number of rounds you like---just try calculating $\Int{x^{7} e^{x}}{x}$ to see how this can happen.
+But things can get even more interesting than this!
+
+\begin{example}
+  \label{ex:byparts.cyclic}
+  Find $\Int{e^{x} \sin x}{x}$ using integration by parts.
+\end{example}
+
+\begin{soln}
+  It looks like we should split this integrand up as a product of $e^{x}$ and $\sin x$---but which should be $u$ and which should be $\diff{v}$?
+  Let's have a go with $u = \sin x$ and $\diff{v} = e^{x} \, \diff{x}$ (so $\diff{u} = \cos x \, \diff{x}$ and $v = e^{x}$).
+  Applying \cref{eq:int.byparts} then gives us that
+  \begin{equation}
+    \label{eq:ex.byparts.cyclic.firstu}
+    \Int{e^{x} \sin x}{x} = e^{x} \sin x - \Int{\cos x e^{x}}{x}. \tag{\dag}
+  \end{equation}
+  That doesn't look like much of an improvement!
+  What if we'd tried $u = e^{x}$ and $\diff{v} = \sin x \diff{x}$ instead?
+  Then we'd get
+  \begin{equation*}
+    \Int{e^{x} \sin x}{x} = -e^{x} \cos x - \Int{-\cos x e^{x}}{x}.
+  \end{equation*}
+  Either way, we don't seem to make any progress---the new integral isn't any better than the old integral!
+  Before we give up hope, though, let's try the same technique we used in \cref{ex:byparts.tworounds}.
+  Returning to \cref{eq:ex.byparts.cyclic.firstu}, let's make a second-round substitution, letting $u_{2} = \cos x$ and $\diff{v_{2}} = e^{x} \, \diff{x}$ in the integral on the right-hand side.
+  Applying \cref{eq:int.byparts} a second time gives us that
+  \begin{multline*}
+    \label{eq:byparts.cyclic.tworounds}
+    \Int{e^{x} \sin x}{x} = e^{x} \sin x - \Int{\cos x e^{x}}{x} \\
+    = e^{x} \sin x - \pbrac*{\cos x e^{x} - \Int{-\sin x e^{x}}{x}} \\
+    = e^{x} \sin x - e^{x} \cos x - \Int{e^{x} \sin x}{x}. \tag{\ddag}
+  \end{multline*}
+  We're right back where we started!
+  This doesn't look good.
+  However, there is one spark of light left here: our original integral $\Int{e^{x} \sin x}{x}$ appears on both sides of \cref{eq:byparts.cyclic.tworounds}, so perhaps we can make that work to our advantage.
+  If we move both occurrences to the same side of the equation, we end up with
+  \begin{equation*}
+    2 \Int{e^{x} \sin x}{x} = e^{x} \sin x - e^{x} \cos x,
+  \end{equation*}
+  which means (after adding in the constant of integration) that
+  \begin{equation*}
+    \Int{e^{x} \sin x}{x} = \frac{1}{2} e^{x} \sin x - \frac{1}{2} e^{x} \cos x + C.
+  \end{equation*}
+\end{soln}
+
+Thus, we can use parts even to compute integrals where both factors have cyclic derivatives, as long as we're careful with how we choose our $u$ and $\diff{v}$.
+(In \cref{ex:byparts.cyclic}, for example, we had to let $\diff{v} = e^{x} \, \diff{x}$ both times for this to work.)
+
+We can also use integration by parts to find some elementary antiderivatives that are inaccessible otherwise.
+For example, in our exploration so far, we've never stumbled on an antiderivative for the natural log function.
+With parts, we can find one!
+
+\begin{example}
+  \label{ex:byparts.ln}
+  Find $\Int{\ln x}{x}$ using integration by parts.
+\end{example}
+
+\begin{soln}
+  We don't have an antiderivative of $\ln$ available to us, but we do know that its derivative is $\frac{1}{x}$.
+  Thus, we'd like to take $u = \ln x$, which forces the (somewhat strange-looking) choice $\diff{v} = 1 \, \diff{x}$; given these choices, we have that $\diff{u} = \frac{1}{x} \diff{x}$ and $v = x$.
+  Using these terms in \cref{eq:int.byparts}, we find that
+  \begin{equation*}
+    \Int{\ln x}{x} = x \ln x - \Int{x \frac{1}{x}}{x} = x \ln x - \Int{1}{x} = x \ln x - 1 + C.
+  \end{equation*}
+  So letting $\diff{v} = 1 \, \diff{x}$ can pay off!
+\end{soln}
+
+\begin{exercises}
+\end{exercises}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:
