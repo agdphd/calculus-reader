@@ -9,3 +9,4 @@ auto/
 *.asy
 *.pre
 calcnotes-*.tex
+*.gin

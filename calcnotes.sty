@@ -60,6 +60,9 @@
 % Load the ccicons package for Creative Commons icons
 \usepackage{ccicons}
 
+% Load the gitinfo package to show git commit information in footer
+\usepackage{gitinfo}
+
 % Load the hyperref package for hyperlinking (MUST BE LAST)
 \usepackage{hyperref}
 
@@ -377,8 +380,8 @@
 \copypagestyle{calcnotes}{companion}
 
 \newcommand{\headerfont}{\seccommonfont}
-\makeevenhead{calcnotes}{\headerfont\thepage}{\ccmark}{\headerfont\leftmark}
-\makeoddhead{calcnotes}{\headerfont\rightmark}{\ccmark}{\headerfont\thepage}
+\makeevenhead{calcnotes}{\headerfont\thepage}{\ccmark \quad (\gitAbbrevHash{})}{\headerfont\leftmark}
+\makeoddhead{calcnotes}{\headerfont\rightmark}{\ccmark \quad (\gitAbbrevHash{})}{\headerfont\thepage}
 
 \pagestyle{calcnotes}
 
