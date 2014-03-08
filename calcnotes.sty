@@ -57,6 +57,9 @@
 \let\vary\undefined % NewTXMath also defines a \vary command that we don't need but which causes errors
 \usepackage{exsheets}
 
+% Load the ccicons package for Creative Commons icons
+\usepackage{ccicons}
+
 % Load the hyperref package for hyperlinking (MUST BE LAST)
 \usepackage{hyperref}
 
@@ -115,6 +118,9 @@
 \newtheorem*{note*}{Note}
 
 \newtheorem*{soln}{Solution}
+
+% Define command to render chosen copyright mark
+\newcommand{\ccmark}{\ccbysa}
 
 % Use roman d for differentiation and integration
 \Style{DSymb=\mathrm{d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
@@ -310,7 +316,6 @@
     {\authorfont\theauthor}
   \end{flushright}
   \vspace*{\stretch{4}}
-  \cleardoublepage
 }
 
 % Next, we define the part style
@@ -372,10 +377,8 @@
 \copypagestyle{calcnotes}{companion}
 
 \newcommand{\headerfont}{\seccommonfont}
-\makeevenhead{calcnotes}{\headerfont\thepage}{}%
-                        {\headerfont\leftmark}
-\makeoddhead{calcnotes}{\headerfont\rightmark}{}%
-                       {\headerfont\thepage}
+\makeevenhead{calcnotes}{\headerfont\thepage}{\ccmark}{\headerfont\leftmark}
+\makeoddhead{calcnotes}{\headerfont\rightmark}{\ccmark}{\headerfont\thepage}
 
 \pagestyle{calcnotes}
 
