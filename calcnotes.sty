@@ -282,6 +282,31 @@
     return fplot;
   }
 
+  path tanplot(real f(real), real df(real), real a, real start, real end, pen drawpen = thickplot, pen dotpen = thickplot)
+  {
+    real tanline(real x) {return f(a) + df(a)*(x-a);}
+    path lineplot = graph(tanline, start, end);
+
+    draw(lineplot, drawpen);
+
+    dot((a, f(a)), dotpen);
+
+    return lineplot;
+  }
+
+  path secplot(real f(real), real a, real b, real start, real end, pen drawpen = thickplot, pen dotpen = thickplot)
+  {
+    real secline(real x) {return f(a) + (f(b) - f(a))/(b - a) * (x - a);}
+    path lineplot = graph(secline, start, end);
+
+    draw(lineplot, drawpen);
+
+    dot((a, f(a)), dotpen);
+    dot((b, f(b)), dotpen);
+
+    return lineplot;
+  }
+
   ticklabel Unlabel(real[] x)
   {
     return new string(real v)

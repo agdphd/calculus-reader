@@ -4,15 +4,164 @@
 \section{The definition of the derivative}
 \label{sec:derivdefn}
 
+\subsection{Secant and tangent lines}
+\label{sec:tanlines}
+Consider a smooth\footnote{The term \enquote{smooth} represents a technical condition which we'll define later. For now, we mainly want to avoid curves with \enquote{corners} and other strange behavior.}  curve $y = f(x)$ and suppose we want to draw the tangent line to this curve at $x = a$, as illustrated in \cref{fig:tanline}.
+
+\begin{smallfig}
+  \centering
+  \begin{asy}
+    smallsize();
+
+    real f(real x) {return 1+(x-1)^2*cos(x/2);}
+    real df(real x) {return 2*(x-1)*cos(x/2)+(x-1)^2*(-1/2*sin(x/2));}
+
+    real start=0, end=3.6;
+
+    xaxis("$x$",start,end,Arrow);
+    yaxis("$y$",0, Arrow);
+
+    funcplot(f, start, end);
+    tanplot(f, df, pi/2, start, end, dashed, red);
+  \end{asy}
+  \caption{Tangent line to a curve}
+  \label{fig:tanline}
+\end{smallfig}
+
+How can we find the equation of this line?
+In general, to identify a line in the plane, we need two pieces of information: a point and a slope, say, or two points.
+In this case, we know the point passes through the point $\pbrac*{a, f \pbrac*{a}}$, but what is that second piece?
+We don't know a second point on the curve that the line passes through---and, indeed, there may not be one!
+We also don't seem to have any information about the slope.
+
+Rather than wear ourselves out trying to solve this problem directly, let's take a break and think about something simpler.
+Instead of the \emph{tangent line} at $a$, let's think about the \emph{secant lines} to $y = f(x)$ that pass through $\pbrac*{a, f \pbrac*{a}}$, as illustrated in \cref{fig:secline}.
+These are the lines which pass through \emph{two} points on the curve---say, $\pbrac*{a, f \pbrac*{a}}$ and $\pbrac*{b, f \pbrac*{b}}$.
+Since we know two points on a secant line, it's straightforward to find its slope; using the familiar \enquote{rise over run} formula, we get $m = \frac{f \pbrac*{b} - f \pbrac*{a}}{b - a}$.
+Since we're really interested in the behavior at $a$, let's rename $b$ to $a + \Delta x$; then we get a nice, compact formula, which we should record for later reference.
+
+\begin{theorem}
+  \label{thm:secslope}
+  Let $f$ be a function which is defined near $x = a$.
+  Then the slope of the secant line from $\pbrac*{a, f \pbrac*{a}}$ to $\pbrac*{a + \Delta x, f \pbrac*{a + \Delta x}}$ is given by
+  \begin{equation}
+    \label{eq:secslope}
+    m_{\Delta x} = \frac{f \pbrac*{a + \Delta x} - f \pbrac*{a}}{\Delta x}.
+  \end{equation}
+\end{theorem}
+
+\begin{smallfig}
+  \centering
+    \begin{asy}
+    smallsize();
+
+    real f(real x) {return 1+(x-1)^2*cos(x/2);}
+    real df(real x) {return 2*(x-1)*cos(x/2)+(x-1)^2*(-1/2*sin(x/2));}
+
+    real start=0, end=3.6;
+
+    xaxis("$x$",start,end,Arrow);
+    yaxis("$y$",0, Arrow);
+
+    funcplot(f, start, end);
+    secplot(f, pi/2, 2.75, start, end, dashed, red);
+    secplot(f, pi/2, .6, start, end, dashed, red);
+    secplot(f, pi/2, .25, start, end, dashed, red);
+  \end{asy}
+  \caption{Some secant lines to a curve}
+  \label{fig:secline}
+\end{smallfig}
+
+How does this help us study the tangent line?
+In particular, can we use information about the secant line slopes $m_{\Delta x}$ to calculate the tangent line slope $m$?
+Let's consider how the value of $\Delta x$ affects the slope $m_{\Delta x}$ of the secant line between $\pbrac*{a, f \pbrac*{a}}$ and $\pbrac*{a + \Delta x, f \pbrac*{a + \Delta x}}$.
+When $\Delta x$ is large, the secant line may be very different from the tangent line; however, when $\Delta x$ is very small, the secant line and the tangent line will be very similar.
+Moreover, the smaller $\Delta x$ gets, the more similar they will become!
+This suggests that the tangent line slope should actually be equal to the \emph{limit} of the secant line slopes $m_{\Delta x}$ as the distance $\Delta x$ goes to zero.
+
+This concept is important enough that we'll enshrine it in a new term, which we can now define.
+
 \begin{definition}
   \label{def:deriv}
   Let $f$ be continuous at $x = a$.
   Then the \emph{derivative of $f$ at $a$} is the number
   \begin{equation}
     \label{eq:derivdef}
-    f'(a) = \lim_{\Delta x \to 0} \frac{f \pbrac*{a + \Delta x} - f \pbrac{a}}{\Delta x}.
+    f'(a) = \lim_{\Delta x \to 0} m_{\Delta x} = \lim_{\Delta x \to 0} \frac{f \pbrac*{a + \Delta x} - f \pbrac{a}}{\Delta x}.
   \end{equation}
+  If $f'(a)$ exists, we say $f$ is \emph{differentiable at $a$}.
 \end{definition}
+
+This geometric argument indicates that $f'(a)$ should be equal to the slope of the tangent line to $y = f(a)$ at $x = a$.
+Thus, we have solved our (and Newton's) original problem!
+
+\begin{theorem}
+  \label{thm:derivtan}
+  Let $f$ be differentiable at $a$.
+  Then the slope of the tangent line to $y = f \pbrac{x}$ at $x = a$ is equal to $f' \pbrac{a}$, so the tangent line has equation
+  \begin{equation}
+    \label{eq:derivtan}
+    y = f \pbrac{a} + f' \pbrac{a} \cdot \pbrac*{x - a}.
+  \end{equation}
+\end{theorem}
+
+Of course, this doesn't do us any good if we can't calculate it.
+Let's try on a few examples to see if this is workable.
+
+\begin{example}
+  \label{ex:derivative.quadratic.onepoint}
+  Find the slope of the tangent line to $y = x^{2}$ at $x = 1$.
+\end{example}
+
+\begin{soln}
+  For each $\Delta x \neq 0$, consider the secant line passing through $\pbrac{1, 1}$ and $\pbrac*{1 + \Delta x, \pbrac*{1 + \Delta x}^{2}}$.
+  By \cref{thm:secslope}, the slope of this secant line is
+  \begin{equation*}
+    m_{\Delta x} = \frac{\pbrac*{1 + \Delta x}^{2} - 1}{\Delta x} = \frac{1 + 2 \Delta x + \pbrac*{\Delta x}^{2} - 1}{\Delta x} = \frac{2 \Delta x + \pbrac*{\Delta x}^{2}}{\Delta x} = 2 + \Delta x.
+  \end{equation*}
+  Then, by \cref{thm:derivtan}, the slope of the tangent line at $x = 1$ is
+  \begin{equation*}
+    \lim_{\Delta x \to 0} m_{\Delta x} = \lim_{\Delta x \to 0} 2 + \Delta x = 2.
+  \end{equation*}
+\end{soln}
+
+Well, that's a good sign!
+Let's try one that's a bit more complicated.
+
+\begin{example}
+  \label{ex:derivative.circle.onepoint}
+  Find the slope of the tangent line to the circle $x^{2} + y^{2} = 4$ at $\pbrac{1, \sqrt{15}}$.
+\end{example}
+
+\begin{soln}
+  To use \cref{thm:derivtan}, we need to express this curve as the graph of a function; in this case, we'll use $f(x) = \sqrt{16 - x^{2}}$, which gives the upper half of this circle (which is the only part we need).
+  Then the slope of the tangent line at $\pbrac{1, \sqrt{15}}$ will be the number $f' \pbrac{1}$.
+  Following \cref{eq:derivdef}, we compute that
+  \begin{align*}
+    f'(1) & = \lim_{\Delta x \to 0} \frac{f \pbrac*{1 + \Delta x} - f \pbrac*{1}}{\Delta x} = \lim_{\Delta x \to 0} \frac{\sqrt{16 - \pbrac*{1 + \Delta x}^{2}} - \sqrt{16 - 1^{2}}}{\Delta x}. \\
+    \intertext{Simplifying the polynomial under the square root gives us}
+    &= \lim_{\Delta x \to 0} \frac{\sqrt{-\pbrac{\Delta x}^{2} - 2 \Delta x + 15} - \sqrt{15}}{\Delta x}. \\
+    \intertext{The denominator of this fraction is going to $0$, which is a serious obstruction to evaluating the limit.
+      To clean things up, we can use an algebra trick called \enquote{multiplying by the conjugate}, which will eliminate the square roots in the numerator completely.}
+    &= \lim_{\Delta x \to 0} \frac{\sqrt{-\pbrac{\Delta x}^{2} - 2 \Delta x + 15} - \sqrt{15}}{\Delta x} \frac{\sqrt{-\pbrac{\Delta x}^{2} - 2 \Delta x + 15} + \sqrt{15}}{\sqrt{-\pbrac{\Delta x}^{2} - 2 \Delta x + 15} + \sqrt{15}} \\
+    &= \lim_{\Delta x \to 0} \frac{-\pbrac*{\Delta x}^{2} - 2 \Delta x}{\Delta x \pbrac*{\sqrt{-\pbrac{\Delta x}^{2} - 2 \Delta x + 15} + \sqrt{15}}}. \\
+    \intertext{Finally, we can cancel the $\Delta x$ terms in the numerator and denominator.}
+    &= \lim_{\Delta x \to 0} \frac{- \Delta x - 2}{\sqrt{-\pbrac{\Delta x}^{2} - 2 \Delta x + 15} + \sqrt{15}}.
+    \intertext{Now the denominator isn't going to $0$, so we can evaluate the limit directly, by substituting $\Delta x = 0$!}
+    &= \frac{-\pbrac{0} -2}{\sqrt{-\pbrac{0}^{2} - 2 \pbrac{0} + 15} + \sqrt{15}} = \frac{-2}{2 \sqrt{15}} = \frac{-1}{\sqrt{15}}.
+  \end{align*}
+\end{soln}
+
+The algebra of \cref{ex:derivative.circle.onepoint} got a little messy, but it's still a good sign that we can do this calculation at all!
+
+\subsection{Rates of change}
+\label{sec:deriv.roc}
+
+\subsection{Properties of derivatives}
+\label{sec:derivprops}
+
+\subsection{The derivative as a function}
+\label{sec:derivfunc}
 
 \begin{exercises}
 \end{exercises}
