@@ -121,8 +121,8 @@
 
 \newtheorem*{soln}{Solution}
 
-% Define command to render chosen copyright mark
-\newcommand{\ccmark}{\ccbysa}
+% Define command to render chosen license mark
+\newcommand{\licensemark}{\ccbysa}
 
 % Use roman d for differentiation and integration
 \Style{DSymb=\mathrm{d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
@@ -372,8 +372,8 @@
 \copypagestyle{calcnotes}{companion}
 
 \newcommand{\headerfont}{\seccommonfont}
-\makeevenhead{calcnotes}{\headerfont\thepage}{\ccmark \quad (\gitAbbrevHash{})}{\headerfont\leftmark}
-\makeoddhead{calcnotes}{\headerfont\rightmark}{\ccmark \quad (\gitAbbrevHash{})}{\headerfont\thepage}
+\makeevenhead{calcnotes}{\headerfont\thepage}{}{\headerfont\licensemark \quad (\gitAbbrevHash{})\\\leftmark}
+\makeoddhead{calcnotes}{\headerfont(\gitAbbrevHash{}) \quad \licensemark\\\rightmark}{}{\headerfont\thepage}
 
 \pagestyle{calcnotes}
 
