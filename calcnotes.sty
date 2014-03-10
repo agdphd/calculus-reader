@@ -130,6 +130,9 @@
 % Define command to set text in calligraphic font
 \newcommand{\scripttext}[1]{{\Large\Fontlukas\slshape #1}}
 
+% Define command to print Git hash as a Github url
+\newcommand{\hashurl}{\href{http://github.com/againerdewar/calculus-reader/tree/\gitHash}{\gitAbbrevHash}}
+
 % Use roman d for differentiation and integration
 \Style{DSymb=\mathrm{d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
 
@@ -403,8 +406,8 @@
 \copypagestyle{calcnotes}{companion}
 
 \newcommand{\headerfont}{\seccommonfont}
-\makeevenhead{calcnotes}{\headerfont\thepage}{}{\headerfont\licensemark \quad (\gitAbbrevHash{})\\\leftmark}
-\makeoddhead{calcnotes}{\headerfont(\gitAbbrevHash{}) \quad \licensemark\\\rightmark}{}{\headerfont\thepage}
+\makeevenhead{calcnotes}{\headerfont\thepage}{}{\headerfont\licensemark \quad (\hashurl)\\\leftmark}
+\makeoddhead{calcnotes}{\headerfont(\hashurl) \quad \licensemark\\\rightmark}{}{\headerfont\thepage}
 
 \pagestyle{calcnotes}
 
