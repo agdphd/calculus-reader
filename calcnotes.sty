@@ -32,6 +32,9 @@
 % Use the "Dutch calligraphic" alphabet from mathalfa
 \usepackage[cal=dutchcal]{mathalfa}
 
+% Load the AuriCal calligraphic fonts
+\usepackage{aurical}
+
 % Load the csquotes package for semantic quotation marks
 \usepackage{csquotes}
 
@@ -123,6 +126,9 @@
 
 % Define command to render chosen license mark
 \newcommand{\licensemark}{\ccbysa}
+
+% Define command to set text in calligraphic font
+\newcommand{\scripttext}[1]{{\Large\Fontlukas\slshape #1}}
 
 % Use roman d for differentiation and integration
 \Style{DSymb=\mathrm{d},DShorten=true,IntegrateDifferentialDSymb=\mathrm{d}}
