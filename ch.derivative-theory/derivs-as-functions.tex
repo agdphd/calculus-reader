@@ -1,0 +1,119 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{Derivatives as functions}
+\label{sec:derivs-as-functions}
+
+The notion of \emph{derivative}, introduced in \cref{def:deriv}, gives us an analytic tool for studying the slopes of tangent lines to curves.
+In particular, given a function $f$ and a value $x = a$, we now have a way to find the slope of the tangent line to the curve $y = f(x)$ at $x = a$.
+Of course, the result can depend on the value of $a$ as well as on the function $f$, so in fact the derivative is a \emph{function} which is \enquote{derived from}\footnote{This is, in fact, the origin of the term \enquote{derivative}.} $f$.
+We'll record this idea in a definition.
+
+\begin{definition}
+  \label{def:deriv.func}
+  Fix a function $f$.
+  The \emph{derivative function of $f$} (or \emph{derivative of $f$} for short) is the function $f'$ (read \enquote{$f$ prime}) given by
+  \begin{equation}
+    \label{eq:deriv.func}
+    f'(x) = \lim_{\Delta x \to 0} \frac{f \pbrac{x + \Delta x} - f \pbrac{x}}{\Delta x}
+  \end{equation}
+  wherever the limit exists.
+  If $f'$ exists on some region $I$, we say that $f$ is \emph{differentiable on $I$}; if $f'$ exists on the whole domain of $f$, we say that $f$ is \emph{differentiable}.
+  For convenience, we will sometimes denote\footnotemark the derivative of $f$ by $\D{f}{x}$ or $\D{}{x} f$ instead of $f'$.
+\end{definition}
+
+\footnotetext{
+  The \enquote{prime notation} $f'$ comes from Italian mathematician Joseph-Louis Lagrange; the \enquote{differential notation} $\D{f}{x}$ or $\D{}{x} f$ comes from German mathematician Gottfreid Leibniz.
+  We will use them both throughout the text.
+  Newton used a \enquote{dot notation} $\dot{f}$, but this is now rarely used outside a few scientific settings.
+}
+
+If we can find the derivative of a given function $f$, there will be an immediate payoff: we'll have calculated the slopes of \emph{all} the tangent lines to $y = f(x)$ at once!
+In many cases, we'll need special techniques and careful analysis to find the derivatives of functions (which will occupy us for the rest of \cref{sec:derivative-theory}), but there are some functions we can tackle directly.
+
+\begin{example}
+  \label{ex:derivative.quadratic.function}
+  Find the derivative of $f(x) = x^{2}$.
+  Use the result to find the tangent line to $y = x^{2}$ at $x = 1$, $x = 2$, and $x = -3$.
+\end{example}
+
+\begin{soln}
+  Recall that we already computed $f'(1)$ in \cref{ex:derivative.quadratic.onepoint}.
+  To find $f'(x)$ as a function of $x$, we only need to retrace our steps, using $x$ instead of the specific value $x = 1$.
+  By \cref{def:deriv.func}, the derivative is
+  \begin{multline*}
+    f'(x) = \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{2} - \pbrac{x}^{2}}{\Delta x} \\
+    = \lim_{\Delta x \to 0} \frac{x^{2} + 2 x \Delta x + \pbrac*{\Delta x}^{2} - x^{2}}{\Delta x} = \lim_{\Delta x \to 0} \frac{2 x \Delta x + \pbrac*{\Delta x}^{2}}{\Delta x} \\
+    = \lim_{\Delta x \to 0} 2 x + \Delta x = 2x.
+  \end{multline*}
+  In differential notation, this result is
+  \begin{equation*}
+    \D{}{x} x^{2} = 2x.
+  \end{equation*}
+  We can translate this directly into tangent line information.
+  At $x = 1$, the tangent line has slope $f'(1) = 2$; at $x = 2$, the tangent line has slope $f'(2) = 4$; and at $x = 3$, the tangent line has slope $f'(-3) = -6$.
+  By \cref{thm:derivtan}, the tangent lines then have the following equations:
+  \begin{gather*}
+    y = f(1) + f'(1) \pbrac{x - 1} = 1 + 2 \pbrac{x - 1} \tag{x = 1} \\
+    y = f(2) + f'(2) \pbrac{x - 2} = 4 + 4 \pbrac{x - 2} \tag{x = 2} \\
+    y = f(-3) + f'(-3) \pbrac{x - -3} = 9 - 6 \pbrac{x + 3} \tag{x = -3}
+  \end{gather*}
+\end{soln}
+
+This is our first application of the idea of a derivative function: for a given function $f$, the derivative function $f'$ tells us the slopes of \emph{all} the tangent lines to $y = f(x)$ at once!
+
+\subsection{Rates of change}
+\label{sec:deriv.roc}
+
+All of this is great if, like the analytic geometers of sixteenth-century Europe, we want to draw tangent lines to curves.
+However, we should take a moment to consider whether the concept of the derivative is of any other use.
+
+Suppose, for example, that an object is moving back and forth in a straight line such that its position at time $t$ (in \si{\second}) is $x(t)$ (in \si{\meter}).
+What does the number $x' \pbrac{1}$ measure?
+Of course, we've already given one interpretation: it's the slope of the tangent line to\footnote{Note that this is a line in the $y$-$t$ plane! $x$ is the name of a \emph{function} here.} $y = x(t)$ at $t = 1$.
+But does it tell us anything about the motion of the object itself?
+
+In light of \cref{def:deriv}, we know that
+\begin{equation*}
+  x'(1) = \lim_{\Delta t \to 0} \frac{x \pbrac*{1 + \Delta t} - x \pbrac{1}}{\Delta t}.
+\end{equation*}
+Let's disregard the limit for a moment and consider the numbers $\frac{x \pbrac*{1 + \Delta t} - x \pbrac{1}}{\Delta t}$ for small (but non-zero!) values of $\Delta t$.
+When $\Delta t = \SI{0.5}{\second}$, for example, this number is $\frac{x \pbrac*{\SI{1.5}{\second}} - x \pbrac*{\SI{1}{\second}}}{\SI{0.5}{\second}}$.
+Without knowing more about the function $x$, of course, we can't calculate what number this is, but we can certainly say something about what it \emph{measures}: it's the average velocity of the object (in \si{\meter\per\second}) over the time interval $t \in \closedint{\SI{1}{\second}, \SI{1.5}{\second}}$!
+Indeed, for any nonzero $\Delta t$ we choose, the number $\frac{x \pbrac*{1 + \Delta t} - x \pbrac{1}}{\Delta t}$ measures the average velocity of the object over the interval $t \in \closedint{\SI{1}{\second}, \pbrac*{1 + \Delta t} \si{\second}}$.
+There's nothing special about the number $1$, of course, so this leads us to a general result: \emph{the derivative of a position function is a velocity function.}
+
+In fact, we can generalize this interpretation far beyond mechanical motion.
+Any time we are interested in the values of a function $f$, the values of the derivative function $f'$ measure the \emph{rate of change} of the values of $f$ with respect to the independent variable.
+Here's just a few examples:
+
+\begin{itemize}
+\item
+  If a cup of coffee set on a counter has temperature $T$ (in \si{\celsius}) at time $t$ (in \si{\minute}), the derivative $T'(t)$ measures the rate at which the coffee cools (in \si{\celsius\per\minute}).
+
+\item
+  If your browser has downloaded $S$ bytes of a file after $t$ seconds, the derivative $S'(t)$ measures the download throughput (in \si{\byte\per\second}).
+
+\item
+  If the cost of manufacturing $n$ computers is $C(n)$ U.S.~dollars, then $C'(n)$ is the \emph{marginal cost}, which measures the cost of producing a single computer given that $n$ have already been produced.
+  (Notice that the independent variable doesn't have to be time!)
+
+\item
+  The pressure $P$ (in \si{\pascal}) on a diver is a function of the depth $d$ (in \si{\meter}) of the dive.
+  The derivative $P'(d)$ measures how quickly the pressure increases as the diver descends.
+\end{itemize}
+
+This idea connects calculus to essentially every quantitative science, because it implies that differentiation is relevant to the study of anything that changes!
+We'll revisit this idea down the road once we know how to find the derivatives of more functions.
+
+\subsection{Properties of derivatives}
+\label{sec:derivprops}
+
+\begin{exercises}
+\end{exercises}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:
