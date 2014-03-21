@@ -4,6 +4,88 @@
 \section{Exponential derivatives}
 \label{sec:derivs.exp}
 
+% TODO: Add discussion of exponential functions
+Let's turn our attention to the exponential functions $f(x) = b^{x}$ (for fixed constant $b > 0$).
+You should already know some important properties of these functions, commonly called \enquote{exponent laws}:
+\begin{itemize}
+\item $b^{x} b^{y} = b^{x+y}$
+\item $\pbrac*{b^{x}}^{y} = b^{xy}$
+\item $b^{-x} = \frac{1}{b^{x}}$
+\item $\pbrac{ab}^{x} = a^{x} b^{x}$
+\item $b^{0} = 1$
+\item $b^{1} = b$
+\end{itemize}
+We'll use all of these extensively in what follows, so be sure to look them over carefully!
+
+Now, let's get to business.
+What is the derivative of the exponential function $f(x) = b^{x}$?
+We've already established several important properties of derivatives in \cref{sec:derivs-as-functions}, but it doesn't look like those will be enough to compute $\D{}{x} b^{x}$ directly.
+
+Instead, let's return to the source, \cref{def:deriv.func}.
+In light of \cref{eq:deriv.func}, we know that
+\begin{align*}
+  f'(x) = \D{}{x} b^{x} &= \lim_{\Delta x \to 0} \frac{b^{x + \Delta x} - b^{x}}{\Delta x}. \\
+  \intertext{Since $b^{x + \Delta x} = b^{x} b^{\Delta x}$, we can expand the numerator, so}
+  &= \lim_{\Delta x \to 0} \frac{b^{x} b^{\Delta x} - b^{x}}{\Delta x}.
+  \intertext{We can then factor out the $b^{x}$ term, so}
+  & = \lim_{\Delta x \to 0} \frac{b^{x} \pbrac*{b^{\Delta x} - 1}}{\Delta x} = b^{x} \lim_{\Delta x \to 0} \frac{b^{\Delta x} - 1}{\Delta x}. \\
+  \intertext{Since $b^{0} = 1$, we can rewrite this as}
+  &= b^{x} = \lim_{\Delta x \to 0} \frac{b^{0 + \Delta x} - b^{0}}{\Delta x}.
+  \intertext{That last limit looks awfully familiar! Looking back to the first line of the calculation, we note that it is equal to $f'(0)$, so}
+  &= b^{x} f'(0) = f'(0) f(x).
+\end{align*}
+
+Note that $f'(0)$ is a \emph{constant}---its value probably depends on $b$, but it is independent of $x$!
+Since this number is a constant, let's give it a name that \emph{looks} constant; for $f(x) = b^{x}$, we'll write $k_{b} = f'(0)$.
+Then we can record this result in a nice compact theorem.
+
+\begin{theorem}
+  \label{thm:deriv.exp.prelim}
+  Fix a positive real number $b$.
+  Then there exists some constant $k_{b} \in \RR$ such that $\D{}{x} b^{x} = k_{b} b^{x}$.
+  Specifically, $k_{b} = \lim_{\Delta x \to 0} \frac{b^{\Delta x} - 1}{\Delta x}$.
+  In other words, \enquote{the derivative of an exponential function is a constant times the function}.
+\end{theorem}
+
+Of course, if we actually want to do any calculations with this, we're going to need to know the value of the constant $k_{b} = \lim_{\Delta x \to 0} \frac{b^{\Delta x} - 1}{\Delta x}$.
+Calculating this limit analytically turns out to be a lot of work, so we'll put that off until \cref{sec:lhospital}, when we will have more powerful tools. %TODO: Is this going to be circular? Probably.
+The result, however, is delightfully simple.
+There is a special number $e$, approximately\footnote{In fact, $e$ is a \enquote{transcendental number}, like the more familiar $\pi$---its decimal expansion is infinite and non-repeating, and it cannot be expressed in terms of sums, products, and roots of integers.} equal to $2.71828$, such that $k_{e} = \lim_{\Delta x \to 0} \frac{e^{\Delta x} - 1}{\Delta x} = 1$.
+Moreover, for any other positive $b$, we can show that $k_{b}$ is the \enquote{natural logarithm} $\ln b$ of $b$; in other words, the number $k_{b}$ has the property that $e^{k_{b}} = b$.
+
+Thus, \cref{thm:deriv.exp.prelim} can be rendered even more nicely.
+
+\begin{theorem}
+  \label{thm:deriv.exp}
+  Fix a positive real number $b$.
+  Then
+  \begin{equation}
+    \label{eq:deriv.exp}
+    \D{}{x} b^{x} = \pbrac{\ln b} b^{x}.
+  \end{equation}
+  In particular,
+  \begin{equation}
+    \label{eq:deriv.exp.e}
+    \D{}{x} e^{x} = e^{x}.
+  \end{equation}
+\end{theorem}
+
+So there we have it!
+Exponential functions are their own derivatives (up to an easily-computed constant)
+This fact explains why exponential functions occur so frequently in applications; they will arise naturally any time the \emph{rate of change} of a quantity is proportional to the \emph{value} of that quantity.
+For example:
+
+\begin{itemize}
+\item
+  In a nutrient-rich laboratory environment, a culture of \textit{Escherichia coli} will double in size approximately every \SI{17}{\minute}.
+  Thus, the growth rate $\D{P}{t}$ of the population $P$ is proportional to the size of the population, so $P$ is an exponential function; specifically, $P(t) = P_{0} \cdot 2^{\sfrac{t}{17}}$ if the initial population of cells is $P_{0} = P(0)$, since $\sfrac{t}{17}$ measures how many times the population has doubled in $t$ minutes.
+
+\item
+  Many modern bank accounts pay interest \enquote{compounded continuously}; in this case, the growth rate $\D{B}{t}$ of the balance $B$ is proportional to the size of the account.
+  For example, if an account pays interest at annual rate $r = 0.05$ (that is, \SI{5}{\percent}) and is funded with an initial deposit of $B_{0}$ at $t = 0$, the balance $B$ at time $t$ is given by $B(t) = B_{0} e^{r t}$.
+  (The presence of $e$ in this formula can be explained in a variety of ways; we'll revisit this topic later.)
+\end{itemize}
+
 \begin{exercises}
 \end{exercises}
 \end{document}
