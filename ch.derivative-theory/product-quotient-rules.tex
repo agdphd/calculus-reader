@@ -4,21 +4,128 @@
 \section{The product  and quotient rules}
 \label{sec:deriv.prodquot}
 
+Back in \cref{sec:derivprops}, we saw how several algebraic operations on functions interact with differentiation.
+In particular, we showed that, if we know the derivatives of two functions $f$ and $g$ and pick a constant $c$, we can use them to find the derivatives of the functions $c$, $cf$, and $f+g$.
+Of course, there's more to algebra than sums and constant multiples!
+What happens, for example, if we take the \emph{product} of two functions?
+
+
 \subsection{Derivatives of products}
 \label{sec:productrule}
+
+To get ourselves in the right frame of mind, let's consider an example where we might be interested in the derivative of a product.
+\begin{example}
+  \label{ex:stockproduct}
+  Susan works for Mathr, a startup which pays her partially in equity (that is, in shares of the company's stock as opposed to cash).
+  At any given time, the value $V$ of her stock is given by $V = S \cdot P$, where $S$ is the number of shares she owns and $P$ is the price each share would fetch on the market.
+  Since all three of these terms ($V$, $S$, and $P$) may be functions of time, we have $V(t) = S(t) \cdot P(t)$.
+
+  Now suppose that, at the start of fiscal year 2014, Susan owns ten thousand shares worth \SI{5}[\dollar]{} each, that the company is awarding her \SI{1000}{shares\per\year}, and that the value of each share is increasing by \SI{1}[\dollar]{\per\year} due to some recent positive press.
+  In other words, $S(2014) = \SI{1000}{shares}$, $P(2014) = \SI{5}[\dollar]{}$, $S'(2014) = \SI{1000}{shares\per\year}$, and $P'(2014) = \SI{1}[\dollar]{\per\year}$.
+  How quickly is the value of Susan's portfolio growing?
+  (That is, what is $V'(2014)$?)
+
+  There are two obvious factors that contribute to $V'$:
+  \begin{itemize}
+  \item
+    Each of the $S(2014) = \SI{10000}{shares}$ that Susan owns is increasing in value by $P'(2014) = \SI{1}[\dollar]{\per\year}$.
+    This contributes $S(2014) \cdot V'(2014) = \SI{10000}[\dollar]{\per\year}$ to $V'(2014)$.
+
+  \item
+    In addition, each of the $S'(2014) = \SI{1000}{shares\per\year}$ Mathr awards to Susan is worth $V(2014) = \SI{5}[\dollar]{}$.
+    This contributes $S'(2014) \cdot V(2014) = \SI{5000}[\dollar]{\per\year}$ to $V'(2014)$.
+  \end{itemize}
+
+  These two terms together thus contribute a total of $S(2014) \cdot V'(2014) + S'(2014) \cdot V(2014) = \SI{15000}[\dollar]{\per\year}$ to the rate of growth $V'(2014)$ of Susan's portfolio value.
+  Of course, the new shares are also growing in value even as Susan acquires them, so it seems like this calculation must be incomplete somehow---but it turns out\footnote{Essentially, this is because the contribution from this is \enquote{tiny} in a specific technical sense; working this out formally requires a pretty messy computation involving limits which we'll illustrate later.} that it isn't!
+  Susan's portfolio really is growing at \SI{15000}[\dollar]{\per\year} at the start of fiscal year 2014.
+\end{example}
+
+Of course, all this talk about Susan and her money is just window dressing.
+We really just argued that, for differentiable functions $S$ and $P$, their product function $V(t) = S(t) \cdot P(t)$ is differentiable, and furthermore that its derivative is given by $V'(t) = S(t) \cdot P'(t) + S'(t) \cdot P(t)$.
+This turns out to hold in complete generality!
+We should record it for future reference.
 
 \begin{theorem}[Product rule for derivatives]
   \label{thm:productrule}
   Let $f$ and $g$ be functions which are differentiable at $x$.
-  Then $fg$ is differentiable at $x$, and
+  Then $f \cdot g$ is differentiable at $x$, and
   \begin{equation}
     \label{eq:productrule}
-    \D{}{x} \pbrac{fg} \pbrac{x} = f' \pbrac{x} g \pbrac{x} + f \pbrac{x} g' \pbrac{x}.
+    \D{}{x} \pbrac{f \cdot g} \pbrac{x} = f' \pbrac{x} \cdot g \pbrac{x} + f \pbrac{x} \cdot g' \pbrac{x}.
   \end{equation}
 \end{theorem}
 
+\begin{note}
+  \label{note:fakeprodrule}
+  In practice, it's tempting to ignore \cref{eq:productrule} and try to use the natural-seeming equation $\D{}{x} \pbrac{f \cdot g} \pbrac{x} \enquote{=} f' \pbrac{x} \cdot g' \pbrac{x}$ in its place.
+  \emph{This is completely false!}
+  Don't fall into the trap!
+\end{note}
+
+With \cref{thm:productrule} in hand, we can compute the derivative of any function which decomposes as a product of functions whose derivatives we know.
+Let's take a look at a couple of examples.
+
+\begin{example}
+  \label{ex:derivative.product.exp-poly}
+  Find the derivative of $f(x) = e^{x} x^{3}$.
+\end{example}
+
+\begin{example}
+  \label{ex:derivative.product.sin-log}
+  Find the derivative of $f(x) = \sin x \cdot \ln x$.
+\end{example}
+
+\subsubsection{An analytic interpretation}
+We can also prove \cref{thm:productrule} analytically, using the original definition of the derivative (\cref{def:deriv.func}).
+
+\begin{proof}[Proof of \cref{thm:productrule}]
+  Let $f$ and $g$ be functions which are differentiable at $x$.
+  By \cref{def:deriv.func}, the derivative of their product $f \cdot g$ is given by
+  \begin{align*}
+    \pbrac*{f \cdot g}' \pbrac{x} &= \lim_{\Delta x \to 0} \frac{\pbrac*{f \cdot g} \pbrac*{x + \Delta x} - \pbrac*{f \cdot g} \pbrac{x}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x}.
+    \intertext{To make this more manageable, we'll use a bit of clever algebra, adding and subtracting $f \pbrac*{x + \Delta x} \cdot g \pbrac{x}$ to the numerator:}
+    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac*{x + \Delta x} \cdot g \pbrac{x} + f \pbrac*{x + \Delta x} \cdot g \pbrac{x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x}.
+    \intertext{We can then break the right-hand side into two separate limits:}
+    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac*{x + \Delta x} \cdot g \pbrac{x}}{\Delta x} + \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac{x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot \pbrac*{g \pbrac*{x + \Delta x} - g \pbrac{x}}}{\Delta x} + \lim_{\Delta x \to 0} \frac{\pbrac*{f \pbrac*{x + \Delta x} - f \pbrac{x}} \cdot g \pbrac{x}}{\Delta x}. \\
+    \intertext{Decomposing each term, we can write}
+    &= \pbrac*{\lim_{\Delta x \to 0} f \pbrac*{x + \Delta x}} \cdot \pbrac*{\lim_{\Delta x \to 0} \frac{g \pbrac*{x + \Delta x} - g \pbrac{x}}{\Delta x}} + \pbrac*{\lim_{\Delta x \to 0} g \pbrac{x}} \cdot \pbrac*{\lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac{x}}{\Delta x}}.
+    \intertext{The limits involving fractions should look very familiar: by \cref{def:deriv.func}, they are the derivatives of $g$ and $f$ at $x$ respectively!
+      Moreover, $\lim_{\Delta x \to 0} f \pbrac*{x + \Delta x} = f \pbrac{x}$, because $f$ must be a continuous function to be differentiable.\footnote{We haven't defined continuity formally in this text, but this property is the definition mathematicians usually use; it's not hard to show that any differentiable function must be continuous.}
+      Thus,}
+    &= f(x) \cdot g'(x) + f'(x) \cdot g(x).
+  \end{align*}
+  And this is exactly the result we want for \cref{thm:productrule}!
+\end{proof}
+
+% TODO: Write up geometric interpretation?
+
 \subsection{Derivatives of quotients}
 \label{sec:quotientrule}
+\Cref{thm:productrule} allows us to compute the derivative of the product $f \cdot g$ of two differentiable functions $f$ and $g$.
+What about the quotient $\sfrac{f}{g}$?
+Is it differentiable?
+If so, what is its derivative?
+
+It turns out, that in fact, this function \emph{is} differentiable, as long as $g(x) \neq 0$.
+(Division by zero will continue to be a thorn in our side throughout the course.)
+The result is straightforward enough to state:
+
+\begin{theorem}[Quotient rule for derivatives]
+  \label{thm:quotientrule}
+  Let $f$ and $g$ be functions which are differentiable at $x$ such that $g(x) \neq 0$.
+  Then $\sfrac{f}{g}$ is differentiable at $x$, and
+  \begin{equation}
+    \label{eq:quotientrule}
+    \D{}{x} \pbrac*{\frac{f}{g}} \pbrac{x} = \frac{f'(x) \cdot g(x) - f(x) \cdot g'(x)}{\pbrac*{g(x)}^{2}}.
+  \end{equation}
+\end{theorem}
+
+\Cref{thm:quotientrule} can be proved directly using algebraic trickery, just like we did above for \cref{thm:productrule}.
+However, it will be much easier to prove using the results we'll obtain in \cref{sec:chainrule}, so we'll postpone it until then.
+
 \begin{exercises}
 \end{exercises}
 \end{document}
