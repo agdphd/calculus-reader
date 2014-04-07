@@ -4,6 +4,101 @@
 \section{The chain rule}
 \label{sec:chainrule}
 
+So far, we've developed tools to differentiate many classes of functions: constant, power, exponential, trigonometric functions, along with sums and products of these.
+However, for many of the applications we'll study in \cref{sec:derivative-applications}, we'll need to differentiate more complicated functions.
+For example, we might be interested in the differential properties of the straightforward-looking function $f(x) = \sin 2x$.
+None of the tools introduced so far will allow us to differentiate this function!
+
+However, if we think things through carefully, we should be able to make some progress on this problem.
+Consider $f(x) = \sin 2x$ again and suppose we want to compute $f' \pbrac*{\sfrac{\pi}{3}}$.
+By definition, this is the slope of the tangent line to the curve $y = f(x)$ at $x = \sfrac{\pi}{3}$.
+The plot of $y = f(x)$ and the tangent line to it at $x = \sfrac{\pi}{3}$ are illustrated in \cref{fig:chainrule1}.
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real xstart=-.2, xend=5.0;
+    real ystart=-1.2, yend=2.0;
+
+    real a=1/3*pi;
+
+    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
+    labelx("$a$", a);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    real f(real x) {return sin(2*x);}
+    real df(real x) {return 2*cos(2*x);}
+
+    path fplot = funcplot(f, xstart, xend/2);
+    draw(fplot);
+
+    tanplot(f, df, a, xstart, xend/2, dashed, red);
+  \end{asy}
+  \caption{Plot of $y = \sin 2x$ with tangent}
+  \label{fig:chainrule1}
+\end{smallfig}
+
+Now consider the function $g(x) = \sin x$.
+This is clearly related to $f(x)$: specifically, $f(x) = g(2x)$.
+Thus, for example, $f \pbrac*{\sfrac{\pi}{3}} = g \pbrac*{\sfrac{2 \pi}{3}}$.
+The plot of $y = g(x)$ and the tangent line to it at $x = \sfrac{2 \pi}{3}$ are shown in \cref{fig:chainrule2}.
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real xstart=-.2, xend=5.0;
+    real ystart=-1.2, yend=2.0;
+
+    real a=2/3*pi;
+
+    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
+    labelx("$a$", a);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    real f(real x) {return sin(x);}
+    real df(real x) {return cos(x);}
+
+    path fplot = funcplot(f, xstart, xend);
+    draw(fplot);
+
+    tanplot(f, df, a, xstart, xend, dashed, red);
+  \end{asy}
+  \caption{Plot of $y = \sin x$ with tangent}
+  \label{fig:chainrule2}
+\end{smallfig}
+
+Naturally, the plot of $g$ and the plot of $f$ are related: the plot of $y = f(x)$ is obtained by \enquote{compressing} the plot of $y = g(x)$ by a factor of $2$ in the horizontal direction.
+The tangent lines shown in \cref{fig:chainrule1,fig:chainrule2} are related as well; they are almost the same, but the one in \cref{fig:chainrule1} is twice as steep due to this compression; in other words, $f' \pbrac*{\sfrac{\pi}{3}} = 2 g' \pbrac*{2 \sfrac{\pi}{3}}$.
+The re-emergence of the number $2$ here is not a coincidence!
+It's showing up because $f$ changes \enquote{twice as fast} as $g$.
+
+Of course, there was nothing special about the point $x = \sfrac{\pi}{3}$.
+This same argument will serve to show that $f'(x) = 2 g'(2x)$ for any value $x$ we choose.
+Likewise, nothing was special about the function $\sin$ or the multiplier $2$; we can in fact draw a very general conclusion from this line of reasoning.
+
+\begin{theorem}
+  \label{thm:chainrule.constmult}
+  Fix a real number $k$ and let $g$ be a function which is differentiable at $x = ka$.
+  Then the \enquote{compressed function} $f(x) = g(kx)$ is differentiable at $x = a$, and its derivative is given by
+  \begin{equation}
+    \label{eq:chainrule.constmult}
+    f'(x) = \D{}{x} g(kx) = k g'(kx).
+  \end{equation}
+\end{theorem}
+
+What about composite functions where the inner function is more complicated than this?
+It turns out that the situation is still quite similar.
+Let $f$ and $g$ be differentiable functions and consider their composite $h(x) = f \pbrac*{g \pbrac{x}}$.
+The plot of $y = h(x)$ in the vicinity of some point $x = a$ looks very much like the plot of $y = f(x)$ near the point $x = g(a)$.
+Indeed, just as before, the main difference between the two is that $y = h(x) = f(g(x))$ may be \enquote{compressed} or \enquote{stretched}, because the input value $g(x)$ may be changing more or less quickly than $x$ itself.
+
+How quickly is $g(x)$ changing at $x = a$?
+Exactly $g'(a)$, of course!
+Thus, this situation is really no different than the one we investigated before---the derivative of the composite function $h(x) = f(g(x))$ is proportional to that of the outer function $f$, and the constant of proportionality is given by the rate of change $g'(x)$ of the inner function $g$.
+In light of this, we can generalize \cref{thm:chainrule.constmult} to allow us to compute derivatives of arbitrary composite functions.
+
 \begin{theorem}[Chain rule for derivatives]
   \label{thm:chainrule}
   Let $f$ and $g$ be functions such that $g$ is differentiable at $x$ and $f$ is differentiable at $g(x)$.
@@ -13,6 +108,42 @@
     \D{}{x} f \pbrac*{g \pbrac*{x}} = g' \pbrac{x} f' \pbrac*{g \pbrac{x}}.
   \end{equation}
 \end{theorem}
+
+% TODO: Write out some examples
+
+\subsubsection{A formal proof}
+We can prove \cref{thm:chainrule} in a huge variety of ways.
+In \cref{sec:productrule}, we proved the Product Rule for derivatives by writing out the definition of the derivative (\cref{eq:deriv.func} from \cref{def:deriv.func}) and working things out computationally.
+This same method would work here, but the algebra is even more messy.
+Instead, we'll apply what's known as the \enquote{method of increments} to keep things manageable.
+
+Suppose that $y = f(u)$ and $u = g(x)$ for differentiable functions $f$ and $g$.
+Let $x_{0}$ be some value of $x$, $u_{0} = g \pbrac*{x_{0}}$ be the corresponding value of $u$, and $y_{0} = f \pbrac*{u_{0}} = f \pbrac*{g \pbrac*{x_{0}}}$ be the corresponding value of $f$.
+If $x$ is changed from $x_{0}$ by a small amount $\Delta x$, then $u$ changes from $u_{0}$ by some small amount $\Delta u$ and $y$ changes from $y_{0}$ by some small amount $\Delta y$.
+Whatever these numbers are, it is clear that
+\begin{equation}
+  \label{eq:chainrule.increments}
+  \diffquot{y}{x} = \diffquot{y}{u} \cdot \diffquot{u}{x}
+\end{equation}
+simply by algebra (as long as\footnote{In the case that some of the difference terms are zero, the proof is simpler but less instructive.} $\Delta u$ is nonzero), since these are actual fractions whose numerators and denominators are simply real numbers.
+
+Ultimately, we want to find $\D{y}{x}$.
+By the definition of the derivative, this is the limit as $\Delta x$ goes to zero of the term $\diffquot{y}{x}$ on the left-hand side of \cref{eq:chainrule.increments}.
+Likewise, on the right-hand side, $\lim_{\Delta x \to 0} \diffquot{u}{x} = \D{u}{x}$.
+
+What about the limit $\lim_{\Delta x \to 0} \diffquot{y}{u}$?
+If $\Delta x \to 0$, clearly $\Delta u$ does also, since otherwise $\lim_{\Delta x \to 0} \diffquot{u}{x}$ would be infinite and so $g$ would not be differentiable at $x_{0}$.
+Thus, $\lim_{\Delta x \to 0} \diffquot{y}{u} = \lim_{\Delta u \to 0} \diffquot{y}{u} = \D{y}{u}$.
+
+Combining these results together, if we take the limits of both sides of \cref{eq:chainrule.increments} as $\Delta x$ goes to $0$, we conclude that
+\begin{equation}
+  \label{eq:chainrule.leibniz}
+  \D{y}{x} = \D{y}{u} \cdot \D{u}{x}.
+\end{equation}
+
+This form of the chain rule was known to Leibniz, who was in general very fond of the so-called \enquote{differential notation} $\D{y}{x}$ for derivatives.
+
+% TODO: Write some exercises!
 
 \begin{exercises}
 \end{exercises}
