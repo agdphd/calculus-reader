@@ -309,6 +309,35 @@ For example, if we combine them with \cref{thm:deriv.power}, we can now find the
   \end{align*}
 \end{soln}
 
+\subsection{Higher derivatives}
+\label{sec:deriv.higher}
+
+Suppose that $f$ is a differentiable function with $f' = g$.
+It may be the case that $g$ is also differentiable; what is the relationship of $g'$ to $f$?
+
+It turns out that this \enquote{second derivative} $g' = \pbrac*{f'}'$ of $f$ does encode important information about $f$.
+Where the first derivative tells us about the rate of change of $f$, the second derivative tells us about how that rate of change is itself changing.
+Graphically, this corresponds to the \enquote{concavity} of the plot of $y = f(x)$, an idea we will explore further in \cref{sec:curve-sketching}.
+Physically, if a particle's position $p$ (in \si{\meter}) is a function of time $t$ (in \si{\second}), the derivative $\D{}{t} p$ measures the particle's velocity (in \si{\meter\per\second}) and the second derivative $\D{}{t} \D{}{t} p$ measures its acceleration (in \si{\meter\per\second\squared}).
+
+This concept is important enough that we'll give it a name and a formal notation.
+
+\begin{definition}
+  \label{def:deriv.higher}
+  Let $f$ be a differentiable function.
+  If its derivative $f'$ is also differentiable, the derivative of $f'$ is the \emph{second derivative} of $f$, denoted $f''$ or $\D[2]{}{x} f$.
+  In this case, $f$ is \emph{twice differentiable}.
+
+  Likewise, if $f$ is a twice-differentiable function and its second derivative $f''$ is differentiable, the derivative of $f''$ is the \emph{third derivative} of $f$, denoted $f'''$ or $\D[3]{}{x} f$.
+  In this case, $f$ is \emph{thrice differentiable} or \emph{three times differentiable}.
+
+  Continuing this process, if we can take $n$ successive derivatives of $f$ for some integer $n \geq 1$, the resulting function is the \emph{$n$th derivative} of $f$, denoted $f^{(n)}$ or $\D[n]{}{x} f$.
+  In this case, $f$ is \emph{$n$ times differentiable}.
+  If $f$ is $n$ times differentiable for all integers $n$, $f$ is \emph{infinitely differentiable} or \emph{smooth}.
+\end{definition}
+
+% TODO: Add examples
+
 \begin{exercises}
 
 \end{exercises}
