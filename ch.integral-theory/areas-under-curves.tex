@@ -219,14 +219,12 @@ Is this enough information to compute $\Int{f(x) + g(x)}{x,a,b}$?
       path fplot = funcplot(f, start, end);
       draw(fplot);
 
-      path ffill = graph(f,a,b,operator ..);
-      fill(ffill -- (b, 0) -- (a, 0) -- cycle, box1);
+      fillunder(f, a, b, box1);
 
       path gplot = graph(g,start,end,operator ..);
       draw(gplot);
 
-      path gfill = graph(g,a,b,operator ..);
-      fill(gfill -- (b, f(b)) -- (a, f(a)) -- cycle, box2);
+      fillbetween(f, g, a, b, box2);
     \end{asy}
     \caption{Region bounded by $y = 2x+1$ over $\closedint{1,3}$}
     \label{fig:intstack}
