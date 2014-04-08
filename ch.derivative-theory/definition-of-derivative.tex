@@ -20,7 +20,7 @@ Consider a smooth\footnote{The term \enquote{smooth} represents a technical cond
     yaxis("$y$",0, Arrow);
 
     funcplot(f, start, end);
-    tanplot(f, df, pi/2, start, end, dashed, red);
+    tanplot(f, df, pi/2, start, end, dashed);
   \end{asy}
   \caption{Tangent line to a curve}
   \label{fig:tanline}
@@ -62,9 +62,9 @@ Since we're really interested in the behavior at $a$, let's rename $b$ to $a + \
     yaxis("$y$",0, Arrow);
 
     funcplot(f, start, end);
-    secplot(f, pi/2, 2.75, start, end, dashed, red);
-    secplot(f, pi/2, .6, start, end, dashed, red);
-    secplot(f, pi/2, .25, start, end, dashed, red);
+    secplot(f, pi/2, 2.75, start, end, dashed);
+    secplot(f, pi/2, .6, start, end, dashed);
+    secplot(f, pi/2, .25, start, end, dashed);
   \end{asy}
   \caption{Some secant lines to a curve}
   \label{fig:secline}

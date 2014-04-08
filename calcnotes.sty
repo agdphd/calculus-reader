@@ -179,9 +179,9 @@
 % Area function from integral calculus
 \newcommand*{\areafunc}[3]{\ensuremath{A_{{#1},{#2}} \pbrac*{#3}}}
 
-% Configure Asymptote plots
 \begin{asydef}
   import graph;
+  import patterns;
 
   void smallsize() {size(1.5inches,0);}
   void medsize() {size(5.5inches,0);}
@@ -192,9 +192,12 @@
   pen dashedline = dashed+linewidth(1);
 
   pen transparency = opacity(0.25);
-  pen box1 = blue+transparency;
-  pen box2 = green+transparency;
-  pen box3 = red+transparency;
+
+  pen box1 = gray + transparency;
+  pen box2 = black + transparency;
+  pen box3 = heavygray + transparency;
+
+  pen dot1 = black;
 
   void drawbox(real left, real right, real height, pen fillpen = lightgray)
   {
@@ -292,7 +295,7 @@
     return fplot;
   }
 
-  path tanplot(real f(real), real df(real), real a, real start, real end, pen drawpen = thickplot, pen dotpen = thickplot)
+  path tanplot(real f(real), real df(real), real a, real start, real end, pen drawpen = thickplot, pen dotpen = dot1)
   {
     real tanline(real x) {return f(a) + df(a)*(x-a);}
     path lineplot = graph(tanline, start, end);
