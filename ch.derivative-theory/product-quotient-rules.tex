@@ -83,19 +83,22 @@ We can also prove \cref{thm:productrule} analytically, using the original defini
   Let $f$ and $g$ be functions which are differentiable at $x$.
   By \cref{def:deriv.func}, the derivative of their product $f \cdot g$ is given by
   \begin{align*}
-    \pbrac*{f \cdot g}' \pbrac{x} &= \lim_{\Delta x \to 0} \frac{\pbrac*{f \cdot g} \pbrac*{x + \Delta x} - \pbrac*{f \cdot g} \pbrac{x}}{\Delta x} \\
-    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x}.
+    \pbrac*{f \cdot g}' \pbrac{x} =& \lim_{\Delta x \to 0} \frac{\pbrac*{f \cdot g} \pbrac*{x + \Delta x} - \pbrac*{f \cdot g} \pbrac{x}}{\Delta x} \\
+    =& \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x}.
     \intertext{To make this more manageable, we'll use a bit of clever algebra, adding and subtracting $f \pbrac*{x + \Delta x} \cdot g \pbrac{x}$ to the numerator:}
-    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac*{x + \Delta x} \cdot g \pbrac{x} + f \pbrac*{x + \Delta x} \cdot g \pbrac{x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x}.
+    =& \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac*{x + \Delta x} \cdot g \pbrac{x} + f \pbrac*{x + \Delta x} \cdot g \pbrac{x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x}.
     \intertext{We can then break the right-hand side into two separate limits:}
-    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac*{x + \Delta x} \cdot g \pbrac{x}}{\Delta x} + \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac{x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x} \\
-    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot \pbrac*{g \pbrac*{x + \Delta x} - g \pbrac{x}}}{\Delta x} + \lim_{\Delta x \to 0} \frac{\pbrac*{f \pbrac*{x + \Delta x} - f \pbrac{x}} \cdot g \pbrac{x}}{\Delta x}. \\
+    =& \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac*{x + \Delta x} - f \pbrac*{x + \Delta x} \cdot g \pbrac{x}}{\Delta x} \\
+    &+ \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot g \pbrac{x} - f \pbrac{x} \cdot g \pbrac{x}}{\Delta x} \\
+    =& \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} \cdot \pbrac*{g \pbrac*{x + \Delta x} - g \pbrac{x}}}{\Delta x} \\
+    &+ \lim_{\Delta x \to 0} \frac{\pbrac*{f \pbrac*{x + \Delta x} - f \pbrac{x}} \cdot g \pbrac{x}}{\Delta x}. \\
     \intertext{Decomposing each term, we can write}
-    &= \pbrac*{\lim_{\Delta x \to 0} f \pbrac*{x + \Delta x}} \cdot \pbrac*{\lim_{\Delta x \to 0} \frac{g \pbrac*{x + \Delta x} - g \pbrac{x}}{\Delta x}} + \pbrac*{\lim_{\Delta x \to 0} g \pbrac{x}} \cdot \pbrac*{\lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac{x}}{\Delta x}}.
+    =& \pbrac*{\lim_{\Delta x \to 0} f \pbrac*{x + \Delta x}} \cdot \pbrac*{\lim_{\Delta x \to 0} \frac{g \pbrac*{x + \Delta x} - g \pbrac{x}}{\Delta x}} \\
+    &+ \pbrac*{\lim_{\Delta x \to 0} g \pbrac{x}} \cdot \pbrac*{\lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac{x}}{\Delta x}}.
     \intertext{The limits involving fractions should look very familiar: by \cref{def:deriv.func}, they are the derivatives of $g$ and $f$ at $x$ respectively!
       Moreover, $\lim_{\Delta x \to 0} f \pbrac*{x + \Delta x} = f \pbrac{x}$, because $f$ must be a continuous function to be differentiable.\footnote{We haven't defined continuity formally in this text, but this property is the definition mathematicians usually use; it's not hard to show that any differentiable function must be continuous.}
       Thus,}
-    &= f(x) \cdot g'(x) + f'(x) \cdot g(x).
+    =& f(x) \cdot g'(x) + f'(x) \cdot g(x).
   \end{align*}
   And this is exactly the result we want for \cref{thm:productrule}!
 \end{proof}
