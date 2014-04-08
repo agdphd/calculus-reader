@@ -184,8 +184,7 @@
   import patterns;
 
   void smallsize() {size(1.5inches,0);}
-  void medsize() {size(5.5inches,0);}
-  void largesize() {size(7.2inches,0);}
+  void medsize() {size(5.0inches,0);}
 
   pen lineplot = defaultpen;
   pen thickplot = linewidth(1);
@@ -430,39 +429,16 @@
 % Memoir only numbers down to sections by default. We need to go deeper.
 \setsecnumdepth{subsection}
 
+% Manually configure page layout
 % Add some space to the outer margin for marginalia
-\setlrmarginsandblock{1in}{2in}{*}
+\setlrmarginsandblock{1in}{2.5in}{*}
+\setulmarginsandblock{1.25in}{1.25in}{*}
+\setmarginnotes{0.5in}{1.5in}{5pt}
 \checkandfixthelayout
-
-\newlength{\marginwidth}
-\setlength{\marginwidth}{1.8in}
-
-\newlength{\mainwidth}
-\setlength{\mainwidth}{5.5in}
-
-\newlength{\blockwidth}
-\setlength{\blockwidth}{\marginwidth+\mainwidth+\marginparsep}
 
 % Use small font for captions
 \captionnamefont{\tiny}
 \captiontitlefont{\tiny}
-
-% Configure an environment for full-block things
-\newenvironment*{widething}{
-  \begin{fullwidth}[width=\blockwidth,outermargin=-\marginwidth]
-  }{
-  \end{fullwidth}
-}
-
-% Configure an environment for full-block figures
-\newenvironment*{widefig}[1][htbp]{
-  \begin{figure}[{#1}]
-    \centering
-    \begin{widething}
-    }{
-    \end{widething}
-  \end{figure}
-}
 
 \newenvironment*{medfig}[1][hbtp]{
   \begin{figure}[{#1}]
@@ -480,8 +456,6 @@
 
 % Let memoir set up subfigure stuff
 \newsubfloat{figure}
-
-
 
 %% CONFIGURE ANSWERS
 % Set up file handlers
