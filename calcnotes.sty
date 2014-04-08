@@ -379,7 +379,7 @@
 \renewcommand{\printparttitle}[1]{%
   \begin{tikzpicture}%
     \draw[color=partnumbercolor] (0, 0) node { \partnumfont \thepart };%
-    \draw[color=parttitlecolor] (0, 0) node { \parttitlefont #1 };%
+    \draw[color=parttitlecolor] (0, 0) node[text width=\textwidth, align=center] { \parttitlefont #1 };%
   \end{tikzpicture}%
 }
 
@@ -388,20 +388,20 @@
   \renewcommand*{\chapterheadstart}{} % Don't do anything (like vertical space) before printing chapter heading
 
   \definecolor{chaptertitlecolor}{gray}{0} % Black chapter title
-  \renewcommand*{\chaptitlefont}{\fontsize{1cm}{0cm}\bfseries\sffamily} % Printed in large bold sans-serif
+  \renewcommand*{\chaptitlefont}{\fontsize{1.5cm}{0cm}\bfseries\sffamily} % Printed in large bold sans-serif
 
   \definecolor{chapternumbercolor}{gray}{0.8} % Light gray chapter number
-  \renewcommand*{\chapnumfont}{\fontsize{4cm}{0cm}\bfseries\sffamily} % Printed in huge bold sans-serif
+  \renewcommand*{\chapnumfont}{\fontsize{6cm}{0cm}\bfseries\sffamily} % Printed in huge bold sans-serif
 
   \renewcommand*{\printchaptername}{} % Suppress internal chapter name printing
   \renewcommand*{\printchapternum}{} % Suppress internal number printing
   \renewcommand*{\printchaptertitle}[1]{%
-    \raggedleft
+    \null
     \begin{tikzpicture}%
       \ifm@m@And
-      \draw[color=chapternumbercolor] (0, 0) node { \chapnumfont \thechapter };
+      \draw[color=chapternumbercolor] (0, 0) node[anchor=west] (number) { \chapnumfont \thechapter };
       \fi
-      \draw[color=chaptertitlecolor] (1.5cm, 0) node[left] { \chaptitlefont ##1};
+      \draw[color=chaptertitlecolor] (-0.3cm, 0) node[anchor=east,text width=\textwidth,align=right] (name) { \chaptitlefont ##1};
     \end{tikzpicture}
   }
 
