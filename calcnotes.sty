@@ -187,6 +187,7 @@
   void medsize() {size(5.5inches,0);}
   void largesize() {size(7.2inches,0);}
 
+  pen lineplot = defaultpen;
   pen thickplot = linewidth(1);
 
   pen dashedline = dashed+linewidth(1);
@@ -275,17 +276,22 @@
     }
   }
 
-  void fillbetween(real f(real), real g(real), real a, real b, pen fillpen)
+  void fillbetween(real f(real), real g(real), real a, real b, pen fillpen, pen linepen = lineplot)
   {
     path uppercurve = graph(f, a, b, operator ..);
     path lowercurve = graph(g, b, a, operator ..);
     fill (uppercurve -- lowercurve -- cycle, fillpen);
+
+    path leftline = (a,g(a))--(a,f(a));
+    path rightline = (b,f(b))--(b,g(b));
+    draw(leftline, linepen);
+    draw(rightline, linepen);
   }
 
-  void fillunder(real f(real), real a, real b, pen fillpen)
+  void fillunder(real f(real), real a, real b, pen fillpen, pen linepen = lineplot)
   {
     real zero(real x) {return 0;}
-    fillbetween(f, zero, a, b, fillpen);
+    fillbetween(f, zero, a, b, fillpen, linepen);
   }
 
   path funcplot(real f(real), real a, real b, pen drawpen = thickplot)
