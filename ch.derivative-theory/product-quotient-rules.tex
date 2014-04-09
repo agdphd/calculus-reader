@@ -47,7 +47,7 @@ This turns out to hold in complete generality!
 We should record it for future reference.
 
 \begin{theorem}[Product rule for derivatives]
-  \label{thm:productrule}
+  \label{thm:deriv.product-rule}
   Let $f$ and $g$ be functions which are differentiable at $x$.
   Then $f \cdot g$ is differentiable at $x$, and
   \begin{equation}
@@ -63,7 +63,7 @@ We should record it for future reference.
   Don't fall into the trap!
 \end{note}
 
-With \cref{thm:productrule} in hand, we can compute the derivative of any function which decomposes as a product of functions whose derivatives we know.
+With \cref{thm:deriv.product-rule} in hand, we can compute the derivative of any function which decomposes as a product of functions whose derivatives we know.
 Let's take a look at a couple of examples.
 
 \begin{example}
@@ -77,9 +77,9 @@ Let's take a look at a couple of examples.
 \end{example}
 
 \subsubsection{An analytic interpretation}
-We can also prove \cref{thm:productrule} analytically, using the original definition of the derivative (\cref{def:deriv.func}).
+We can also prove \cref{thm:deriv.product-rule} analytically, using the original definition of the derivative (\cref{def:deriv.func}).
 
-\begin{proof}[Proof of \cref{thm:productrule}]
+\begin{proof}[Proof of \cref{thm:deriv.product-rule}]
   Let $f$ and $g$ be functions which are differentiable at $x$.
   By \cref{def:deriv.func}, the derivative of their product $f \cdot g$ is given by
   \begin{align*}
@@ -100,14 +100,14 @@ We can also prove \cref{thm:productrule} analytically, using the original defini
       Thus,}
     =& f(x) \cdot g'(x) + f'(x) \cdot g(x).
   \end{align*}
-  And this is exactly the result we want for \cref{thm:productrule}!
+  And this is exactly the result we want for \cref{thm:deriv.product-rule}!
 \end{proof}
 
 % TODO: Write up geometric interpretation?
 
 \subsection{Derivatives of quotients}
 \label{sec:quotientrule}
-\Cref{thm:productrule} allows us to compute the derivative of the product $f \cdot g$ of two differentiable functions $f$ and $g$.
+\Cref{thm:deriv.product-rule} allows us to compute the derivative of the product $f \cdot g$ of two differentiable functions $f$ and $g$.
 What about the quotient $\sfrac{f}{g}$?
 Is it differentiable?
 If so, what is its derivative?
@@ -117,7 +117,7 @@ It turns out, that in fact, this function \emph{is} differentiable, as long as $
 The result is straightforward enough to state:
 
 \begin{theorem}[Quotient rule for derivatives]
-  \label{thm:quotientrule}
+  \label{thm:deriv.quotient-rule}
   Let $f$ and $g$ be functions which are differentiable at $x$ such that $g(x) \neq 0$.
   Then $\sfrac{f}{g}$ is differentiable at $x$, and
   \begin{equation}
@@ -126,7 +126,7 @@ The result is straightforward enough to state:
   \end{equation}
 \end{theorem}
 
-\Cref{thm:quotientrule} can be proved directly using algebraic trickery, just like we did above for \cref{thm:productrule}.
+\Cref{thm:deriv.quotient-rule} can be proved directly using algebraic trickery, just like we did above for \cref{thm:deriv.product-rule}.
 However, it will be much easier to prove using the results we'll obtain in \cref{sec:chainrule}, so we'll postpone it until then.
 
 \begin{exercises}
