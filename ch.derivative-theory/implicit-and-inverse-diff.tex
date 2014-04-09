@@ -1,0 +1,253 @@
+\documentclass[../book/calcnotes.tex]{subfiles}
+
+\begin{document}
+\section{Implicit differentiation and inverse functions}
+\label{sec:derivs.implicit}
+
+Way back in \cref{sec:deriv.definition}, we began our investigation of the derivative with a simple question: how can we find the tangent line to a curve at a point?
+Of course, we focused our attention on curves of the form $y = f(x)$, and it turned out that there was quite a lot we could say about this problem.
+However, many perfectly good plane curves are not given in this form.
+For example, consider the curve $y^{2} = x^{3} - x + 1$, shown in \cref{fig:elliptic} along with its tangent line at $\pbrac{0, 1}$.
+What is the slope of this line?
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real xstart=-2, xend=2.5;
+    real ystart=-2, yend=2;
+
+    import contour;
+    real f2v(real x, real y) { return y^2 - (x^3 - x + 1); }
+    guide[][] thegraphs = contour(f2v, a=(xstart,ystart), b=(xend,yend), new real[] {0});
+    draw(thegraphs[0], thickplot);
+
+    xaxis("$x$", xstart, xend, Arrow);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    real f(real x) { return sqrt(x^3 - x + 1); }
+    real df(real x) { return (3x^2-1)/(2*sqrt(x^3-x+1)); }
+    tanplot(f, df, 0, xstart, xend, dashed);
+  \end{asy}
+  \caption{The curve $y^{2} = x^{3} - x + 1$ and its tangent line at $\pbrac{0, 1}$.}
+  \label{fig:elliptic}
+\end{smallfig}
+
+If we knew an \enquote{explicit} function $f$ such that this was the curve $y = f(x)$, we'd be in business---we could apply the theory we've been developing to calculate its derivative, and that would tell us the slope.
+However, we don't---and, what's more, we can't possibly, since this curve isn't the plot of a function\footnote{Note that, for most values of $x$, there are \emph{two} values of $y$ satisfying $y^{2} = x^{3} - x + 1y$.} at all!
+
+Is there anything we can do?
+Let's put aside our concern about $y$ not being a function of $x$ and just pretend\footnote{Formally, we can get away with this because $y$ is \enquote{locally} a function of $x$---that is, we can split the curve up into pieces which are plots of functions, which is good enough for what we're going to do.} that it is.
+Whatever this function is, we know that it satisfies
+\begin{equation*}
+  y^{2} = x^{3} - x - 1
+\end{equation*}
+We'd like to learn something about the derivative $\D{y}{x}$ of this function; as a first step, let's try taking the derivative with respect to $x$ of each side of the defining equation to get
+\begin{equation*}
+  \D{}{x} y^{2} = \D{}{x} x^{3} - x - 1.
+\end{equation*}
+If $y$ is some function of $x$, by the Chain Rule (\cref{thm:chainrule}), we must have that $\D{}{x} \pbrac*{y(x)}^{2} = 2 y'(x) y(x)$.
+Thus, we can actually take the derivatives on both sides of the equation above, so
+\begin{equation*}
+  2 y' y = 3x^{2} - 1.
+\end{equation*}
+Finally, we're really interested in finding values of $y'$, so we solve for this:
+\begin{equation*}
+  y' = \frac{3x^{2} - 1}{2y}.
+\end{equation*}
+
+So what have we achieved?
+We have actually shown that, at a point $\pbrac{x, y}$, the tangent line to $y^{2} = x^{3} - x - 1$ has slope $y' = \frac{3x^{2} - 1}{2y}$.
+This is actually exactly what we needed to solve our original problem!
+All we need to do now is substitute $x = 0$ and $y = 1$ to find that the slope is $\frac{3 \pbrac{0}^{2} - 1}{2 \pbrac{1}} = -\frac{1}{2}$.
+
+This technique is known as \emph{implicit differentiation}, and it turns out to have a wide variety of applications to other parts of calculus.
+In particular, in \cref{sec:related-rates}, we'll see that it can be used in a large class of applied problems.
+In addition, certain clever applications of implicit differentiation will allow us to find the derivatives of functions which were previously inaccessible.
+
+\subsection{Derivatives of inverse functions}
+\label{sec:derivs.inverse}
+Back in \cref{sec:derivs.exp}, we discovered how to calculate the derivatives of exponential functions.
+What about the equally-important logarithmic functions?
+
+To start, let's recall that the logarithmic functions are defined to be the \emph{inverses} of the exponential functions.
+In other words, for a given base $a > 0$, we have that $\log_{a} a^{x} = x = a^{\log_{a} x}$ for all $x$; in particular, $\ln e^{x} = x = e^{\ln x}$.
+Can we use this fact to find $\D{}{x} \ln x$?
+
+Let's have a go at it using the machinery of this section.
+Let $y = \ln x$; then $x = e^{y}$.
+Taking the derivative of both sides of this second equation, we find that $\D{}{x} x = \D{}{x} e^{y}$.
+Applying \cref{thm:chainrule} to the right-hand side, we find that $1 = y' e^{y}$, so $y' = \frac{1}{e^{y}}$.
+But $x = e^{y}$, so we can substitute this into the denominator to find that
+\begin{equation*}
+  \D{}{x} \ln x = y' = \frac{1}{e^{\ln x}} = \frac{1}{x}.
+\end{equation*}
+
+Weird!
+We should definitely write that down.
+(We'll go ahead and throw in the result for general logarithms, which is obtained in the same way.)
+
+\begin{theorem}
+  \label{thm:deriv.log}
+  Fix a real base $a > 0$.
+  Then the derivative of the logarithm function base $a$ is given by
+  \begin{equation}
+    \label{eq:deriv.log}
+    \D{}{x} \log_{a} x = \frac{1}{x \ln a}.
+  \end{equation}
+  In particular,
+  \begin{equation}
+    \label{eq:deriv.log.natural}
+    \D{}{x} \ln x = \frac{1}{x}.
+  \end{equation}
+\end{theorem}
+
+Although we focused specifically on exponential and logarithmic functions, the line of argument we just used will actually work equally well for \emph{any} function and its inverse.
+Let $f$ be a differentiable function with $g = f^{-1}$ (that is, $f(g(x)) = x = g(f(x))$ for all $x$).
+If we let $y = g(x)$, we have that $x = f(y)$; differentiating both sides gives us that $\D{}{x} x = \D{}{x} f(y)$ and thus $1 = y' f'(y)$.
+Solving for $y'$, we obtain that $y' = \frac{1}{f'(y)} = \frac{1}{f'(f(x))}$, just as before.
+
+\begin{theorem}
+  \label{thm:deriv.inverse}
+  Let $f$ be a function which is differentiable and invertible.
+  Then its inverse $f^{-1}$ is differentiable also, and
+  \begin{equation}
+    \label{eq:deriv.inverse}
+    \D{}{x} f^{-1} (x) = \frac{1}{f' \pbrac*{f^{-1} \pbrac{x}}}.
+  \end{equation}
+\end{theorem}
+
+With \cref{thm:deriv.inverse} in hand, we can compute the derivatives of many important inverse functions.
+Let's consider some examples.
+
+\begin{example}
+  \label{ex:deriv.invtrig}
+  Compute $\D{}{x} \sin^{-1} x$ and $\D{}{x} \cos^{-1} x$.
+\end{example}
+
+\begin{soln}
+  We can simply apply \cref{thm:deriv.inverse} to the function $f(x) = \sin x$ (so $f'(x) = \cos x$) to compute that
+  \begin{equation}
+    \label{eq:deriv.arcsin.prelim}
+    \D{}{x} \sin^{-1} \pbrac*{x} = \frac{1}{\cos \pbrac*{\sin^{-1} x}}.
+  \end{equation}
+
+  This is a nice result, but we actually can do much better.
+  Let's let $\theta = \sin^{-1} x$ (that is, let $\theta$ be the angle in $\pbrac*{-\sfrac{\pi}{2}, \sfrac{\pi}{2}}$ such that $\sin \theta = x$).
+  Then the denominator of the fraction in \cref{eq:deriv.arcsin.prelim} is equal to $\cos \theta$.
+  If we're going to talk about sines and cosines of angles, we really ought to be looking at a right triangle, so consider the one shown in \cref{fig:deriv.arcsin.trig}.
+
+  \begin{smallfig}
+    \begin{asy}
+      smallsize();
+
+      import geometry;
+      import math;
+
+      real theta = 30;
+
+      pair A = (0, 0);
+      pair B = (1, 0);
+      pair C = (1, Sin(theta));
+
+      draw(A--B--C--cycle);
+
+      label("$1$", A--C, LeftSide);
+      label("$x$", B--C, RightSide);
+      label("$\sqrt{1 - x^{2}}$", A--B, RightSide);
+
+      markrightangle(A, B, C);
+      markangle("$\theta$", B, A, C);
+    \end{asy}
+    \caption{A triangle such that $x = \sin \theta$}
+    \label{fig:deriv.arcsin.trig}
+  \end{smallfig}
+
+  This triangle was carefully chosen so that its hypotenuse is $1$ and $x = \sin \theta$.
+  We can then use the Pythagorean theorem to compute that $\cos \theta = \sqrt{1 - x^{2}} = \cos \pbrac*{\sin^{-1} x}$.
+  Thus, we can rewrite \cref{eq:deriv.arcsin.prelim} without any reference to trigonometric functions at all:
+  \begin{equation}
+    \label{eq:deriv.arcsin}
+    \D{}{x} \sin^{-1} x = \frac{1}{\sqrt{1 - x^{2}}}.
+  \end{equation}
+
+  Similarly, letting $f(x) = \cos x$ (so $f'(x) = -\sin x$), we compute that
+  \begin{equation}
+    \label{eq:deriv.arccos.prelim}
+    \D{}{x} \cos^{-1} x = \frac{1}{-\sin \pbrac*{\cos^{-1} x}}.
+  \end{equation}
+  A similar calculation with a triangle like\footnote{Indeed, it is exactly the same triangle, with the name $\theta$ assigned to the other angle so that $x = \cos \theta$.} that in \cref{fig:deriv.arcsin.trig} reveals that
+  \begin{equation}
+    \label{eq:deriv.arccos}
+    \D{}{x} \cos^{-1} x = \frac{-1}{\sqrt{1 - x^{2}}}.
+  \end{equation}
+\end{soln}
+
+\subsection{Logarithmic differentiation}
+\label{sec:deriv.logdiff}
+Implicit differentiation also lets us simplify complicated derivative calculations involving products and exponents.
+The general strategy will be to replace an equation of the form $y = f(x)$ with one like $\ln y = \ln f(x)$, manipulate the right-hand side using log laws, then differentiate both sides of the result.
+This will be easiest to explain with an example.
+
+\begin{example}
+  \label{ex:deriv.logdiff}
+  Let $f(x) = x^{3} \frac{\sqrt{x - 2}}{\sqrt{x + 1}}$.
+  Calculate $f'(x)$.
+\end{example}
+
+\begin{soln}
+  Of course, we \emph{could} use the Product and Quotient rules (\cref{thm:deriv.product-rule,thm:deriv.quotient-rule}) to calculate this derivative, but it's going to be a mess.
+  Let's try the trick described above.
+  Taking the logarithm of both sides of the definition of $f$, we find that
+  \begin{align*}
+    \ln f(x) &= \ln \pbrac*{x^{3} \frac{\sqrt{x - 2}}{\sqrt{x + 1}}}. \\
+    \intertext{Applying some log laws, we can simplify this:}
+    &= \ln \pbrac*{x^{3}} + \ln \pbrac*{\sqrt{x - 2}} - \ln \pbrac*{\sqrt{x + 1}} \\
+    &= 3 \ln x + \frac{1}{2} \ln \pbrac*{x - 2} - \frac{1}{2} \ln \pbrac*{x + 1}.
+  \end{align*}
+  Differentiating both sides, we find that
+  \begin{equation*}
+    \D{}{x} \ln f(x) = \D{}{x} 3 \ln x + \frac{1}{2} \ln \pbrac*{x - 2} - \frac{1}{2} \ln \pbrac*{x + 1},
+  \end{equation*}
+  where the derivative of the right-hand side is now \emph{much} simpler to calculate than it was before.
+  Thus, we can compute
+  \begin{equation*}
+    \frac{f'(x)}{f(x)} = \frac{3}{x} + \frac{1}{2 \pbrac*{x - 2}} - \frac{1}{2 \pbrac*{x + 1}}.
+  \end{equation*}
+  We already have a formula for $f(x)$, so we can solve for $f'(x)$ to conclude that
+  \begin{equation*}
+    f'(x) = \frac{\frac{3}{x} + \frac{1}{2 \pbrac*{x - 2}} - \frac{1}{2 \pbrac*{x + 1}}}{f(x)}
+  \end{equation*}
+  and so
+  \begin{equation*}
+    \D{}{x} x^{3} \frac{\sqrt{x - 2}}{\sqrt{x + 1}} = \frac{\frac{3}{x} + \frac{1}{2 \pbrac*{x - 2}} - \frac{1}{2 \pbrac*{x + 1}}}{x^{3} \frac{\sqrt{x - 2}}{\sqrt{x + 1}}}.
+  \end{equation*}
+\end{soln}
+
+Whew!
+That was a bit of a mess, but it's still an improvement over using the Product and Quotient rules directly.
+The improvement becomes even more evident if we make the function more complicated, but we'll leave that for the exercises.
+
+
+\begin{gps}
+  \begin{gp}
+    Use methods like those in \cref{ex:deriv.invtrig} to show that
+    \begin{equation}
+      \label{eq:deriv.arctan}
+      \D{}{x} \tan^{-1} x = \frac{1}{1 + x^{2}}.
+    \end{equation}
+  \end{gp}
+
+  \begin{gp}
+    Calculate $\D{}{x} x^{x}$.
+  \end{gp}
+\end{gps}
+
+\begin{exercises}
+\end{exercises}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../book/calcnotes.tex"
+%%% End:
