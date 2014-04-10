@@ -152,9 +152,145 @@ Let's try one that's a bit more complicated.
 \end{soln}
 
 The algebra of \cref{ex:derivative.circle.onepoint} got a little messy, but it's still a good sign that we can do this calculation at all!
+Don't worry---we won't be spending too much more time working through all the gory details of these kinds of calculations.
+It turns out that this notion of \emph{derivative} is an extremely powerful one, so we'll spend the rest of \cref{sec:derivative-theory} fleshing out the details of the theory (including lots of tricks for calculating derivatives), then explore a variety of applications in \cref{sec:derivative-applications}.
 
-It turns out that this notion of \emph{derivative} is an extremely powerful one.
-We'll spend the rest of \cref{sec:derivative-theory} fleshing out the details of the theory, then explore a variety of applications in \cref{sec:derivative-applications}.
+\begin{gps}
+  \begin{gp}
+    Find the tangent line to curve $y = 3x^{2} + 2$ at the point $\pbrac*{2, 14}$.
+
+    \begin{gpsol}
+      As noted in the section, to describe a line, we need two pieces of information---say, a point and a slope or two points.
+      In this case, we know that the line we're interested in passes through $\pbrac*{2, 14}$, so we only need to find one more piece.
+      In light of the work we've just done, we should be able to use a derivative to find the slope of the line.
+
+      Let $f(x) = 3x^{2} + 2$; then we need to calculate $f'(2)$.
+      By \cref{def:deriv}, this is given by
+      \begin{align*}
+        f'(2) &= \lim_{\Delta x \to 0} \frac{f \pbrac*{2 + \Delta x} - f \pbrac{2}}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} \frac{\pbrac*{3 \pbrac*{2 + \Delta x}^{2} + 2} - \pbrac*{3 \pbrac{2}^{2} + 2}}{\Delta x}.
+        \intertext{Expanding the squares on the right-hand side, we find that}
+        &= \lim_{\Delta x \to 0}\frac{\pbrac*{3 \pbrac*{2^{2} + 2 \cdot 2 \Delta x + \pbrac*{\Delta x}^{2}} + 2} - \pbrac{14}}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} \frac{12 + 4 \Delta x + \pbrac*{\Delta x}^{2} + 2 - 14}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} \frac{4 \Delta x + \pbrac*{\Delta x}^{2}}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} 4 + \Delta x \\
+        &= 4.
+      \end{align*}
+
+      Combining this with the point information, we find that the tangent line to $y = 3x^{2} + 2$ at the point $x = 2$ is
+      \begin{equation*}
+        y = f'(2) \pbrac*{x - 2} + f(2) = 4 \pbrac*{x - 2} + 14.
+      \end{equation*}
+    \end{gpsol}
+  \end{gp}
+
+  \begin{gp}
+    Let $f(x) = \abs{x}$.
+    Is $f$ differentiable at $x = 0$?
+    If so, what is $f'(0)$?
+
+    \begin{gpsol}
+      Following \cref{def:deriv}, we need to check whether a certain limit exists: specifically,
+      \begin{equation}
+        \label{eq:deriv.abs}
+        \lim_{\Delta x \to 0} \frac{f \pbrac*{0 + \Delta x} - f \pbrac{0}}{\Delta x} = \lim_{\Delta x \to 0} \frac{\abs*{\Delta x}}{\Delta x}.
+      \end{equation}
+      What is this limit?
+      To get a handle on the question, let's think about how the value of $\abs*{\Delta x}$ is related to that of $\Delta x$.
+      If $\Delta x$ is positive, $\abs*{\Delta x} = \Delta x$, so the ratio in the limit is $1$.
+      However, if $\Delta x$ is negative, $\abs*{\Delta x} = -\Delta x$, so the ratio in the limit is $-1$.
+      Thus, the left- and right-sided versions of the limit in \cref{eq:deriv.abs} are not equal, so the limit does not exist!
+      This means $f(x) = \abs{x}$ is \emph{not} differentiable at $x = 0$.
+
+      We can also approach this problem from another direction.
+      The value of $f'(0)$ is supposed to measure the slope of the tangent line to $y = f(x)$ at $x = 0$.
+      Consider the plot of $y = \abs{x}$, shown in \cref{fig:abs}.
+      At $x = 0$, this function has a sharp \enquote{corner}, where it suddenly switches from sloping downward to sloping upward.
+      What line is tangent to the curve at this point?
+      It seems like we could make a case for a line with any slope between $-1$ and $1$---but the curve is only allowed to have \emph{one} tangent line, so we're out of luck.
+      There is no tangent line at all---the function isn't differentiable.
+
+      \begin{smallfig}
+        \centering
+        \begin{asy}
+          smallsize();
+
+          real f(real x) {return abs(x);}
+
+          real xstart=-1, xend=1;
+          real ystart=-.2, yend=1.2;
+
+          xaxis("$x$", xstart, xend,Arrow);
+          yaxis("$y$", ystart, yend, Arrow);
+
+          funcplot(f, xstart, xend);
+        \end{asy}
+        \caption{Plot of $y = \abs{x}$}
+        \label{fig:abs}
+      \end{smallfig}
+
+      As an aside, we should also note that, for any value of $x$ which is \emph{not} $0$, this function certainly \emph{is} differentiable: its derivative is $-1$ if $x < 0$ and $1$ if $x > 0$.
+      It's only right there at $x = 0$ that things get complicated.
+    \end{gpsol}
+  \end{gp}
+
+  \begin{gp}
+    Let $f(x) = \sqrt{x^{2} + x + 1}$.
+    Is $f$ differentiable at $x = 1$?
+    If so, what is $f'(1)$?
+
+    \begin{gpsol}
+      \begin{smallfig}
+        \centering
+        \begin{asy}
+          smallsize();
+
+          real f(real x) {return sqrt(x^2+x+1);}
+          real df(real x) {return (2x+1)/(2*sqrt(x^2+x+1));}
+
+          real xstart=-1, xend=4;
+          real ystart=-.2, yend=5;
+
+          xaxis("$x$", xstart, xend,Arrow);
+          yaxis("$y$", ystart, yend, Arrow);
+
+          funcplot(f, xstart, xend);
+          tanplot(f, df, 1, xstart, xend, dashed);
+        \end{asy}
+        \caption{Plot of $y = \sqrt{x^{2} + x + 1}$ with its tangent line at $x = 1$}
+        \label{fig:abs}
+      \end{smallfig}
+
+      Once again, \cref{def:deriv} is our guidepost; we just need to work out whether the appropriate limit exists and, if so, what its value is.
+      Let's get to work!
+      \begin{align*}
+        f'(1) &= \lim_{\Delta x \to 0} \frac{f \pbrac*{1 + \Delta x} - f \pbrac{1}}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} \frac{\sqrt{\pbrac*{1 + \Delta x}^{2} + \pbrac*{1 + \Delta x} + 1} - \sqrt{1^{2} + 1 + 1}}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} \frac{\sqrt{\pbrac*{1^{2} + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \pbrac*{1 + \Delta x} + 1} - \sqrt{3}}{\Delta x} \\
+        &= \lim_{\Delta x \to 0} \frac{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} - \sqrt{3}}{\Delta x}.
+        \intertext{
+          At this point we seem to be up against a wall, but there's an algebraic way out: a standard trick called \enquote{multiplying by the conjugate}.
+          Basically, we're going to fix the algebraic complexity of the numerator by multiplying by a carefully-chosen expression, which we do to both the numerator and denominator to avoid changing the value of the fraction.
+          Check it out:}
+        &= \lim_{\Delta x \to 0} \frac{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} - \sqrt{3}}{\Delta x} \cdot \frac{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}}{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}} \\
+        &= \lim_{\Delta x \to 0} \frac{\pbrac*{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} - \sqrt{3}} \pbrac*{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}}}{\Delta x \cdot \pbrac*{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}}}.
+        \intertext{
+          Now the numerator is of the form $\pbrac{a - b} \pbrac{a + b}$ (for a particularly complicated value of $a$.
+          It turns out that \emph{any} such product expands to equal $a^{2} - b^{2}$, which will clean things up quite a bit since $a$ and $b$ are both written as square roots.
+          Let's proceed:}
+        &= \lim_{\Delta x \to 0} \frac{\pbrac*{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} - 3}{\Delta x \cdot \pbrac*{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}}} \\
+        &= \lim_{\Delta x \to 0} \frac{2 \Delta x + \pbrac*{\Delta x}^{2}}{\Delta x \cdot \pbrac*{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}}}
+        \intertext{Now we can cancel the $\Delta x$ terms in the numerator and denominator:}
+        &= \lim_{\Delta x \to 0} \frac{2 + \Delta x}{\sqrt{3 + 2 \Delta x + \pbrac*{\Delta x}^{2}} + \sqrt{3}}.
+        \intertext{
+          Now, at last, we can evaluate this limit simply by setting $\Delta x = 0$, since we have eliminated the division-by-zero problem.
+          The limit does in fact exist, and we can even calculate its value:
+        }
+        &= \frac{2 + \pbrac{0}}{\sqrt{3 + 2 \pbrac{0} + \pbrac{0}^{2}} + \sqrt{3}} = \frac{2}{2 \sqrt{3}} = \frac{1}{\sqrt{3}}.
+      \end{align*}
+    \end{gpsol}
+  \end{gp}
+\end{gps}
 
 \begin{exercises}
 \end{exercises}
