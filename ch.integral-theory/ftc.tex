@@ -4,7 +4,7 @@
 \section{The fundamental theorem of integral calculus}
 \label{sec:ftc}
 
-In the last section, we defined the \emph{definite integral} $\Int{f(x)}{x,a,b}$ of a function $f$ over an interval $\closedint{a,b}$ to be the \enquote{signed area} of the region bounded between the curve $y = f(x)$ and the $x$-axis.
+In the last section, we defined the \defterm{definite integral} $\Int{f(x)}{x,a,b}$ of a function $f$ over an interval $\closedint{a,b}$ to be the \enquote{signed area} of the region bounded between the curve $y = f(x)$ and the $x$-axis.
 However, this doesn't really solve our original problem!
 We want \emph{methods} for computing these areas, not just a name and some notation.
 
@@ -152,7 +152,7 @@ This is the motivation for the alternate notation for the antiderivative which w
 \begin{definition}
   \label{def:indefinite.integral}
   Let $F$ be an antiderivative of a continuous function $f$.
-  Then the \emph{indefinite integral of $f$} is the general antiderivative of $f$, a one-parameter family of functions given by
+  Then the \defterm{indefinite integral of $f$} is the general antiderivative of $f$, a one-parameter family of functions given by
   \begin{equation}
     \label{eq:indefinite.integral}
     \Int{f(x)}{x} = \AD{}{x} f(x) = F(x) + C
@@ -181,7 +181,7 @@ This problem was solved by Archimedes, but it required a \emph{lot} of work and 
 \label{sec:netchange}
 
 \Cref{thm:ftc.calc} suggests an important interpretation of the area function.
-The function $\Int{f(t)}{t,a,x}$ doesn't just measure the area of a region in the plane; it measures the \emph{accumulation} or \emph{net change} of a quantity whose rate of change is given by $f$.
+The function $\Int{f(t)}{t,a,x}$ doesn't just measure the area of a region in the plane; it measures the \defterm{accumulation} or \defterm{net change} of a quantity whose rate of change is given by $f$.
 This interpretation is quite natural in settings where rates of change have physical interpretations.
 
 \begin{example}
@@ -193,7 +193,7 @@ This interpretation is quite natural in settings where rates of change have phys
 \begin{example}
   \label{ex:velocityint}
   A car is traveling on a highway from Minneapolis to Chicago; at time $t$ (in \si{\hour}), its velocity (in \si{\mile\per\hour}) is given by $v(t)$.
-  The definite integral $\Int{f(t)}{t,a,b}$ measures the \emph{total displacement} of the car (in \si{\mile}) over the time interval $t \in \closedint{a,b}$; in particular, if $v$ is nonnegative, then the integral measures the distance traveled by the car, which is the distance between the car's positions at time $a$ and time $b$.
+  The definite integral $\Int{f(t)}{t,a,b}$ measures the \defterm{total displacement} of the car (in \si{\mile}) over the time interval $t \in \closedint{a,b}$; in particular, if $v$ is nonnegative, then the integral measures the distance traveled by the car, which is the distance between the car's positions at time $a$ and time $b$.
   (If the car changes direction during its trip, this is not the same as total distance traveled; it is important to bear in mind the significance of sign in this calculation!)
 \end{example}
 

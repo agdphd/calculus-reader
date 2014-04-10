@@ -33,7 +33,7 @@ We don't know a second point on the curve that the line passes through---and, in
 We also don't seem to have any information about the slope.
 
 Rather than wear ourselves out trying to solve this problem directly, let's take a break and think about something simpler.
-Instead of the \emph{tangent line} at $a$, let's think about the \emph{secant lines} to $y = f(x)$ that pass through $\pbrac*{a, f \pbrac*{a}}$, as illustrated in \cref{fig:secline}.
+Instead of the \defterm{tangent line} at $a$, let's think about the \defterm{secant lines} to $y = f(x)$ that pass through $\pbrac*{a, f \pbrac*{a}}$, as illustrated in \cref{fig:secline}.
 These are the lines which pass through \emph{two} points on the curve---say, $\pbrac*{a, f \pbrac*{a}}$ and $\pbrac*{b, f \pbrac*{b}}$.
 Since we know two points on a secant line, it's straightforward to find its slope; using the familiar \enquote{rise over run} formula, we get $m = \frac{f \pbrac*{b} - f \pbrac*{a}}{b - a}$.
 Since we're really interested in the behavior at $a$, let's rename $b$ to $a + \Delta x$; then we get a nice, compact formula, which we should record for later reference.
@@ -82,13 +82,13 @@ This concept is important enough that we'll enshrine it in a new term, which we 
 \begin{definition}
   \label{def:deriv}
   Fix a function $f$.
-  The \emph{derivative of $f$ at $a$} is the number
+  The \defterm{derivative of $f$ at $a$} is the number
   \begin{equation}
     \label{eq:derivdef}
     f'(a) = \lim_{\Delta x \to 0} m_{\Delta x} = \lim_{\Delta x \to 0} \frac{f \pbrac*{a + \Delta x} - f \pbrac{a}}{\Delta x}
   \end{equation}
   if that limit exists (and is undefined otherwise).
-  If $f'(a)$ exists, we say $f$ is \emph{differentiable at $a$}.
+  If $f'(a)$ exists, we say $f$ is \defterm{differentiable at $a$}.
 \end{definition}
 
 This geometric argument indicates that $f'(a)$ should be equal to the slope of the tangent line to $y = f(a)$ at $x = a$.
@@ -153,7 +153,7 @@ Let's try one that's a bit more complicated.
 
 The algebra of \cref{ex:derivative.circle.onepoint} got a little messy, but it's still a good sign that we can do this calculation at all!
 Don't worry---we won't be spending too much more time working through all the gory details of these kinds of calculations.
-It turns out that this notion of \emph{derivative} is an extremely powerful one, so we'll spend the rest of \cref{sec:derivative-theory} fleshing out the details of the theory (including lots of tricks for calculating derivatives), then explore a variety of applications in \cref{sec:derivative-applications}.
+It turns out that this notion of \defterm{derivative} is an extremely powerful one, so we'll spend the rest of \cref{sec:derivative-theory} fleshing out the details of the theory (including lots of tricks for calculating derivatives), then explore a variety of applications in \cref{sec:derivative-applications}.
 
 \begin{gps}
   \begin{gp}
