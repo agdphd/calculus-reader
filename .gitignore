@@ -10,3 +10,6 @@ auto/
 *.pre
 calcnotes-*.tex
 *.gin
+*.idx
+*.ilg
+*.ind
