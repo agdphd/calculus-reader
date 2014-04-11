@@ -65,6 +65,9 @@
 % Load the makeidx package to build the index
 \RequirePackage[xindy]{imakeidx}
 
+% Load the xparse package to support some fancy defines
+\RequirePackage{xparse}
+
 % Load the hyperref package for hyperlinking (MUST BE LAST)
 \RequirePackage[hidelinks]{hyperref}
 
@@ -125,7 +128,7 @@
 \newtheorem*{soln}{Solution}
 
 % Define command to format defined term
-\newcommand{\defterm}[1]{\emph{#1}}
+\NewDocumentCommand{\defterm}{mO{#1}O{|textbf}}{\emph{#1}\index{#2#3}}
 
 % Define command to render chosen license mark
 \newcommand{\licensemark}{\ccbysa}
