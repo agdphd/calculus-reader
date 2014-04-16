@@ -4,6 +4,271 @@
 \section{Taylor polynomials}
 \label{sec:taylor-polynomials}
 
+Consider the function $f(x) = \sin x + \cos x$.
+What is $f(0.1)$?
+Of course, we can use an electronic calculator to compute the approximation $f(0.1) \approx 1.09483758192\dots$---but how does it determine this value?
+Can we replicate this process without relying on a magic black box?
+
+As a first step, we should note that $0.1$ is close to $0$, and $f(x)$ is \emph{much} better behaved at $x = 0$: indeed, $f(0) = 1$ exactly.
+Since $0.1 \approx 0$, we should expect that $f(0.1) \approx f(0) = 1$ as well, and this is borne out by the calculator result above.
+But how far off is this approximation, and why does it go wrong?
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real xstart=-1, xend=1;
+    real ystart=-1.6, yend=1.6;
+
+    real a=0.1;
+
+    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
+    labelx("$0.1$", a);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    real f(real x) {return sin(x) + cos(x);}
+
+    path fplot = funcplot(f, xstart, xend);
+    draw(fplot);
+
+    real taylorfunc(real x) {return 1;}
+    path taylorplot = graph(taylorfunc, xstart, xend);
+    draw(taylorplot, dashed);
+  \end{asy}
+  \caption{Plot of $y = \sin x + \cos x$ near $x = 0$ with its \enquote{constant approximation} $T_{0}$}
+  \label{fig:taylor.constapprox}
+\end{smallfig}
+
+Let's take a look at this situation graphically.
+Consider the plot of $y = f(x)$ shown in \cref{fig:taylor.constapprox}.
+Our approximation effectively replaces the actual curve $y = \sin x + \cos x$ with the constant function $y = \sin 0 + \cos 0 = 1$, shown as a dashed line in \cref{fig:taylor.constapprox}.
+Obviously, this isn't a very good approximation!
+Still, it's a place to start.
+For reasons that will be more clear shortly, we'll call this constant approximation function $T_{0}$.
+, so $T_{0} (x) = f(0) = 1$ for all $x$.
+
+How can we make this approximation better?
+Our previous attempt involved picking a linear function $T_{0}$ to approximate $f$, but clearly it wasn't a very good choice: the values of $f$ can change, but $T_{0}$ is constant!
+If we allow our approximating function to be a linear function with a nonzero slope, things will improve substantially.
+
+Which line should we pick?
+Clearly the line needs to go through the point $\pbrac*{0, f \pbrac{0}}$ to be a useful approximation,
+Of all the lines passing through this point, the one that most closely resembles\footnote{Of course, this can be made formal, but it requires some fairly heavy machinery.} the curve $y = f(x)$ is its \emph{tangent line}, as illustrated in \cref{fig:taylor.linearapprox} so we'll use that as our next approximation, which we'll call $T_{1}$.
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real xstart=-1, xend=1;
+    real ystart=-1.6, yend=1.6;
+
+    real a=0.1;
+
+    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
+    labelx("$0.1$", a);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    real f(real x) {return sin(x) + cos(x);}
+
+    path fplot = funcplot(f, xstart, xend);
+    draw(fplot);
+
+    real taylorfunc(real x) {return 1+x;}
+    path taylorplot = graph(taylorfunc, xstart, xend);
+    draw(taylorplot, dashed);
+  \end{asy}
+  \caption{Plot of $y = \sin x + \cos x$ near $x = 0$ with its \enquote{linear approximation} $T_{1}$}
+  \label{fig:taylor.linearapprox}
+\end{smallfig}
+
+What is the slope of the tangent line?
+Why, it's the derivative $f'(0)$, of course!
+Thus, we can write a formula for this \enquote{linear approximation}\footnote{The inclusion of the seemingly strange \enquote{$x - 0$} term instead of the simpler \enquote{$x$} will make it easier to generalize this work to cases where the point of interest isn't $x = 0$.}: $T_{1} = f(0) + f'(0) \pbrac*{x - 0} = 1 + x$.
+We can then use this to estimate the value of $f(0.1)$: $f(0.1) \approx T_{1} (0.1) = 1 + 1 \cdot 0.1 = 1.1$.
+This is quite an improvement over the constant approximation, and it gets us nearly three decimal places of agreement with the calculator result.
+
+Can we do better?
+Certainly!
+However, this is the best we can do \emph{with a linear function}.
+Upgrading from a constant approximation to a linear one allowed us to take account of the fact that our function's values change with the value of $x$; in graphical terms, it allows for our function to have \enquote{slope}.
+To improve the approximation further, we need to allow for the fact that the function's rate of change may itself be changing, or, in graphical terms, that the plot $y = f(x)$ may \enquote{bend}.
+The natural next step after linear functions is quadratics, so let's try them for our next kind of approximation.
+
+How can we find a useful quadratic approximation of $f$?
+Let's think a bit more systematically about what we've done in the previous steps.
+The first approximation we constructed, $T_{0}$, was chosen to have the same \emph{value} as $f$ at $x = 0$.
+The next, $T_{1}$, was chosen to have the same \emph{value} and \emph{first derivative}.
+This suggests that the right quadratic choice will have the same \emph{value}, \emph{first derivative}, and \emph{second derivative} as $f$ at $x = 0$.
+It's clear that this should be of the form $T_{2} = 1 + x + ax^{2}$ for some coefficient $a$; the trick is in finding that coefficient.
+
+If we're going to try to make $T_{2}$ have the same second derivative as $f$ at $x = 0$, we should compute that number $f''(0)$.
+It is straightforward to compute that $\D[2]{}{x} \pbrac{\sin x + \cos x} = -\cos x - \sin x$, so $f''(0) = -1$.
+What value of $a$ should we set so that $T''_{2} (0) = -1$ also?
+We can calculate that $T''_{2} (x) = 2a$, so evidently we need to set $a = -\sfrac{1}{2}$.
+Thus, the best quadratic approximation is $T_{2} = f(0) + f'(0) \pbrac*{x - 0} + \frac{1}{2} f''(0) \pbrac*{x - 0}^{2} = 1 + x - \frac{1}{2} x^{2}$, as illustrated in \cref{fig:taylor.quadraticapprox}.
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real xstart=-.2, xend=3.2;
+    real ystart=-1.6, yend=1.6;
+
+    real a=0.1;
+
+    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
+    labelx("$0.1$", a);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    real f(real x) {return sin(x) + cos(x);}
+
+    path fplot = funcplot(f, xstart, xend);
+    draw(fplot);
+
+    real taylorfunc(real x) {return 1+x-x^2/2;}
+    path taylorplot = graph(taylorfunc, xstart, xend);
+    draw(taylorplot, dashed);
+  \end{asy}
+  \caption{Plot of $y = \sin x + \cos x$ near $x = 0$ with its \enquote{quadratic approximation} $T_{2}$}
+  \label{fig:taylor.quadraticapprox}
+\end{smallfig}
+
+What if we wanted to construct a higher-order polynomial approximation?
+Exactly the same idea will apply: if we want an $n$th-degree polynomial approximation to $f$ near $x = 0$, we simply need to find the $n$th-degree polynomial whose first $n$ derivatives at $x = 0$ are equal to those of $f$.
+To achieve this, we just need to set the coefficient on the $\pbrac{x - 0}^{i}$ term to the right value.
+But what is that value?
+The right coefficient of degree $1$ was just $f'(0)$, but the right coefficient of degree $2$ was $\frac{1}{2} f''(0)$, because taking the second derivative multiplies this coefficient by $2$.
+If we keep going, the right coefficient of degree $3$ will turn out to be $\frac{1}{3 \cdot 2 \cdot 1} f'''(0)$, the coefficient of degree $4$ will be $\frac{1}{4 \cdot 3 \cdot 2 \cdot 1} f''''(0)$, and so on.
+In general, the coefficient on $\pbrac{x - 0}^{i}$ will need to be $\frac{1}{i!} f^{(i)}(0)$ to get the derivatives to line up.
+
+We should also note at this point that there's nothing special about using $x = 0$ as the \enquote{center point} for our approximation.
+We could have used any value $x = a$ we wanted; then we'd need to take derivatives of $f$ at $a$ and use them as coefficients on terms of the form $\pbrac*{x - a}^{n}$.
+
+This leads us to our complete definition of these approximating polynomials, usually known in the literature as \enquote{Taylor polynomials}:
+\begin{definition}
+  \label{def:taylorpoly}
+  Let $f$ be $n$ times differentiable at $x = a$.
+  Then the \defterm{$n$th Taylor polynomial of $f$ centered at $x = a$}[Taylor polynomial] is
+  \begin{equation}
+    \label{eq:taylorpoly}
+    T_{n} (x) = f(a) + f'(a) \pbrac{x - a} + \frac{1}{2} f''(a) \pbrac{x - a}^{2} + \dots + \frac{1}{n!} f^{(n)} (a) \pbrac*{x - a}^{n}.
+  \end{equation}
+  More compactly, and using the conventions that $f^{(0)} (x) = f(x)$ and $0! = 1$, we can write
+  \begin{equation}
+    \label{eq:taylorpoly.sigma}
+    T_{n} (x) = \sum_{i = 0}^{n} \frac{f^{(i)} (a)}{i!} \pbrac*{x - a}^{i}.
+  \end{equation}
+  The $n$th Taylor polynomial centered at $x = 0$ is sometimes called the \defterm{Maclaurin polynomial}.
+\end{definition}
+
+Continuing with our example from before, it is straightforward to compute the $n$th Taylor polynomial to $f(x) = \sin x + \cos x$ centered at $x = 0$ for any $n$ we choose.
+Each of these polynomials is a better approximation to $f(x)$ than the one before it, as we will see.
+
+\begin{example}
+  Find the $n$th Taylor polynomial to $f(x) = \sin x + \cos x$ centered at $x = 0$ for $n \in \cbrac{1, 2, 3, 4, 5}$.
+  Use each to approximate $f(0.1)$.
+\end{example}
+
+\begin{soln}
+  We're going to need to know the values of the first five derivatives of $f$ at $x = 0$.
+  Fortunately, these are easy to compute, since $\sin x$ and $\cos x$ both have well-behaved derivatives.
+  The results of this calculation are shown in \cref{tab:taylor.derivatives}.
+
+  \begin{table}[htbp]
+    \centering
+    \begin{tabular}{c c c c}
+      \toprule
+      $n$ & $\eval*{\D[n]{}{x} \sin x}_{x = 0}$ & $\eval*{\D[n]{}{x} \cos x}_{x = 0}$ & $\eval*{\D[n]{}{x} f(x)}_{x = 0}$ \\
+      \midrule
+      $0$ & $0$ & $1$ & $1$ \\
+      $1$ & $1$ & $0$ & $1$ \\
+      $2$ & $0$ & $-1$ & $-1$ \\
+      $3$ & $-1$ & $0$ & $-1$ \\
+      $4$ & $0$ & $1$ & $1$ \\
+      $5$ & $1$ & $0$ & $1$ \\
+      \bottomrule
+    \end{tabular}
+    \caption{The first five derivatives of $f(x) = \sin x + \cos x$ at $x = 0$}
+    \label{tab:taylor.derivatives}
+  \end{table}
+
+  With these values of $f^{(i)} (0)$ in hand, we can use \cref{def:taylorpoly} to find the desired Taylor polynomials.
+  Expanding \cref{eq:taylorpoly}, we find that
+  \begin{align*}
+    T_{0} (x) &= \frac{1}{0!}. \\
+    T_{1} (x) &= \frac{1}{0!} + \frac{1}{1!} x. \\
+    T_{2} (x) &= \frac{1}{0!} + \frac{1}{1!} x + \frac{-1}{2!} x^{2}. \\
+    T_{3} (x) &= \frac{1}{0!} + \frac{1}{1!} x + \frac{-1}{2!} x^{2} + \frac{-1}{3!} x^{3}. \\
+    T_{4} (x) &= \frac{1}{0!} + \frac{1}{1!} x + \frac{-1}{2!} x^{2} + \frac{-1}{3!} x^{3} + \frac{1}{4!} x^{4}. \\
+    T_{5} (x) &= \frac{1}{0!} + \frac{1}{1!} x + \frac{-1}{2!} x^{2} + \frac{-1}{3!} x^{3} + \frac{1}{4!} x^{4} + \frac{1}{5!} x^{5}.
+  \end{align*}
+
+  The plot of $f$ and the higher Taylor polynomials $T_{3}$, $T_{4}$ and $T_{5}$ is shown in \cref{fig:taylor.manyapprox}.
+  Notice how each successive Taylor polynomial \enquote{looks like} $f$ on a wider $x$-interval.
+  \begin{medfig}
+    \begin{asy}
+      medsize();
+
+      real xmin=-12, xmax=12;
+      real ymin=-6, ymax=6;
+
+      xaxis("$x$", xmin, xmax, Arrow);
+      yaxis("$y$", ymin, ymax, Arrow);
+
+      real f(real x) {return sin(x) + cos(x);}
+
+      path fplot = funcplot(f, xmin, xmax);
+
+      real taylor3(real x) {return 1 + x - x^2/2 - x^3/6;}
+      path plot3 = funcplot(taylor3, xmin, xmax, dash1);
+
+      real taylor4(real x) {return 1 + x - x^2/2 - x^3/6 + x^4/24;}
+      path plot4 = funcplot(taylor4, xmin, xmax, dash2);
+
+      real taylor5(real x) {return 1 + x - x^2/2 - x^3/6 + x^4/24 + x^5/120;}
+      path plot5 = funcplot(taylor5, xmin, xmax, dash3);
+
+      limits((xmin,ymin),(xmax,ymax),Crop);
+    \end{asy}
+    \caption{Plot of $y = \sin x + \cos x$ near $x = 0$ with its third, fourth, and fifth Taylor polynomials}
+    \label{fig:taylor.manyapprox}
+  \end{medfig}
+
+  Now that we have the desired Taylor polynomials $T_{i} (x)$, we can use them to estimate $f(0.1)$ simply by evaluating $T_{i} (0.1)$ for each $i$:
+  \begin{align*}
+    T_{0} \pbrac{0.1} &= \frac{1}{0!} = 1. \\
+    T_{1} \pbrac{0.1} &= \frac{1}{0!} + \frac{1}{1!} \pbrac{0.1} = \frac{11}{10} = 1.1 \\
+    T_{2} \pbrac{0.1} &= \frac{1}{0!} + \frac{1}{1!} \pbrac{0.1} + \frac{-1}{2!} \pbrac{0.1}^{2} = \frac{219}{200} = 1.095. \\
+    T_{3} \pbrac{0.1} &= \frac{1}{0!} + \frac{1}{1!} \pbrac{0.1} + \frac{-1}{2!} \pbrac{0.1}^{2} + \frac{-1}{3!} \pbrac{0.1}^{3} = \frac{6569}{6000} = 1.0948\overline{33}. \\
+    T_{4} \pbrac{0.1} &= \frac{1}{0!} + \frac{1}{1!} \pbrac{0.1} + \frac{-1}{2!} \pbrac{0.1}^{2} + \frac{-1}{3!} \pbrac{0.1}^{3} + \frac{1}{4!} \pbrac{0.1}^{4} \\ &= \frac{87587}{80000} = 1.0948375. \\
+    T_{5} \pbrac{0.1} &= \frac{1}{0!} + \frac{1}{1!} \pbrac{0.1} + \frac{-1}{2!} \pbrac{0.1}^{2} + \frac{-1}{3!} \pbrac{0.1}^{3} + \frac{1}{4!} \pbrac{0.1}^{4} + \frac{1}{5!} \pbrac{0.1}^{5} \\ &= \frac{13138051}{12000000} \approx 1.09483758\overline{33}.
+  \end{align*}
+\end{soln}
+
+Comparing the value $T_{5} \pbrac{0.1}$ to the calculator value of $\sin 0.1 + \cos 0.1$ from the start of the section, we find nine decimal places of accuracy---not bad for a calculation we can write down on a napkin!
+In fact, this is exactly how some calculators compute values of functions like $\sin$, $\cos$, $\exp$, and $\ln$.
+It's a very powerful computational technique, because it lets us replace messy \enquote{transcendental functions} with the simple arithmetic operations of multiplication and addition.
+
+% TODO: Add material about error bounds?
+
+\begin{gps}
+  \begin{gp}
+    Let $f(x) = \sqrt{x}$.
+    Find the linear approximation to $f$ centered at $x = 64$.
+    Use it to estimate the value of $\sqrt{63}$.
+  \end{gp}
+
+  \begin{gp}
+    Use the first five Taylor polynomials to $f(x) = e^{x}$ centered at $x = 0$ to approximate the value of $e$.
+    Compare the results to the decimal value of $e$ given by a calculator or Web site.
+  \end{gp}
+
+  \begin{gp}
+    Find the first few Taylor polynomials for $f(x) = \frac{1}{1 - x}$ and graph them along with $y = f(x)$.
+    For what values of $x$ do these polynomials approximate $f(x)$?
+  \end{gp}
+\end{gps}
+
 \begin{exercises}
 \end{exercises}
 \end{document}
