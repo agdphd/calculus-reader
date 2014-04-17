@@ -1,0 +1,122 @@
+\documentclass{article}
+
+\usepackage{rotating}
+\usepackage{xcolor}
+\usepackage{calc}
+\usepackage{geometry}
+
+\usepackage{tikz,pgfplots}
+
+\usepackage[T1]{fontenc}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+
+% Obtain these dimensions from the printer
+\newlength{\coverheight}
+\setlength{\coverheight}{12.5in}
+
+\newlength{\spinewidth}
+\setlength{\spinewidth}{0.4in}
+
+\newlength{\coverpagewidth}
+\setlength{\coverpagewidth}{9.1in}
+
+\newlength{\coverbleed}
+\setlength{\coverbleed}{0.75in}
+
+\newlength{\covermargin}
+\setlength{\covermargin}{1.0in}
+
+\newlength{\coverwidth}
+\setlength{\coverwidth}{2\coverpagewidth+\spinewidth}
+
+\newlength{\coverpageblockwidth}
+\setlength{\coverpageblockwidth}{\coverpagewidth-\coverbleed-\covermargin}
+
+\newlength{\coverpageblockheight}
+\setlength{\coverpageblockheight}{\coverheight-\coverbleed-\covermargin}
+
+\geometry{
+  margin=0pt,
+  paperwidth=\coverwidth,
+  paperheight=\coverheight,
+}
+
+\def\thesubtitle{\null}
+\newcommand{\subtitle}[1]{\gdef\thesubtitle{#1}}
+
+\input{../book/calcnotes-metadata}
+
+\definecolor{covercolor}{rgb}{1,1,1}
+\definecolor{covertitlecolor}{rgb}{0,0,0}
+\definecolor{coversubtitlecolor}{rgb}{0.60,0.14,0.21}
+\definecolor{covertextcolor}{rgb}{0,0,0}
+\pagecolor{covercolor}
+
+\newcommand{\covertitlefont}{\color{covertitlecolor}\fontsize{2cm}{0cm}\sffamily\bfseries}
+\newcommand{\coversubtitlefont}{\color{coversubtitlecolor}\fontsize{2cm}{0cm}\sffamily\itshape}
+\newcommand{\coverauthorfont}{\color{covertextcolor}\fontsize{.75cm}{0cm}\sffamily}
+\newcommand{\coverspinefont}{\color{covertextcolor}\fontsize{0.75\spinewidth}{0cm}\sffamily\bfseries}
+\newcommand{\coverbacktextfont}{\color{covertextcolor}}
+
+\makeatletter
+\newcommand{\printtitle}{\covertitlefont\@title}
+\newcommand{\printsubtitle}{\coversubtitlefont\thesubtitle}
+\newcommand{\printauthor}{\coverauthorfont\@author}
+\makeatother
+
+\begin{document}
+\vspace*{\stretch{1}}
+\hspace*{\stretch{1}}
+\begin{minipage}[c][\coverpageblockheight][c]{\coverpageblockwidth}
+  \coverbacktextfont
+  Someday, this back cover will say something very nice about this book.
+  For now, instead, it has some delightful filler text!
+\end{minipage}
+% Spine
+\begin{minipage}[c][\coverpageblockheight]{\spinewidth}
+  \makeatletter
+  \rotatebox{270}{
+    \coverspinefont
+    \@title: \thesubtitle
+    \qquad\qquad
+    \@author
+  }
+  \makeatother
+\end{minipage}
+% Front page
+\begin{minipage}[c][\coverpageblockheight][c]{\coverpageblockwidth}
+  \hfill
+  \begin{tikzpicture}
+    \begin{axis}[
+      width = \coverpageblockwidth-\covermargin,
+      height = \coverpageblockheight,
+      axis lines = middle,
+      ticks = none,
+      domain = -1.5:12,
+      restrict y to domain = -6:6,
+      ymin = -10,
+      ymax = 14,
+      samples = 400,
+      smooth,
+      no markers,
+      thick,
+      opacity = .4,
+      line width = 1.0mm,
+      ]
+      \addplot[blue] {x};
+      \addplot[green] {x - 1/6*x^3};
+      \addplot[red] {x - 1/6*x^3 + 1/120*x^5};
+      \addplot[purple] {x - 1/6*x^3 + 1/120*x^5 - 1/5040*x^7};
+
+      \addplot[black, line width=1.5mm, opacity=1] {sin(deg(x))};
+
+      \draw (axis cs:12,13) node[opacity=1, anchor=east] (title) { \printtitle };
+      \draw (axis cs:12,11.25) node[opacity=1, anchor=east] (subtitle) { \printsubtitle };
+      \draw (axis cs:12,-9) node[opacity=1, anchor=east] (author) { \printauthor };
+    \end{axis}
+  \end{tikzpicture}
+\end{minipage}
+\hspace*{\stretch{1}}
+\vspace*{\stretch{1}}
+\end{document}
