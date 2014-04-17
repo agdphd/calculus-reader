@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \usepackage{rotating}
-\usepackage{xcolor}
+\usepackage[cmyk]{xcolor}
 \usepackage{calc}
 \usepackage{geometry}
 
@@ -9,7 +9,7 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{libertine}
-\usepackage[libertine]{newtxmath}
+%\usepackage[libertine]{newtxmath}
 
 % Obtain these dimensions from the printer
 \newlength{\coverheight}
@@ -47,11 +47,13 @@
 
 \input{../book/calcnotes-metadata}
 
-\definecolor{covercolor}{rgb}{1,1,1}
-\definecolor{covertitlecolor}{rgb}{0,0,0}
-\definecolor{coversubtitlecolor}{rgb}{0.60,0.14,0.21}
-\definecolor{covertextcolor}{rgb}{0,0,0}
+\definecolor{covercolor}{cmyk}{0,0,0,0}
+\definecolor{covertitlecolor}{cmyk}{0,0,0,1}
+\definecolor{coversubtitlecolor}{cmyk}{0,0.66,0.69,0.17}
+\definecolor{covertextcolor}{cmyk}{0,0,0,1}
 \pagecolor{covercolor}
+
+\definecolor{orchid}{cmyk}{0,.61,0,.44}
 
 \newcommand{\covertitlefont}{\color{covertitlecolor}\fontsize{2cm}{0cm}\sffamily\bfseries}
 \newcommand{\coversubtitlefont}{\color{coversubtitlecolor}\fontsize{2cm}{0cm}\sffamily\itshape}
@@ -93,27 +95,39 @@
       height = \coverpageblockheight,
       axis lines = middle,
       ticks = none,
-      domain = -1.5:12,
-      restrict y to domain = -6:6,
-      ymin = -10,
-      ymax = 14,
+      domain = 0:8,
+      restrict y to domain = -4:4,
+      xmin = -1.5,
+      xmax = 20,
+      ymin = -8,
+      ymax = 10,
       samples = 400,
       smooth,
       no markers,
       thick,
-      opacity = .4,
       line width = 1.0mm,
+      gray,
       ]
-      \addplot[blue] {x};
-      \addplot[green] {x - 1/6*x^3};
-      \addplot[red] {x - 1/6*x^3 + 1/120*x^5};
-      \addplot[purple] {x - 1/6*x^3 + 1/120*x^5 - 1/5040*x^7};
+      %\addplot {x};
+      \addplot[red] {x - 1/factorial(3) * x^3};
+      \addplot[green] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5};
+      \addplot[blue] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7};
+      \addplot[orchid] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9};
+      \addplot[orange] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21 - 1/factorial(23) * x^23};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21 - 1/factorial(23) * x^23 + 1/factorial(25) * x^25};
+      %\addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21 - 1/factorial(23) * x^23 + 1/factorial(25) * x^25 - 1/factorial(27) * x^27};
 
-      \addplot[black, line width=1.5mm, opacity=1] {sin(deg(x))};
+      \addplot[domain=0:20, black, opacity=1, line width=1.5mm, opacity=1] {sin(deg(x))};
 
-      \draw (axis cs:12,13) node[opacity=1, anchor=east] (title) { \printtitle };
-      \draw (axis cs:12,11.25) node[opacity=1, anchor=east] (subtitle) { \printsubtitle };
-      \draw (axis cs:12,-9) node[opacity=1, anchor=east] (author) { \printauthor };
+      \draw (axis cs:18,9) node[opacity=1, anchor=east] (title) { \printtitle };
+      \draw (axis cs:18,7.75) node[opacity=1, anchor=east] (subtitle) { \printsubtitle };
+      \draw (axis cs:18,-7) node[opacity=1, anchor=east] (author) { \printauthor };
     \end{axis}
   \end{tikzpicture}
 \end{minipage}
