@@ -177,26 +177,6 @@ Before we move on, take a moment to think about how much harder the calculation 
 We'd have needed to find the area under the curve of $y = x^{2}$ using purely geometric methods.
 This problem was solved by Archimedes, but it required a \emph{lot} of work and extreme cleverness---and we just dispensed with it in one line of calculations!
 
-\subsection{Net change}
-\label{sec:netchange}
-
-\Cref{thm:ftc.calc} suggests an important interpretation of the area function.
-The function $\Int{f(t)}{t,a,x}$ doesn't just measure the area of a region in the plane; it measures the \defterm{accumulation} or \defterm{net change} of a quantity whose rate of change is given by $f$.
-This interpretation is quite natural in settings where rates of change have physical interpretations.
-
-\begin{example}
-  \label{ex:flowint}
-  Water is draining out of a tank through a pipe; at time $t$ (in \si{\minute}), its flow rate is $r(t)$ (in \si{\gallon\per\minute}).
-  The definite integral $\Int{r(t)}{t,a,b}$ measures the total volume of water (in \si{\gallon}) that flows through the pipe during the time interval $t \in \closedint{a, b}$.
-\end{example}
-
-\begin{example}
-  \label{ex:velocityint}
-  A car is traveling on a highway from Minneapolis to Chicago; at time $t$ (in \si{\hour}), its velocity (in \si{\mile\per\hour}) is given by $v(t)$.
-  The definite integral $\Int{f(t)}{t,a,b}$ measures the \defterm{total displacement} of the car (in \si{\mile}) over the time interval $t \in \closedint{a,b}$; in particular, if $v$ is nonnegative, then the integral measures the distance traveled by the car, which is the distance between the car's positions at time $a$ and time $b$.
-  (If the car changes direction during its trip, this is not the same as total distance traveled; it is important to bear in mind the significance of sign in this calculation!)
-\end{example}
-
 The definite integral turns out to have an amazingly wide array of applications in physics, biology, economics, and many diverse parts of mathematics.
 We'll explore these more deeply in \cref{ch:integral-applications}.
 

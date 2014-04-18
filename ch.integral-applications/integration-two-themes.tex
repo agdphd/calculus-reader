@@ -4,11 +4,100 @@
 \section{Two themes of integral applications}
 \label{sec:integral.two-themes}
 
+In \cref{sec:integral-theory}, we invested a \emph{lot} of energy into a pretty theoretical project: the development of a full theory of integration.
+Now that we've done all this background work, we can begin to see the payoff; it turns out that integration has an array of applications at least as diverse as that of differentiation (which we explored in \cref{sec:derivative-applications}.
+It turns out that most of the applications we'll see evoke one of two major themes, which we'll discuss a bit here before we dive into the details.
+
 \subsection{Net change}
 \label{sec:integral.net-change}
+The second Fundamental Theorem of Calculus (\cref{thm:ftc.calc}) suggests an important interpretation of the signed area $\Int{f(x)}{x, a, b}$.
+It doesn't just measure the area of a region in the plane; it measures the \defterm{accumulation} or \defterm{net change} of any quantity whose rate of change is given by $f$.
+This interpretation is quite natural in settings where rates of change have physical interpretations.
+
+\begin{example}
+  \label{ex:flowint}
+  Water is draining out of a tank through a pipe; at time $t$ (in \si{\minute}), its flow rate is $r(t)$ (in \si{\gallon\per\minute}).
+  The definite integral $\Int{r(t)}{t,a,b}$ measures the total volume of water (in \si{\gallon}) that flows through the pipe during the time interval $t \in \closedint{a, b}$.
+\end{example}
+
+\begin{example}
+  \label{ex:velocityint}
+  A car is traveling on a highway from Minneapolis to Chicago; at time $t$ (in \si{\hour}), its velocity (in \si{\mile\per\hour}) is given by $v(t)$.
+  The definite integral $\Int{f(t)}{t,a,b}$ measures the \defterm{total displacement} of the car (in \si{\mile}) over the time interval $t \in \closedint{a,b}$; in particular, if $v$ is nonnegative, then the integral measures the distance traveled by the car, which is the distance between the car's positions at time $a$ and time $b$.
+  (If the car changes direction during its trip, this is not the same as total distance traveled; it is important to bear in mind the significance of sign in this calculation!)
+\end{example}
+
+Many of our applications of integration will take this form; if we want to find the net change in some quantity $A$ whose rate of change is given by $f(x) = \D{}{x} A(x)$, we can use a definite integral to do it.
 
 \subsection{Product formulas}
 \label{sec:integral.product-formulas}
+
+Many familiar physical quantities are measured using \enquote{product formulas}.
+To list just a few examples:
+\begin{itemize}
+\item
+  The area $A$ of a rectangle of height $h$ and length $l$ is given by
+  \begin{equation*}
+    A = h l.
+  \end{equation*}
+
+\item
+  The distance $D$ traveled by an object with velocity $V$ over time $T$ is given by
+  \begin{equation*}
+    D = V T.
+  \end{equation*}
+
+\item
+  The work $W$ done by a force $F$ over a distance $D$ is given by
+  \begin{equation*}
+    W = F D.
+  \end{equation*}
+
+\item
+  The volume $V$ of a cylinder with cross-sectional area $A$ and height $h$ is given by
+  \begin{equation*}
+    V = A h.
+  \end{equation*}
+\end{itemize}
+
+% TODO: Add more!
+
+Each of these formulas is extremely useful in its appropriate setting, but all are limited by the same fundamental constraint: they assume that the quantities involved are constant!
+In practice, we rarely travel at a constant velocity, apply a constant force, or discover a perfect rectangle or cylinder in the real world.
+Instead, we find situations where one of these quantities is variable and depends on something else---frequently position or time, although we'll see other independent variables as well.
+
+We designed the definite integral to solve one specific problem: computing the area of a region whose height varies as a function of position.
+It turns out, however, that it serves equally well in any of these other cases.
+Each of the formulas above can be translated into an integral formula!
+To wit:
+\begin{itemize}
+\item
+  The area $A$ of the region under the curve $y = f(x)$ over the interval $\closedint{a, b}$ is given by
+  \begin{equation*}
+    \Int{f(x)}{x, a, b}.
+  \end{equation*}
+
+\item
+  The distance $D$ traveled by an object with velocity $v(t)$ at time $t$ over the interval $\closedint{a, b}$ is given by
+  \begin{equation*}
+    D = \Int{v(t)}{t, a, b}.
+  \end{equation*}
+
+\item
+  The work $W$ done by a force $f(x)$ at position $x$ over the interval $\closedint{a, b}$ is given by
+  \begin{equation*}
+    \Int{f(x)}{x, a, b}.
+  \end{equation*}
+
+\item
+  The volume $V$ of an object with cross-sectional area $A(x)$ at position $x$ over the interval $\closedint{a, b}$ is given by
+  \begin{equation*}
+    V = \Int{A(x)}{x, a, b}.
+  \end{equation*}
+\end{itemize}
+
+We'll see more of these kinds of applications as we move through the coming sections.
+
 \begin{exercises}
 \end{exercises}
 \end{document}
