@@ -2,7 +2,86 @@
 
 \begin{document}
 \section{Average value and centers of mass}
+\label{sec:integral.average-value-and-centers-of-mass}
+
+In this section, we'll consider how integration can help us solve two problems related to averaging.
+
+\subsection{Average value}
 \label{sec:integral.average-value}
+
+Let's begin by considering a familiar example.
+Suppose a vanload of students drives from Minneapolis to Chicago for a weekend, departing at noon on Friday and arriving at 7PM (just in time for dinner!).
+They record their velocity $v$ (in \si{\mile\per\hour}) as a function of time $t$ (in \si{\hour} after noon) as they go.
+As discussed in \cref{ex:velocityint}, the total distance traveled by the students is given by a simple integral formula:
+\begin{equation*}
+  D = \Int{v(t)}{t, 0, 7}.
+\end{equation*}
+Assuming they took a direct route, we can find on a map that $D \approx \SI{400}{\mile}$.
+
+Given this information, what was the students' average velocity $\avg{v}$ during the trip?
+Nevermind calculus---this is a very familiar calculation.
+We just need to divide the distance traveled ($D \approx \SI{400}{\mile}$) by the time it took to make the trip ($T = \SI{7}{\hour}$) to find that $\avg{v} = \frac{D}{T} \approx \frac{\SI{400}{\mile}}{\SI{7}{\hour}} \approx \SI{57.1}{\mile\per\hour}$.
+
+In the language of calculus (and making some careful notational choices that will be justified shortly), the average value of $v$ over the interval $\closedint{0, 7}$ is given by
+\begin{equation*}
+  \avg{v} = \frac{1}{7 - 0} \Int{v(t)}{t, 0, 7}.
+\end{equation*}
+
+The value $\avg{v}$ we calculated above has the following property: \emph{if the students had driven at a constant speed of $\avg{v}$, they would have arrived at the same time as if they traveled at the variable speed $v(t)$}.
+This seems like a reasonable way to define the average value of \emph{any} variable rate of change, so let's write it down.
+
+\begin{definition}
+  \label{def:integral.average-value}
+  Let $f$ be a function which is integrable the interval $\closedint{a, b}$.
+  Then the \defterm{average value of $f$ on $\closedint{a, b}$}[average value] $\avg{f}$ of $f$ is the constant such that a constant rate of change of $\avg{f}$ over $\closedint{a, b}$ results in the same net change as the variable rate of change $f(x)$ over the same interval.
+  In other words,
+  \begin{equation*}
+    \pbrac{b - a} \cdot \avg{f} = \Int{f(x)}{x, a, b},
+  \end{equation*}
+  or, equivalently,
+  \begin{equation}
+    \label{eq:integral.average-value}
+    \avg{f} = \frac{1}{b - a} \Int{f(x)}{x, a, b}.
+  \end{equation}
+\end{definition}
+
+We can also give the idea of \cref{def:integral.average-value} a graphical interpretation.
+Recall that our original definition of the definite integral (\cref{def:defint}) was that $\Int{f(x)}{x, a, b}$ is the \enquote{signed area} under the curve $y = f(x)$ over the interval $\closedint{a, b}$.
+By definition, the average value $\avg{f}$ of $f$ over $\closedint{a, b}$ is the constant value such that $\Int{\avg{f}}{x, a, b} = \Int{f(x)}{x, a, b}$.
+Geometrically, then, it's the number such that a rectangle of height $\avg{f}$ and base $\closedint{a, b}$ has the same signed area as the region under $y = f(x)$ over that same interval.
+This is illustrated in \cref{fig:integral.average-value}.
+
+\begin{medfig}
+  \begin{asy}
+    medsize();
+
+    real xmin=-1, xmax=6.25;
+    real ymin=-1.25, ymax=1.5;
+
+    real a = 1, b = 5;
+
+    xaxis("$x$", xmin, xmax, Ticks(new real[] {a,b}, ticklabel=OmitFormat(a,b)), Arrow);
+    labelx("$a$",a);
+    labelx("$b$",b);
+    yaxis("$y$", ymin, ymax, Arrow);
+
+    real f(real x) {return sin(x) + cos(x)^2;}
+    real fbar(real x) {return 0.47;}
+
+    path fplot = funcplot(f, xmin, xmax);
+    fillunder(f, a, b, box1);
+
+    path fbarplot = funcplot(fbar, xmin, xmax);
+    fillunder(fbar, a, b, box2);
+
+    limits((xmin,ymin),(xmax,ymax),Crop);
+  \end{asy}
+  \caption{Comparison of $y = f(x)$ and $y = \avg{f}$}
+  \label{fig:integral.average-value}
+\end{medfig}
+
+\subsection{Center of mass}
+\label{sec:integral.center-of-mass}
 
 \begin{exercises}
 \end{exercises}
