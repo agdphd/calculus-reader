@@ -129,7 +129,54 @@ The result is straightforward enough to state:
 \Cref{thm:deriv.quotient-rule} can be proved directly using algebraic trickery, just like we did above for \cref{thm:deriv.product-rule}.
 However, it will be much easier to prove using the results we'll obtain in \cref{sec:chainrule}, so we'll postpone it until then.
 
+\subsubsection{Derivatives of the remaining trig functions}
+\label{sec:deriv.trig.other}
+Back in \cref{sec:deriv.trig}, we showed (in \cref{thm:deriv.sincos}) that $\D{}{x} \sin x = \cos x$ and $\D{}{x} \cos x = -\sin x$.
+It turns out that, with \cref{thm:deriv.quotient-rule} in hand, we can compute the derivatives of all the other trig functions using these two building blocks!
+Let's take a look at how this works.
+
+\begin{example}
+  \label{ex:deriv.tan}
+  Compute $\D{}{x} \tan x$.
+\end{example}
+
+\begin{soln}
+  Recall that $\tan x = \frac{\sin x}{\cos x}$.
+  Thus, by \cref{thm:deriv.quotient-rule},
+  \begin{align*}
+    \D{}{x} \tan x
+    &= \D{}{x} \frac{\sin x}{\cos x} \\
+    &= \frac{\pbrac*{\sin x}' \pbrac*{\cos x} - \pbrac*{\sin x} \pbrac*{\cos x}'}{\pbrac*{\cos x}^{2}}.
+    \intertext{
+      Using the derivatives we computed for $\sin x$ and $\cos x$, we continue:
+    }
+    &= \frac{\pbrac{\cos x}^{2} + \pbrac{\sin x}^{2}}{\pbrac{\cos x}^{2}}.
+    \intertext{
+      One of the most important trigonometric identities is that, for any angle $x$, $\sin^{2} x + \cos^{2} x = 1$!
+      Thus,
+    }
+    &= \frac{1}{\cos^{2} x} = \sec^{2} x.
+  \end{align*}
+  So $\D{}{x} \tan x = \sec^{2} x$!
+\end{soln}
+
+We can use this same technique to compute the derivatives of the remaining three trigonometric functions.
+We'll leave the rest of the computations as exercises, but we'll wrap up the results here:
+\begin{theorem}
+  \label{thm:deriv.othertrig}
+  The derivatives of the tangent, cotangent, secant, and cosecant functions are given by
+  \begin{align}
+    \D{}{x} \tan x &= \sec^{2} x \label{eq:deriv.tan} \\
+    \D{}{x} \cot x &= -\csc^{2} x \label{eq:deriv.cot} \\
+    \D{}{x} \sec x &= \sec x \tan x \label{eq:deriv.sec} \\
+    \D{}{x} \csc x &= -\csc x \cot x \label{eq:deriv.csc}
+  \end{align}
+\end{theorem}
+
 \begin{exercises}
+  \begin{ex}
+    Prove \cref{eq:deriv.cot,eq:deriv.sec,eq:deriv.csc} using similar methods to those from \cref{ex:deriv.tan}.
+  \end{ex}
 \end{exercises}
 \end{document}
 

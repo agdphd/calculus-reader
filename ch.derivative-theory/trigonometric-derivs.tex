@@ -2,7 +2,142 @@
 
 \begin{document}
 \section{Trigonometric derivatives}
-\label{sec:derivs.trig}
+\label{sec:deriv.trig}
+
+Another important class of functions comes from \emph{trigonometry}, the study of the geometry of triangles.
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    import geometry;
+    import math;
+
+    real theta = 30;
+
+    pair a = (0, 0);
+    pair b = (1, 0);
+    pair c = (1, Sin(theta));
+
+    draw(a--b--c--cycle);
+
+    label("$C$", a--c, LeftSide);
+    label("$A$", b--c, RightSide);
+    label("$B$", a--b, RightSide);
+
+    markrightangle(a, b, c);
+    markangle("$\theta$", b, a, c);
+  \end{asy}
+  \caption{A triangle for trigonometry}
+  \label{fig:trig.triangle}
+\end{smallfig}
+Given a right triangle like the one in \cref{fig:trig.triangle}, we define six trigonometric functions, corresponding to the six possible ratios of side lengths:
+\begin{align*}
+  \sin \theta &= \frac{A}{C} & \csc \theta &= \frac{C}{A} = \frac{1}{\sin \theta} \\
+  \cos \theta &= \frac{B}{C} & \sec \theta &= \frac{C}{B} = \frac{1}{\cos \theta} \\
+  \tan \theta &= \frac{A}{B} = \frac{\sin \theta}{\cos \theta} & \cot \theta &= \frac{B}{A} = \frac{1}{\tan \theta}
+\end{align*}
+
+Crucially, it turns out that these ratios depend only on the angle $\theta$ and not on the size of the triangle, so we can think of these as \emph{functions of $\theta$}.
+The sine and cosine functions turn out to have particularly nice-looking graphs, as shown in \cref{fig:sin,fig:cos}.
+
+\begin{medfig}
+  \begin{asy}
+    medsize();
+
+    real f(real x) {return sin(x);}
+
+    real xstart=-1, xend=13;
+    real ystart=-1.2, yend=1.4;
+
+    xaxis("$x$", xstart, xend,Arrow);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    funcplot(f, xstart, xend);
+  \end{asy}
+  \caption{Plot of $y = \sin x$}
+  \label{fig:sin}
+\end{medfig}
+
+\begin{medfig}
+  \begin{asy}
+    medsize();
+
+    real f(real x) {return cos(x);}
+
+    real xstart=-1, xend=13;
+    real ystart=-1.2, yend=1.4;
+
+    xaxis("$x$", xstart, xend,Arrow);
+    yaxis("$y$", ystart, yend, Arrow);
+
+    funcplot(f, xstart, xend);
+  \end{asy}
+  \caption{Plot of $y = \cos x$}
+  \label{fig:cos}
+\end{medfig}
+
+These functions will turn out to be surprisingly important in calculus.
+To see why, let's take a look at their derivatives.
+
+\subsection{Derivative of the sine function}
+\label{sec:deriv.sin}
+Let's try to calculate $\D{}{x} \sin x$.
+
+Following \cref{def:deriv.func}, we know that
+\begin{align*}
+  \D{}{x} \sin x
+  &= \lim_{\Delta x \to 0} \frac{\sin \pbrac*{x + \Delta x} - \sin \pbrac{x}}{\Delta x}.
+  \intertext{
+    Trig functions like $\sin$ and $\cos$ have many delightful algebraic properties.
+    Here, we'll take advantage of the fact that $\sin \pbrac{a + b} = \sin \pbrac{a} \cos \pbrac{b} + \sin \pbrac{b} \cos \pbrac{a}$ to unpack the numerator of the right-hand side:
+  }
+  &= \lim_{\Delta x \to 0} \frac{\sin \pbrac*{x} \cos \pbrac*{\Delta x} + \sin \pbrac*{\Delta x} \cos \pbrac{x} - \sin \pbrac{x}}{\Delta x} \\
+  &= \lim_{\Delta x \to 0} \frac{\sin \pbrac*{x} \cos \pbrac*{\Delta x} - \sin \pbrac{x}}{\Delta x} + \lim_{\Delta x \to 0} \frac{\sin \pbrac*{\Delta x} \cos \pbrac{x}}{\Delta x} \\
+  &= \pbrac*{\lim_{\Delta x \to 0} \frac{\cos \pbrac*{\Delta x} - 1}{\Delta x}} \cdot \sin x
+  + \pbrac*{\lim_{\Delta x \to 0} \frac{\sin \pbrac*{\Delta x}}{\Delta x}} \cdot \cos x.
+  \intertext{
+    These two limits are both quite tricky.
+    We'll consider them in more detail in \cref{sec:lhospital}; for now, we'll just note that the first converges to $0$ and the second to $1$.
+    With this in hand, we can continue:
+  }
+  &= 0 \cdot \sin x + 1 \cdot \cos x \\
+  &= \cos x.
+\end{align*}
+
+So $\D{}{x} \sin x = \cos x$!
+This is a remarkably straightforward answer to what might have been a very complicated question.
+If we examine \cref{fig:sin,fig:cos} again, though, it actually isn't so surprising.
+
+Specifically, let's consider the interval $\closedint{0, 2\pi}$.
+$\sin x$ has positive slopes on $\openint*{0, \frac{\pi}{2}}$ and $\openint*{\frac{3\pi}{2}, 2\pi}$, and $\cos x$ has positive values on these same intervals.
+Similarly, $\sin x$ has negative slopes on $\closedint*{\frac{\pi}{2}, \frac{3\pi}{2}}$, and $\cos x$ has negative values on this same interval.
+
+\subsection{Derivatives of the other trig functions}
+\label{sec:deriv.trig.other}
+What about $\D{}{x} \cos x$?
+The argument we just used will work equally well for $\cos$ as for $\sin$.
+We just need the cosine addition formula
+\begin{equation*}
+  \cos \pbrac*{a + b} = \cos a \cos b - \sin a \sin b
+\end{equation*}
+to get us started.
+The details are essentially identical to what we did in \cref{sec:deriv.sin}, so we'll omit the computation here.
+The result is just as nice as before: $\D{}{x} \cos x = -\sin x$.
+(To see why the negative sign shows up, take another look at \cref{fig:sin,fig:cos}.
+We'll wait!)
+
+We could also use similar arguments to compute the derivatives of the remaining four trigonometric functions.
+However, it turns out to be easier to use algebraic methods, which we'll develop in \cref{sec:deriv.prodquot}, so we'll leave these aside for now.
+To close out the section, let's record the results of our work in a theorem!
+
+\begin{theorem}
+  \label{thm:deriv.sincos}
+  The derivatives of the sine and cosine functions are given by
+  \begin{align}
+    \D{}{x} \sin x &= \cos x \label{eq:deriv.sin} \\
+    \D{}{x} \cos x &= -\sin x. \label{eq:deriv.cos}
+  \end{align}
+\end{theorem}
 
 \begin{exercises}
 \end{exercises}
