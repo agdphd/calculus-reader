@@ -41,11 +41,13 @@ In many cases, we'll need special techniques and careful analysis to find the de
   Recall that we already computed $f'(1)$ in \cref{ex:derivative.quadratic.onepoint}.
   To find $f'(x)$ as a function of $x$, we only need to retrace our steps, using $x$ instead of the specific value $x = 1$.
   By \cref{def:deriv.func}, the derivative is
-  \begin{multline*}
-    f'(x) = \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{2} - \pbrac{x}^{2}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} \frac{x^{2} + 2 x \Delta x + \pbrac*{\Delta x}^{2} - x^{2}}{\Delta x} = \lim_{\Delta x \to 0} \frac{2 x \Delta x + \pbrac*{\Delta x}^{2}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} 2 x + \Delta x = 2x.
-  \end{multline*}
+  \begin{align*}
+    f'(x)
+    &= \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{2} - \pbrac{x}^{2}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{x^{2} + 2 x \Delta x + \pbrac*{\Delta x}^{2} - x^{2}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{2 x \Delta x + \pbrac*{\Delta x}^{2}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} 2 x + \Delta x = 2x.
+  \end{align*}
   In differential notation, this result is
   \begin{equation*}
     \D{}{x} x^{2} = 2x.
@@ -119,11 +121,13 @@ What happens if we use a power other than $2$?
 
 \begin{soln}
   By \cref{def:deriv.func}, we compute
-  \begin{multline*}
-    f'(x) = \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{3} - \pbrac*{x}^{3}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} \frac{x^{3} + 3 x^{2} \Delta x + 3 x \pbrac*{\Delta x}^{2} + \pbrac*{\Delta x}^{3} - x^{3}}{\Delta x} = \lim_{\Delta x \to 0} \frac{3 x^{2} \Delta x + 3x \pbrac*{\Delta x}^{2} + \pbrac*{\Delta x}^{3}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} 3x^{2} + 3 x \Delta x + \pbrac*{\Delta x}^{2} = 3x^{2}.
-  \end{multline*}
+  \begin{align*}
+    f'(x)
+    &= \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{3} - \pbrac*{x}^{3}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{x^{3} + 3 x^{2} \Delta x + 3 x \pbrac*{\Delta x}^{2} + \pbrac*{\Delta x}^{3} - x^{3}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{3 x^{2} \Delta x + 3x \pbrac*{\Delta x}^{2} + \pbrac*{\Delta x}^{3}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} 3x^{2} + 3 x \Delta x + \pbrac*{\Delta x}^{2} = 3x^{2}.
+  \end{align*}
   So $\D{}{x} x^{3} = 3x^{2}$.
 \end{soln}
 
@@ -143,15 +147,17 @@ If we let $a = x + \Delta x$ and $b = x$, the left-hand side of \cref{eq:diffofp
 What if we try to take the derivative of a general power function $f(x) = x^{n}$?
 Again, following \cref{def:deriv.func}, we'll compute
 \begin{align*}
-  \D{}{x} x^{n} &= \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{n} - \pbrac*{x}^{n}}{\Delta x}. \\
+  \D{}{x} x^{n}
+  &= \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x}^{n} - \pbrac*{x}^{n}}{\Delta x}. \\
   \intertext{If we apply \cref{thm:diffofpowers} to the numerator, we can expand it, so}
   &= \lim_{\Delta x \to 0} \frac{\pbrac*{x + \Delta x - x} \pbrac*{\pbrac*{x + \Delta x}^{n-1} + \pbrac{x + \Delta x}^{n-2} x + \dots + \pbrac*{x + \Delta x} x^{n-2} + x^{n-1}}}{\Delta x} \\
   &= \lim_{\Delta x \to 0} \frac{\Delta x \cdot \pbrac*{\pbrac*{x + \Delta x}^{n-1} + \pbrac{x + \Delta x}^{n-2} x + \dots + \pbrac*{x + \Delta x} x^{n-2} + x^{n-1}}}{\Delta x} \\
   &= \lim_{\Delta x \to 0} \pbrac*{x + \Delta x}^{n-1} + \pbrac{x + \Delta x}^{n-2} x + \dots + \pbrac*{x + \Delta x} x^{n-2} + x^{n-1}.
-  \intertext{Now we can take the limit by simply setting $\Delta x = 0$, so we conclude that}
-  \D{}{x} x^{n} &= x^{n-1} + x^{n-2} \cdot x + \dots + x \cdot x^{n-2} + x^{n-1} \\
-  &= n x^{n-1}.
 \end{align*}
+Now we can take the limit by simply setting $\Delta x = 0$, so we conclude that
+\begin{equation*}
+  \D{}{x} x^{n} = x^{n-1} + x^{n-2} \cdot x + \dots + x \cdot x^{n-2} + x^{n-1} = n x^{n-1}.
+\end{equation*}
 
 Of course, this calculation only makes sense if $n$ is a positive integer.
 Ultimately, we'd like to be able to differentiate \emph{any} power function, but it turns out that we'll need more powerful machinery to do it.
@@ -193,10 +199,14 @@ To check it formally, let's go to the algebra of \cref{def:deriv.func}.
 
 \begin{soln}
   In light of \cref{def:deriv.func}, we compute
-  \begin{multline*}
-    \D{}{x} 3 f(x) = \lim_{\Delta x \to 0} \frac{\pbrac{3f} \pbrac{x + \Delta x} - \pbrac{3f} \pbrac{x}}{\Delta x} = \lim_{\Delta x \to 0} \frac{3 \pbrac*{f \pbrac*{x + \Delta x}} - 3 \pbrac*{f \pbrac{x}}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} \frac{3 \pbrac*{f \pbrac*{x + \Delta x} - f \pbrac*{x}}}{\Delta x}= 3 \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac*{x}}{\Delta x} = 3 \D{}{x} f(x).
-  \end{multline*}
+  \begin{align*}
+    \D{}{x} 3 f(x)
+    &= \lim_{\Delta x \to 0} \frac{\pbrac{3f} \pbrac{x + \Delta x} - \pbrac{3f} \pbrac{x}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{3 \pbrac*{f \pbrac*{x + \Delta x}} - 3 \pbrac*{f \pbrac{x}}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{3 \pbrac*{f \pbrac*{x + \Delta x} - f \pbrac*{x}}}{\Delta x} \\
+    &= 3 \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac*{x}}{\Delta x} \\
+    &= 3 \D{}{x} f(x).
+  \end{align*}
   So $\D{}{x} 3 f(x) = 3 \D{}{x} f(x)$.
 \end{soln}
 
@@ -245,11 +255,12 @@ Once again, we can check using the algebra of \cref{def:deriv.func}.
 
 \begin{soln}
   In light of \cref{def:deriv.func}, we compute
-  \begin{multline*}
-    \D{}{x} f(x) + g(x) = \lim_{\Delta x \to 0} \frac{\pbrac{f + g} \pbrac*{x + \Delta x} - \pbrac{f + g} \pbrac*{x}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} + g \pbrac*{x + \Delta x} - f \pbrac{x} - g \pbrac{x}}{\Delta x} \\
-    = \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac{x}}{\Delta x} + \frac{g \pbrac*{x + \Delta x} - g \pbrac{x}}{\Delta x} = f'(x) + g'(x).
-  \end{multline*}
+  \begin{align*}
+    \D{}{x} f(x) + g(x)
+    &= \lim_{\Delta x \to 0} \frac{\pbrac{f + g} \pbrac*{x + \Delta x} - \pbrac{f + g} \pbrac*{x}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} + g \pbrac*{x + \Delta x} - f \pbrac{x} - g \pbrac{x}}{\Delta x} \\
+    &= \lim_{\Delta x \to 0} \frac{f \pbrac*{x + \Delta x} - f \pbrac{x}}{\Delta x} + \frac{g \pbrac*{x + \Delta x} - g \pbrac{x}}{\Delta x} = f'(x) + g'(x).
+  \end{align*}
   Thus, $\D{}{x} f(x) + g(x) = \D{}{x} f(x) + \D{}{x} g(x)$.
 \end{soln}
 
@@ -298,11 +309,18 @@ For example, if we combine them with \cref{thm:deriv.power}, we can now find the
 
 \begin{soln}
   By \cref{thm:deriv.sum}, we can break up our derivative calculation over the $+$ signs:
+  \begin{multline*}
+    \D{}{x} \pbrac*{3x^{4} - x^{3} + 12x^{2} - 4x + 3} \\
+    = \pbrac*{\D{}{x} 3x^{4}} + \pbrac*{\D{}{x} -x^{3}} + \pbrac*{\D{}{x} 12x^{2}} + \pbrac*{\D{}{x} -4x} + \pbrac*{\D{}{x} 3}.
+  \end{multline*}
+  \Cref{thm:deriv.constmult} tells us that we can \enquote{pull out} the constant factors from each of these derivatives:
+  \begin{multline*}
+    \D{}{x} \pbrac*{3x^{4} - x^{3} + 12x^{2} - 4x + 3} \\
+    = 3 \pbrac*{\D{}{x} x^{4}} + \pbrac{-1} \pbrac*{\D{}{x} x^{3}} + 12 \pbrac*{\D{}{x} x^{2}} + \pbrac*{-4} \pbrac*{\D{}{x} x} + \pbrac*{\D{}{x} 3}.
+  \end{multline*}
+  Finally, we can use \cref{thm:deriv.power} and \cref{thm:deriv.const} to compute these derivatives.
   \begin{align*}
-    \D{}{x} 3x^{4} - x^{3} + 12x^{2} - 4x + 3 &= \pbrac*{\D{}{x} 3x^{4}} + \pbrac*{\D{}{x} -x^{3}} + \pbrac*{\D{}{x} 12x^{2}} + \pbrac*{\D{}{x} -4x} + \pbrac*{\D{}{x} 3}. \\
-    \intertext{\Cref{thm:deriv.constmult} tells us that we can \enquote{pull out} the constant factors from each of these derivatives:}
-    &= 3 \pbrac*{\D{}{x} x^{4}} + \pbrac{-1} \pbrac*{\D{}{x} x^{3}} + 12 \pbrac*{\D{}{x} x^{2}} + \pbrac*{-4} \pbrac*{\D{}{x} x} + \pbrac*{\D{}{x} 3}. \\
-    \intertext{Finally, we can use \cref{thm:deriv.power} and \cref{thm:deriv.const} to compute these derivatives.}
+    \D{}{x} \pbrac*{3x^{4} - x^{3} + 12x^{2} - 4x + 3}
     &= 3 \cdot 4 x^{3} - 3 x^{2} + 12 \cdot 2 x^{1} - 4 x^{0} + 0 \\
     &= 12 x^{3} - 3x^{2} + 24 x - 4.
   \end{align*}
