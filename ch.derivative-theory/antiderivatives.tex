@@ -4,11 +4,76 @@
 \section{Antiderivatives}
 \label{sec:antiderivatives}
 
+At this point, we've developed a pretty robust theory of differentiation.
+In particular, we're pretty good at answering questions of this form:
+\begin{quote}
+  Given a function $f$, does it have a derivative?
+  If so, what is $\D{}{x} f$?
+\end{quote}
+
+To a mathematician, this question immediately suggests another, called its \enquote{inverse problem}:
+\begin{quote}
+  Given a function $f$, are there any functions $F$ such that $\D{}{x} F = f$?
+  If so, what are they?
+\end{quote}
+
+
+We've already seen that answers to the first kind of question can be very useful---for example, given the position function $p(t)$ of an object, we can differentiate it to find its velocity function $v(t) = p'(t)$.
+In \cref{sec:derivative-applications}, we'll explore an array of other powerful applications.
+
+What about the second kind?
+It turns out that finding these \enquote{anti-derivatives} is often just as useful.
+For example, when you drive a car, its speedometer measures the car's velocity function $v(t)$.
+To find how far you've traveled over a period of time, you'll need to find your position function $p$, using only the fact that $p'(t) = v(t)$.
+
+To start, let's formalize the thing we're looking for with a definition.
+
 \begin{definition}
   \label{def:antiderivative}
-  Let $f$ and $F$ be functions which are continuous on an interval $I = \closedint{a, b}$.
-  Then $F$ is an \defterm{antiderivative of $f$ on $I$} if $\D{F}{x} = f \pbrac{x}$ on $I$.
+  Let $f$ be a function which is continuous on an interval $I = \closedint{a, b}$ and let $F$ be continuous\footnote{In fact, differentiable functions are automatically continuous, but it's worth bearing this condition in mind.} and differentiable on the same interval.
+  Then $F$ is an \defterm{antiderivative of $f$ on $I$}[antiderivative] if $\D{F}{x} = f \pbrac{x}$ on $I$.
 \end{definition}
+
+Now, to business.
+How can we \emph{find} an antiderivative of a function?
+
+\subsection{Antidifferentiation theorems from differentiation theorems}
+\label{sec:deriv.antideriv.making-theorems}
+
+We've already developed many theorems telling us how to differentiate functions.
+For example, \cref{thm:deriv.exp} tells us that $\D{}{x} b^{x} = \pbrac*{\ln b} b^{x}$ for any base $b > 0$.
+We can immediately turn this into an \emph{antidifferentiation} theorem simply by reversing it: $b^{x}$ is an antiderivative of $\pbrac*{\ln b} b^{x}$.
+We can do this for any of the derivative theorems we've proved so far!
+Thus, we get a library of antidifferentiation theorems \enquote{for free}, just by looking back over the differentiation theorems in the preceding sections.
+
+In practice, when writing antidifferentiation results, we usually prefer to move things around so that the second function is easy to recognize.
+For exponential functions, for example, we might instead write \enquote{$\frac{b^{x}}{\ln b}$ is an antiderivative of $b^{x}$}.
+
+For now, we won't bother writing these theorems down, since they're just replications of theorems in previous sections.
+Later, we'll develop more sophisticated tools that will allow us to find some more surprising antiderivative theorems.
+
+\subsection{The general antiderivative}
+\label{sec:deriv.antideriv.general}
+
+So far, we've spoken exclusively in terms of \enquote{\emph{an} antiderivative} of a given function $f$.
+It's important to bear in mind, though, that a given function will generally have \emph{lots} of antiderivatives!
+For example, $F(x) = 2x$ is an antiderivative of $f(x) = 2$, and so is $G(x) = 2x + 3$.
+Can we say anything general about the set of \emph{all} antiderivatives of a given function?
+
+Suppose $f$ is continuous\footnote{We'll return to the assumption of continuity later. It turns out to be very important!} on an interval $I = \closedint{a, b}$ and that $F$ and $G$ are antiderivatives of $f$ on $I$.
+(In other words, $\D{}{x} F(x) = \D{}{x} G(x) = f(x)$.)
+What can we say about the relationship between $F$ and $G$?
+As a place to start, let's think about their \emph{difference function} $D(x) = F(x) - G(x)$.
+Since $F$ and $G$ are both differentiable, $D$ is too, and
+\begin{equation*}
+  \D{}{x} D(x) = \D{}{x} \pbrac*{F(x) - G(x)} = \D{}{x} F(x) - \D{}{x} G(x) = f(x) - f(x) = 0.
+\end{equation*}
+So the derivative of $D$ is the zero function!
+
+Recall that one of the conclusions of \cref{thm:deriv.sign} was that any function with zero derivative must be a constant function.
+This means that $D$ is constant, so there's some constant $C \in \RR$ such that $F(x) - G(x) = C$ over all of $I$!
+
+This will turn out to be very important, so let's record it in a theorem.
 
 \begin{theorem}
   \label{thm:antiderivative.constant}
@@ -17,16 +82,31 @@
   In other words, if $f$ is a continuous function, all its antiderivatives are equal up to a constant term.
 \end{theorem}
 
+If all the antiderivatives of a given function $f$ are equal up to a constant, it's easy to describe the whole set of them at once!
+Let's give that a name.
+
 \begin{definition}
   \label{def:antiderivative.general}
   Let $F$ be an antiderivative of a continuous function $f$.
-  Then the \defterm{general antiderivative of $f$} is the one-parameter family of functions $\AD{}{x} f(x) = F(x) + C$ where $C$ takes values from $\RR$.
+  Then the \defterm{general antiderivative of $f$} is the set of functions $\AD{}{x} f(x) = \setbuilder{F(x) + C}{C \in \RR}$ where $C$ takes values from $\RR$.
+  In practice, we write $\AD{}{x} f(x) = F(x) + C$, omitting the set notation.
+  % TODO: This definition feels pretty technical. Trim it down?
 \end{definition}
 
 \begin{note}
   In many settings, the general antiderivative of $f$ is denoted by $\Int{f(x)}{x}$ instead of $\AD{}{x} f(x)$, for reasons that will become clear in \cref{sec:integral-theory}.
   We'll stick with the $\AD{f}{x}$ notation for now, but you should be aware of this other one in case you see it show up in other settings.
 \end{note}
+
+This definition has two extremely important caveats.
+First, it requires that we know at least one antiderivative of $f$ from the start.
+What if $f$ has no antiderivatives at all?
+It will turn out that this isn't much of a problem---in \cref{sec:ftc} we'll see how to construct an antiderivative of \emph{any} continuous function!---but we should definitely bear it in mind.
+
+The second is more subtle.
+
+\subsubsection{Antiderivatives of discontinuous functions}
+% TODO: Write this!
 
 \begin{exercises}
 \end{exercises}
