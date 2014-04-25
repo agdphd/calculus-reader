@@ -80,7 +80,7 @@ These functions will turn out to be surprisingly important in calculus.
 To see why, let's take a look at their derivatives.
 
 \subsection{Derivative of the sine function}
-\label{sec:deriv.sin}
+\label{sec:deriv.trig.sin}
 Let's try to calculate $\D{}{x} \sin x$.
 
 Following \cref{def:deriv.func}, we know that
@@ -112,8 +112,8 @@ Specifically, let's consider the interval $\closedint{0, 2\pi}$.
 $\sin x$ has positive slopes on $\openint*{0, \frac{\pi}{2}}$ and $\openint*{\frac{3\pi}{2}, 2\pi}$, and $\cos x$ has positive values on these same intervals.
 Similarly, $\sin x$ has negative slopes on $\closedint*{\frac{\pi}{2}, \frac{3\pi}{2}}$, and $\cos x$ has negative values on this same interval.
 
-\subsection{Derivatives of the other trig functions}
-\label{sec:deriv.trig.other}
+\subsection{Derivative of the cosine function}
+\label{sec:deriv.trig.cos}
 What about $\D{}{x} \cos x$?
 The argument we just used will work equally well for $\cos$ as for $\sin$.
 We just need the cosine addition formula
@@ -121,7 +121,7 @@ We just need the cosine addition formula
   \cos \pbrac*{a + b} = \cos a \cos b - \sin a \sin b
 \end{equation*}
 to get us started.
-The details are essentially identical to what we did in \cref{sec:deriv.sin}, so we'll omit the computation here.
+The details are essentially identical to what we did in \cref{sec:deriv.trig.sin}, so we'll omit the computation here.
 The result is just as nice as before: $\D{}{x} \cos x = -\sin x$.
 (To see why the negative sign shows up, take another look at \cref{fig:sin,fig:cos}.
 We'll wait!)
@@ -140,6 +140,9 @@ To close out the section, let's record the results of our work in a theorem!
 \end{theorem}
 
 \begin{exercises}
+  \begin{ex}
+    Prove \cref{eq:deriv.cos} using similar methods to those from \cref{sec:deriv.trig.sin}.
+  \end{ex}
 \end{exercises}
 \end{document}
 
