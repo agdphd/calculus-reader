@@ -279,13 +279,12 @@ We can also interpret this result in terms of rates of change.
 Suppose, for example, that the position of an object is constant---in other words, that the object never moves.
 Clearly, its velocity is zero!
 
-It turns out (although we won't have the tools to prove this for a while) that this result also works in the other direction---if a differentiable function $f$ has the property that $f'$ is the zero function, then $f$ must be a constant function.
-
-Once again, we should record these ideas for future reference.
+Once again, we should record this fact future reference.
 \begin{theorem}[Constant derivative theorem]
   \label{thm:deriv.const}
-  Let $f$ be a differentiable function.
-  Then $\D{}{x} f(x) = 0$ if and only if $f(x) = k$ for some constant $k \in \RR$.
+  Let $f$ be a function which is constant on $\closedint{a, b}$.
+  (In other words, $f(x) = k$ for all $x \in \closedint{a, b}$ for some real number $k$.)
+  Then $\D{}{x} f(x) = 0$ on $\closedint{a, b}$.
 \end{theorem}
 
 If we take \cref{thm:deriv.sum,thm:deriv.constmult,thm:deriv.const} together, we can compute many derivatives.
@@ -308,6 +307,42 @@ For example, if we combine them with \cref{thm:deriv.power}, we can now find the
     &= 12 x^{3} - 3x^{2} + 24 x - 4.
   \end{align*}
 \end{soln}
+
+\subsection{Geometry and the sign of the derivative}
+\label{sec:deriv.sign}
+
+Suppose that we're examining a function $f$ which is differentiable on $\closedint{a, b}$ and that $f'(x) = 0$ for all $x \in \closedint{a, b}$.
+What does this tell us about the function?
+By definition, it means that all the tangent lines to $y = f(x)$ on this interval have zero slope---that is, that they are horizontal.
+In other words, the function's rate of change is $0$ at every point.
+We saw in \cref{thm:deriv.const} that constant functions have this property.
+In fact, any function with this property \emph{must}\footnote{
+  To prove this, we would need a surprisingly fiddly technical result called the \enquote{Mean Value Theorem}, which in turn depends on some important technical properties of the real numbers.
+}
+be constant!
+
+What about the case that $f(x) > 0$ over the interval?
+In this case, the tangent lines to $y = f(x)$ have positive slope, and the function's rate of change is positive at every point.
+This means that the function $f$ must be \emph{increasing}.
+Similarly, if $f(x) < 0$ over the interval, $f$ must be \emph{decreasing}.
+
+Let's record these results for future reference.
+\begin{theorem}[Derivative sign theorem]
+  \label{thm:deriv.sign}
+  Let $f$ be a function which is differentiable on an interval $I = \closedint{a, b}$.
+  \begin{itemize}
+  \item
+    If $f'(x) = 0$ for all $x \in I$, $f$ is constant on $I$.
+
+  \item
+    If $f'(x) > 0$ for all $x \in I$, $f$ is increasing on $I$.
+
+  \item
+    If $f'(x) < 0$ for all $x \in I$, $f$ is decreasing on $I$.
+  \end{itemize}
+\end{theorem}
+
+These results will be extremely useful in \cref{sec:curve-sketching,sec:optimization}, when we'll use them to study the shapes of curves and to find the maximal and minimal values of functions.
 
 \subsection{Higher derivatives}
 \label{sec:deriv.higher}
@@ -337,6 +372,8 @@ This concept is important enough that we'll give it a name and a formal notation
 \end{definition}
 
 % TODO: Add examples
+
+% TODO: Break this section in half? It's huge!
 
 \begin{exercises}
 
