@@ -12,11 +12,11 @@ Another important class of functions comes from \emph{trigonometry}, the study o
     import geometry;
     import math;
 
-    real theta = 30;
+    real theta = 40;
 
     pair a = (0, 0);
-    pair b = (1, 0);
-    pair c = (1, Sin(theta));
+    pair b = (Cos(theta), 0);
+    pair c = (Cos(theta), Sin(theta));
 
     draw(a--b--c--cycle);
 
@@ -77,71 +77,191 @@ The sine and cosine functions turn out to have particularly nice-looking graphs,
 \end{medfig}
 
 These functions will turn out to be surprisingly important in calculus.
-To see why, let's take a look at their derivatives.
+To see why, we'll need to reframe things a bit.
 
-\subsection{Derivative of the sine function}
-\label{sec:deriv.trig.sin}
-Let's try to calculate $\D{}{x} \sin x$.
+Before we dive into the calculus, let's revisit the definitions of the trigonometric functions.
+Instead of thinking of the triangle from \cref{fig:trig.triangle}, let's put it inside a unit circle, as shown in \cref{fig:trig.circle.pre}.
 
-Following \cref{def:deriv.func}, we know that
-\begin{align*}
-  \D{}{x} \sin x
-  &= \lim_{\Delta x \to 0} \frac{\sin \pbrac*{x + \Delta x} - \sin \pbrac{x}}{\Delta x}.
-  \intertext{
-    Trig functions like $\sin$ and $\cos$ have many delightful algebraic properties.
-    Here, we'll take advantage of the fact that $\sin \pbrac{a + b} = \sin \pbrac{a} \cos \pbrac{b} + \sin \pbrac{b} \cos \pbrac{a}$ to unpack the numerator of the right-hand side:
-  }
-  &= \lim_{\Delta x \to 0} \frac{\sin \pbrac*{x} \cos \pbrac*{\Delta x} + \sin \pbrac*{\Delta x} \cos \pbrac{x} - \sin \pbrac{x}}{\Delta x} \\
-  &= \lim_{\Delta x \to 0} \frac{\sin \pbrac*{x} \cos \pbrac*{\Delta x} - \sin \pbrac{x}}{\Delta x} + \lim_{\Delta x \to 0} \frac{\sin \pbrac*{\Delta x} \cos \pbrac{x}}{\Delta x} \\
-  &= \pbrac*{\lim_{\Delta x \to 0} \frac{\cos \pbrac*{\Delta x} - 1}{\Delta x}} \cdot \sin x
-  + \pbrac*{\lim_{\Delta x \to 0} \frac{\sin \pbrac*{\Delta x}}{\Delta x}} \cdot \cos x.
-  \intertext{
-    These two limits are both quite tricky.
-    We'll consider them in more detail in \cref{sec:lhospital}; for now, we'll just note that the first converges to $0$ and the second to $1$.
-    With this in hand, we can continue:
-  }
-  &= 0 \cdot \sin x + 1 \cdot \cos x \\
-  &= \cos x.
-\end{align*}
+\begin{medfig}
+  \begin{asy}
+    medsizescrunch();
 
-So $\D{}{x} \sin x = \cos x$!
-This is a remarkably straightforward answer to what might have been a very complicated question.
-If we examine \cref{fig:sin,fig:cos} again, though, it actually isn't so surprising.
+    import geometry;
+    import math;
 
-Specifically, let's consider the interval $\closedint{0, 2\pi}$.
-$\sin x$ has positive slopes on $\openint*{0, \frac{\pi}{2}}$ and $\openint*{\frac{3\pi}{2}, 2\pi}$, and $\cos x$ has positive values on these same intervals.
-Similarly, $\sin x$ has negative slopes on $\closedint*{\frac{\pi}{2}, \frac{3\pi}{2}}$, and $\cos x$ has negative values on this same interval.
+    xaxis("$x$", -1.2, 1.2, Arrow);
+    yaxis("$y$", -1.2, 1.2, Arrow);
 
-\subsection{Derivative of the cosine function}
-\label{sec:deriv.trig.cos}
-What about $\D{}{x} \cos x$?
-The argument we just used will work equally well for $\cos$ as for $\sin$.
-We just need the cosine addition formula
-\begin{equation*}
-  \cos \pbrac*{a + b} = \cos a \cos b - \sin a \sin b
-\end{equation*}
-to get us started.
-The details are essentially identical to what we did in \cref{sec:deriv.trig.sin}, so we'll omit the computation here.
-The result is just as nice as before: $\D{}{x} \cos x = -\sin x$.
-(To see why the negative sign shows up, take another look at \cref{fig:sin,fig:cos}.
-We'll wait!)
+    pair O = (0, 0);
+    dot(0);
+    label("$O$", O, SW);
 
-We could also use similar arguments to compute the derivatives of the remaining four trigonometric functions.
-However, it turns out to be easier to use algebraic methods, which we'll develop in \cref{sec:deriv.prodquot}, so we'll leave these aside for now.
-To close out the section, let's record the results of our work in a theorem!
+    real theta = 40;
+
+    pair B = (Cos(theta), 0);
+    pair P = (Cos(theta), Sin(theta));
+
+    draw(O--B--P--cycle);
+
+    label("$1$", O--P, LeftSide);
+    label("$x$", B--P, RightSide);
+    label("$y$", O--B, RightSide);
+
+    dot(B);
+    label("$B = (x,0)$", B, S);
+
+    dot(P);
+    label("$P = \pbrac*{x(t), y(t)}$", P, NE);
+
+    markrightangle(O, B, P);
+    markangle("$\theta$", B, O, P);
+
+    draw(Circle((0,0),1));
+  \end{asy}
+  \caption{A circle for trigonometry}
+  \label{fig:trig.circle.pre}
+\end{medfig}
+
+How do the values of $x = \cos \theta$ and $y = \sin \theta$ change as $\theta$ changes?
+(In other words, what are $\D{x}{\theta}$ and $\D{y}{\theta}$?)
+
+Suppose the point $P$ is moving counterclockwise around the circle with constant velocity $1$.
+To visualize this, we might imagine that the point is being swung around $O$ on the end of a string of length $1$.
+Let's take a closer look at this situation, shown in \cref{fig:trig.circle}.
+
+Suppose that, at the instant shown in the picture, we cut the string, letting the point at $P$ fly away in a straight line.
+$P$ will move in the direction \emph{perpendicular} to the line to $O$; in other words, its flight path is the line \emph{tangent} to the circle.
+Since $P$ moves with velocity $1$, its position one time unit later is given by the upper triangle in \cref{fig:trig.circle}; the length of the vertical side is $\D{y}{t}$ and that of the horizontal side is $\D{x}{t}$, since we let it fly for exactly one time unit.
+
+Now let's consider that triangle geometrically.
+It's clearly a right triangle, since $x$ and $y$ are perpendicular coordinates.
+Since $\angle O P Q$ is right, we know that $\angle Q P C$ is $\theta$.
+Futhermore, by construction, the hypotenuse $\overline{P Q}$ has length $1$.
+Thus, the triangle $\triangle O P B$ is congruent to the triangle $\triangle P Q C$.
+This means that, in particular, $\D{x}{t} = y$ and $\D{y}{t} = x$.
+
+\begin{medfig}
+  \begin{asy}
+    medsizescrunch();
+
+    import geometry;
+    import math;
+
+    xaxis("$x$", -1.2, 1.2, Arrow);
+    yaxis("$y$", -1.2, 1.2, Arrow);
+
+    pair O = (0, 0);
+    dot(0);
+    label("$O$", O, SW);
+
+    real theta = 40;
+
+    label("$A$", arc(O, 1, 0, theta));
+
+    pair B = (Cos(theta), 0);
+    pair P = (Cos(theta), Sin(theta));
+
+    pair C = P+(0, Cos(theta));
+    pair Q = P+(-Sin(theta), Cos(theta));
+
+    draw(O--B--P--cycle);
+
+    label("$1$", O--P, LeftSide);
+    label("$x(t)$", B--P, RightSide);
+    label("$y(t)$", O--B, RightSide);
+
+    draw(P--Q);
+    draw(P--C);
+    draw(C--Q);
+
+    label("$1 = \D{A}{t}$", P--Q, RightSide);
+    label("$\D{x}{t}$", C--Q, 2*RightSide);
+    label("$\D{y}{t}$", P--C, RightSide);
+
+    dot(P);
+    label("$P = (x,y)$", P, NE);
+
+    dot(B);
+    label("$B$", B, S);
+
+    dot(Q);
+    label("$Q$", Q, NW);
+
+    dot(C);
+    label("$C$", C, NE);
+
+    markrightangle(O, B, P);
+    markangle("$\theta$", B, O, P);
+
+    markrightangle(P, C, Q);
+    markrightangle(O, P, Q);
+    markangle("$\theta$", C, P, Q);
+
+    draw(Circle((0,0),1));
+
+    limits((-.25,-.25), (1.2,2), Crop);
+  \end{asy}
+  \caption{Circular motion}
+  \label{fig:trig.circle}
+\end{medfig}
+
+What does this have to do with $\theta$?
+Remember that we initially set $P$ moving along the circle at velocity $1$.
+If $A$ is the length of the arc along the circle from $(1, 0)$ to $P$, then this means that $\D{A}{t} = 1$; in particular, if $P$ started from $(1, 0)$ at $t = 0$, then $A = t$.
+But in radian\footnote{In fact, this is the \emph{definition} of radians.} measure, $\theta = A$!
+So $\theta = t$ also.
+Thus, we can just substitute $\theta$ for $t$ in everything we just did.
+
+But hold on a second!
+The whole point of this was that $x = \cos \theta$ and $y = \sin \theta$.
+Thus, we've really just proved the following:
 
 \begin{theorem}
   \label{thm:deriv.sincos}
   The derivatives of the sine and cosine functions are given by
   \begin{align}
-    \D{}{x} \sin x &= \cos x \label{eq:deriv.sin} \\
-    \D{}{x} \cos x &= -\sin x. \label{eq:deriv.cos}
+    \D{}{\theta} \sin \theta &= \cos \theta \label{eq:deriv.sin} \\
+    \D{}{\theta} \cos \theta &= -\sin \theta. \label{eq:deriv.cos}
   \end{align}
+  where $\theta$ is measured in radians.
 \end{theorem}
+
+It is extremely important to remember that \emph{\cref{thm:deriv.sincos} is only true if $\theta$ is measured in radians!}
+If $\theta$ is instead measured in degrees or some other unit, different, less-satisfying versions of \cref{eq:deriv.sin,eq:deriv.cos} are obtained.
+We'll revisit this issue in \cref{exc:deriv.trig.degrees}.
+
+We could use similar methods to find the derivatives of the remaining four trig functions as well!
+However, we'll leave this aside for now; they'll be almost trivial to find once we develop a few more tools, so we'll do it in \cref{sec:deriv.trig.other}.
+
+We also could have proved \cref{eq:deriv.sin,eq:deriv.cos} analytically using \cref{def:deriv.func}.
+This approach is less geometrically enlightening, but it's a worthwhile exercise---so we've left it as \cref{exc:deriv.sin,exc:deriv.cos}.
+
+Before we leave this behind, though, we should take a look at how the higher derivatives of $\sin$ and $\cos$ work out.
+We've just shown that $\D{}{x} \sin x = \cos x$ and that $\D{}{x} \cos x = -\sin x$, so clearly $\D[2]{}{x} \sin x = -\sin x$.
+Similarly, $\D[2]{}{x} \cos x = -\cos x$.
+Thus, the sine and cosine functions are solutions of the \emph{differential equation}
+\begin{equation*}
+  f''(x) = -f(x).
+\end{equation*}
+This will make them extremely important in the study of a wide variety of physical phenomena, as we'll see in \cref{sec:differential-equations}.
 
 \begin{exercises}
   \begin{exc}
-    Prove \cref{eq:deriv.cos} using similar methods to those from \cref{sec:deriv.trig.sin}.
+    \label{exc:deriv.sin}
+    Prove \cref{eq:deriv.sin} using \cref{def:deriv.func}.
+    You may use the fact that $\lim_{x \to 0} \frac{\sin x}{x} = 1$ and the \enquote{angle sum formula}
+    \begin{equation*}
+      \sin \pbrac*{a + b} = \sin a \cos b + \cos a \sin b.
+    \end{equation*}
+  \end{exc}
+
+  \begin{exc}
+    \label{exc:deriv.cos}
+    Prove \cref{eq:deriv.cos} using \cref{def:deriv.func}.
+    You may use the fact that $\lim_{x \to 0} \frac{\cos x - 1}{x} = 0$ and the \enquote{angle sum formula}
+    \begin{equation*}
+      \cos \pbrac*{a + b} = \cos a \cos b + \sin a \sin b.
+    \end{equation*}
   \end{exc}
 \end{exercises}
 \end{document}
