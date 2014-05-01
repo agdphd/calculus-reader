@@ -156,7 +156,11 @@ This means that, in particular, $\D{x}{t} = y$ and $\D{y}{t} = x$.
 
     real theta = 40;
 
-    label("$A$", arc(O, 1, 0, theta));
+    path A = arc(O, 1, 0, theta-1); // Angle theta-1 so the arrow head is separate from the point
+    draw(A, Arrow);
+    label("$A$", A);
+
+    draw(Circle((0,0), 1), dotted);
 
     pair B = (Cos(theta), 0);
     pair P = (Cos(theta), Sin(theta));
@@ -196,8 +200,6 @@ This means that, in particular, $\D{x}{t} = y$ and $\D{y}{t} = x$.
     markrightangle(P, C, Q);
     markrightangle(O, P, Q);
     markangle("$\theta$", C, P, Q);
-
-    draw(Circle((0,0),1), dash3);
 
     limits((-.25,-.25), (1.2,2), Crop);
   \end{asy}
