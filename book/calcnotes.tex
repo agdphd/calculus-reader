@@ -1,2 +1,35 @@
 \documentclass[11pt]{memoir}
-\input{../book/calcnotes-core}
+\usepackage{../calcnotes}
+
+\title{Calculus}
+\subtitle{A reader}
+\author{Andrew Gainer-Dewar}
+\date{}
+
+\begin{document}
+\frontmatter
+
+\maketitle
+\clearpage
+
+\subfile{../misc/license}
+\cleardoublepage
+
+\tableofcontents
+
+\subfile{../misc/preface}
+
+\mainmatter
+
+\openansfiles
+\subfile{../parts/derivative}
+\subfile{../parts/integral}
+\subfile{../parts/single-variable-topics}
+\closeansfiles
+
+\subfile{../parts/solns}
+
+\backmatter
+\subfile{../misc/index}
+\subfile{../misc/colophon}
+\end{document}
