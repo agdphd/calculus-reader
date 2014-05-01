@@ -9,5 +9,15 @@ The class structure that I have in mind is something like this:
 2. Students come to class, perhaps hear a short presentation ("mini-lecture") by the instructor addressing some pitfalls and showing examples, and then work on exercises with peers.
 3. Students bring this knowledge to bear on another set of "post-class" exercises to test their mastery and push them towards new ideas.
 
+## Compilation
+This book requires a modern version of LaTeX (confirmed working with TeXLive 2013).
+You will also need the `latexmk` compilation utility (or a lot of patience) and the `asy` program from the [Asymptote][asymptote] project.
+The build system is currently set up to work in a Unix-like environment; it is confirmed working in Debian, will almost certainly work in any reasonable desktop Linux, and may work in OSX.
+
+To build the book, navigate into the `book` subdirectory and run `latexmk --pdf calcnotes`.
+
 ## License
-This work is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+This work is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+
+[cc-by-sa]: //creativecommons.org/licenses/by-sa/4.0/
+[asymptote]: //asymptote.sourceforge.net/
