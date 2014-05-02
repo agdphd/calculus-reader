@@ -194,9 +194,16 @@
   import graph;
   import patterns;
 
-  void smallsize() {size(1.5inches,0);}
-  void medsize() {size(5.0inches,0);}
-  void medsizescrunch() {size(4.0inches,0);}
+  real marginwidth = 1.5inches;
+  real blockwidth = 5.0inches;
+  real blockscrunch = 1.0inches;
+  real blockintermargin = 0.25inches;
+
+  void smallsize() {size(marginwidth, 0);}
+  void medsize() {size(blockwidth, 0);}
+  void medsizescrunch() {size(blockwidth - blockscrunch, 0);}
+  void medhalf() {size((blockwidth - blockintermargin)/2, 0);}
+  void medthird() {size((blockwidth - 2*blockintermargin)/3, 0);}
 
   pen lineplot = defaultpen;
   pen thickplot = linewidth(1);
