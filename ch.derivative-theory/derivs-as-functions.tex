@@ -142,87 +142,6 @@ Let's record these results for future reference.
   \end{itemize}
 \end{theorem}
 
-\subsection{Extreme values}
-\label{sec:deriv.extrema}
-
-In many applications (such as those in \cref{sec:optimization}, we'll be interested in finding places where a function takes on a maximum or minimum value.
-As a first step in this process, we'll define so-called \enquote{local} extrema\footnote{
-  \enquote{Extrema} is the plural of \enquote{extreme}, and refers to both maximum and minimum values (the plurals of which are \enquote{maxima} and \enquote{minima} respectively).
-}---places where the function takes on its largest or smallest value \emph{in some region}.
-Local maxima and minima of a function are illustrated in \cref{fig:local-extrema}.
-
-\begin{smallfig}
-  \begin{asy}
-    smallsize();
-
-    real f(real x) {return 1 + abs(x)*cos(x);}
-
-    real start=-.75, end=1.5;
-
-    pair a = (0, f(0));
-    pair b = (0.86, f(0.86));
-
-    xaxis("$x$", start, end, Arrow);
-    yaxis("$y$", 0, Arrow);
-
-    funcplot(f, start, end);
-
-    dot(a);
-    dot(b);
-    arrow("min", a, SE);
-    arrow("max", b, NE);
-  \end{asy}
-  \caption{A function with a local max and a local min}
-  \label{fig:local-extrema}
-\end{smallfig}
-
-Let's define this formally so we have a solid place to stand.
-
-\begin{definition}
-  \label{def:local-extrema}
-  Let $f$ be a function and $p$ be a point in the domain of $f$.
-  Then $f$ has a \defterm{local minimum at $p$}[local extrema!minimum] if $f(p) \leq f(x)$ for all values of $x$ sufficiently close to $p$, and $f$ has a \defterm{local maximum at $p$}[local extrema!maximum] if $f(p) \geq f(x)$ for all values of $x$ sufficiently close to $p$.
-  If $p$ is either a local minimum or local maximum of $f$, we say $p$ is a \defterm{local extremum of $f$}[local extrema].
-\end{definition}
-
-What does this have to do with calculus?
-Let's take a closer look at a point where a function has a local extreme, as shown in \cref{fig:local-extrema}.
-Between the shown minimum and the maximum, the function $f$ is increasing; before the minimum and after the maximum, it is decreasing.
-Right at each extremum, however, $f$ is neither increasing nor decreasing!
-At the maximum, the curve $y = f(x)$ has a horizontal tangent line, and at the minimum it has no tangent line at all, as discussed in \cref{gp:deriv.abs}.
-
-In fact, an extremum of $f$ can \emph{only} occur under these circumstances---either $f'(x) = 0$ or $f'(x)$ is undefined at every local extreme $x$.
-To see why, consider some point $x$ for which $f'(x)$ is defined but nonzero.
-If $f'(x) > 0$, $f$ is increasing at $x$, so the values of $f$ to the left of $x$ are less and the values to the right are greater.
-Similarly, if $f'(x) < 0$, $f$ is decreasing at $x$, so the values of $f$ to the left of $x$ are greater and the values to the right are less.
-In either case, $f$ clearly doesn't have an extremum at $x$!
-
-To record this in formal language, we should first give a name to these kinds of points.
-
-\begin{definition}
-  \label{def:critical-points}
-  Let $f$ be a function and $p$ be a point in the domain of $f$.
-  Then $p$ is a \defterm{critical point of $f$}[critical point] if either $f'(p) = 0$ or $f'(p)$ is undefined.
-\end{definition}
-
-With this definition in hand, we can state our observation as a theorem.
-This theorem is often attributed to French mathematician Pierre de Fermat, whose work helped form the foundation for the development of calculus, so we'll give it his name.
-
-\begin{theorem}[Fermat's theorem for critical points]
-  \label{thm:critical-points}
-  \index{Fermat's theorem}\index{critical point!Fermat's theorem}
-  Let $f$ be a function which has a local extremum at $p$.
-  Then $p$ is a critical point of $f$.
-\end{theorem}
-
-We should take note here of a very important caveat to this theorem.
-Every local extremum of $f$ is found at a critical point---but a function can have critical points which are \emph{not} extrema!
-We'll consider this in more detail in \cref{gp:cp-not-extreme}.
-
-What the theorem \emph{does} give us, however, is a powerful tool to \emph{start} looking for extrema of a function.
-The domain of a function typically contains infinitely many points, so looking for the extrema \enquote{by hand} would literally take forever!
-However, with \cref{thm:critical-points} in hand, we can restrict our search; extrema can \emph{only} occur at critical points, so we can start by finding those and then check each one to see if it's an extremum.
-
 \subsection{Higher derivatives}
 \label{sec:deriv.higher}
 
@@ -253,12 +172,6 @@ This concept is important enough that we'll give it a name and a formal notation
 % TODO: Add examples
 
 \begin{gps}
-  \begin{gp}
-    \label{gp:cp-not-extreme}
-    Find and classify the critical points of $f(x) = x^{4} - x^{3}$.
-    Does this function have any local extrema?
-    If so, where are they?
-  \end{gp}
 \end{gps}
 
 \begin{exercises}
