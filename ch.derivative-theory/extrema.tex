@@ -55,10 +55,9 @@ Right at each extremum, however, $f$ is neither increasing nor decreasing!
 At the maximum, the curve $y = f(x)$ has a horizontal tangent line, and at the minimum it has no tangent line at all, as discussed in \cref{gp:deriv.abs}.
 
 In fact, an extremum of $f$ can \emph{only} occur under these circumstances---either $f'(x) = 0$ or $f'(x)$ is undefined at every local extreme $x$.
-To see why, consider some point $x$ for which $f'(x)$ is defined but nonzero.
-If $f'(x) > 0$, $f$ is increasing at $x$, so the values of $f$ to the left of $x$ are less and the values to the right are greater.
-Similarly, if $f'(x) < 0$, $f$ is decreasing at $x$, so the values of $f$ to the left of $x$ are greater and the values to the right are less.
-In either case, $f$ clearly doesn't have an extremum at $x$!
+In essence, this is because an extremum can only occur when the \enquote{increasing-decreasingness} of a function changes---that is, it changes from increasing to decreasing (giving a maximum) or from decreasing to increasing (giving a minimum).
+This means that the derivative $f'$ must change signs (from negative to positive or from positive to negative depending on the type of extremum).
+Functions can change signs in two ways: by passing through $0$ (in which case $f'(x) = 0$) or by being discontinuous (in which case $f'(x)$ does not exist).
 
 To record this in formal language, we should first give a name to these kinds of points.
 
@@ -85,6 +84,9 @@ We'll consider this in more detail in \cref{gp:cp-not-extreme}.
 What the theorem \emph{does} give us, however, is a powerful tool to \emph{start} looking for extrema of a function.
 The domain of a function typically contains infinitely many points, so looking for the extrema \enquote{by hand} would literally take forever!
 However, with \cref{thm:critical-points} in hand, we can restrict our search; extrema can \emph{only} occur at critical points, so we can start by finding those and then check each one to see if it's an extremum.
+
+In order to check whether a given critical point actually is an extremum, we need to go a little further.
+
 
 \subsection{Global extrema}
 \label{sec:deriv.extrema.global}
