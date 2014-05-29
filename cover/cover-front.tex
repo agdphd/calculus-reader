@@ -1,0 +1,48 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width = \coverpageblockwidth-\covermargin,
+    height = \coverpageblockheight,
+    axis lines = middle,
+    ticks = none,
+    domain = 0:8,
+    restrict y to domain = -4:4,
+    xmin = -1.5,
+    xmax = 20,
+    ymin = -8,
+    ymax = 10,
+    samples = 400,
+    smooth,
+    no markers,
+    thick,
+    line width = 1.0mm,
+    gray,
+    ]
+    % \addplot {x};
+    \addplot[red] {x - 1/factorial(3) * x^3};
+    \addplot[green] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5};
+    \addplot[blue] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7};
+    \addplot[orchid] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9};
+    \addplot[orange] {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21 - 1/factorial(23) * x^23};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21 - 1/factorial(23) * x^23 + 1/factorial(25) * x^25};
+    % \addplot {x - 1/factorial(3) * x^3 + 1/factorial(5) * x^5 - 1/factorial(7) * x^7 + 1/factorial(9) * x^9 - 1/factorial(11) * x^11 + 1/factorial(13) * x^13 - 1/factorial(15) * x^15 + 1/factorial(17) * x^17 - 1/factorial(19) * x^19 + 1/factorial(21) * x^21 - 1/factorial(23) * x^23 + 1/factorial(25) * x^25 - 1/factorial(27) * x^27};
+
+    \addplot[domain=0:20, black, opacity=1, line width=1.5mm, opacity=1] {sin(deg(x))};
+
+    \draw (axis cs:18,9) node[opacity=1, anchor=east] (title) { \printtitle };
+    \draw (axis cs:18,7.75) node[opacity=1, anchor=east] (subtitle) { \printsubtitle };
+    \draw (axis cs:18,-7) node[opacity=1, anchor=east] (author) { \printauthor };
+
+    \draw (axis cs:0,-1) -- (axis cs:0,1) (axis cs:-1,0) -- (axis cs:1,0);
+  \end{axis}
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
