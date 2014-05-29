@@ -1,0 +1,43 @@
+\documentclass{article}
+
+\usepackage{calcnotes-cover}
+
+% Obtain these dimensions from the printer
+\newlength{\coverheight}
+\setlength{\coverheight}{11in}
+
+\newlength{\coverpagewidth}
+\setlength{\coverpagewidth}{8.5in}
+
+\newlength{\coverbleed}
+\setlength{\coverbleed}{0in}
+
+\newlength{\covermargin}
+\setlength{\covermargin}{1.0in}
+
+\newlength{\coverpageblockwidth}
+\setlength{\coverpageblockwidth}{\coverpagewidth-\coverbleed-\covermargin}
+
+\newlength{\coverpageblockheight}
+\setlength{\coverpageblockheight}{\coverheight-\coverbleed-\covermargin}
+
+\geometry{
+  margin=0pt,
+  paperwidth=\coverpagewidth,
+  paperheight=\coverheight,
+}
+
+\geometry{
+  margin=0pt,
+  letterpaper
+}
+
+
+\begin{document}
+\vspace*{\stretch{1}}
+\begin{minipage}[c][\coverpageblockheight][c]{\coverpageblockwidth}
+  \hfill
+  \input{cover-front}
+\end{minipage}
+\vspace*{\stretch{1}}
+\end{document}
