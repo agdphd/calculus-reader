@@ -1,10 +1,201 @@
 \documentclass[../book/calcnotes.tex]{subfiles}
 
 \begin{document}
-\section{Arc length}
+\section{Arc length and surface area}
+\label{sec:integral.arc-length-and-surface-area}
+In this section, we'll consider how integration can help us solve two classes of geometric problem.
+
+\subsection{Arc length}
 \label{sec:integral.arc-length}
+Consider the graph of $y = x^{3/2}$ over the interval $\closedint{0, 10}$, shown in \cref{fig:arclength:excurve}
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    real f(real x) {return x^(3/2)/3;}
+
+    xaxis("$x$", -.1, 11, Arrow);
+
+    yaxis("$y$", 0, Arrow);
+
+    funcplot(f, 0, 10);
+  \end{asy}
+  \caption{Graph of $y = x^{3/2}$ over $\closedint{0, 110}$}
+  \label{fig:arclength:excurve}
+\end{smallfig}
+
+We have developed a variety of tools for studying the geometric properties of this curve; in particular, we know from \cref{sec:deriv.properties} how to compute the slopes of tangent lines to the curve and from \cref{sec:ftc} how to find the area under the curve.
+However, we still don't know how to answer one seemingly simple question: \emph{how long is the curve?}
+
+Let's physicalize the problem.
+Suppose that the graph is the track of a roller-coaster, with height on the $y$-axis and horizontal distance on the $x$-axis.
+Suppose that the cart is pulled by a mechanism on the ground, which moves to the right at a constant rate---say, \SI{1}{\meter\per\second}.
+How fast does the cart move at a given point?
+
+\emph{It depends on the slope of the tangent to the curve.}
+At $x = 0$, for example, the cart is moving horizontally, so its velocity is exactly \SI{1}{\meter\per\second}.
+However, at $x = \sfrac{1}{4}$, the cart is moving up, so its speed along the track must be considerably greater than \SI{1}{\meter\per\second} in order to keep up with the mechanism on the ground.
+Exactly how fast is it moving there?
+
+At the instant that $x = 4$, the cart's velocity points along the tangent line to the curve, which has slope $\eval*{\D{}{x} x^{3/2}}_{x = 4} = \sfrac{3}{2} \cdot \pbrac*{4}^{1/2} = 3$; to keep up with the horizontal motion, then, its velocity in the vertical axis must be \SI{3}{\meter\per\second}.
+As illustrated in \cref{fig:arclength:veltri}, the total velocity $v$ of the cart satisfies $v^{2} = \pbrac*{\SI{1}{\meter\per\second}}^{2} + \pbrac*{\SI{3}{\meter\per\second}}^{2}$.
+In other words, since $v$ is clearly positive, $v = \sqrt{\pbrac*{\SI{1}{\meter\per\second}}^{2} + \pbrac*{\SI{3}{\meter\per\second}}}^{2} = \sqrt{10} \si{\meter\per\second}$.
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    import geometry;
+    import math;
+
+    pair a = (0, 0);
+    pair b = (1, 0);
+    pair c = (1, 1);
+
+    draw(a--b, EndArrow);
+    draw(a--c, EndArrow);
+    draw(b--c, EndArrow);
+
+    label("$v$", a--c, LeftSide);
+    label("\SI{3}{\meter\per\second}", b--c, RightSide);
+    label("\SI{1}{\meter\per\second}", a--b, RightSide);
+
+    markrightangle(a, b, c);
+    markangle("$\theta$", b, a, c);
+  \end{asy}
+  \caption{Cart velocity triangle at $x = 4$}
+  \label{fig:arclength:veltri}
+\end{smallfig}
+
+Of course, nothing about this argument depended on the choice of $x = 4$.
+At any value of $x$ along the curve, the velocity of the cart is given by $v(x) = \sqrt{1 + \pbrac*{\sfrac{3}{2} \sqrt{x}}^{2}}$.
+We can then obtain the total distance traveled by integrating $v$ over the interval $\closedint{0, 10}$; thus, the arc length $L$ is given by
+\begin{multline*}
+  L
+  = \Int{\sqrt{1 + \pbrac*{\frac{3}{2} \sqrt{x}}^{2}}}{x, 0, 10}
+  = \Int{\sqrt{1 + \frac{9}{4} x}}{x, 0, 10}
+  \\ = \underbrace{\eval*{\frac{8}{27} \pbrac*{1 + \frac{9}{4} x}^{3/2}}_{x = 0}^{x = 10}}_{\text{by substitution}}
+  = \frac{94 \sqrt{94}}{27} - \frac{8}{27} \approx 33.458.
+\end{multline*}
+
+Moreover, nothing about this argument depended on the choice of the curve $y = x^{3/2}$ either!
+We can use the same approach to find the arc length of any other curve.
+
+\begin{theorem}[Arc length formula]
+  \label{thm:arclength}
+  Let $f$ be continuously differentiable over $\closedint{a, b}$.
+  Then the length $L$ of the curve $y = f(x)$ over $x \in \closedint{a, b}$ is given by
+  \begin{equation}
+    \label{eq:arclength}
+    L = \Int{\sqrt{1 + \pbrac*{f'(x)}^{2}}}{x, a, b}.
+  \end{equation}
+\end{theorem}
+
+Unfortunately, integrals of the form appearing in \cref{eq:arclength} are notoriously difficult to solve exactly, so we're going to have a rough time of it if we want to do much more than the most elementary examples.
+(See \cref{gp:arclength.catenary,gp:arclength.circle} for two important examples of cases where we \emph{can} compute the exact integral.)
+However, \cref{thm:arclength} is still valuable for two reasons.
+First, it gives us the theoretical machinery to solve an old and important problem, even if the solution turns out to be hard to work with in practice.
+Second, combining it with the Riemann sum techniques in \cref{sec:riemann-sums} gives us powerful techniques for \emph{approximating} arc lengths; even if this isn't always philosophically satisfying, it's often extremely useful in practice.
+
+\subsection{Surface area}
+\label{sec:integral.surface-area}
+
+\begin{gps}
+  \begin{gp}
+    \label{gp:arclength.circle}
+    The unit circle is the set of points $\pbrac{x, y}$ in the Cartesian plane satisfying the equation $x^{2} + y^{2} = 1$.
+    Using just this fact, we can calculate its perimeter!
+
+    \begin{gpsol}
+      To simplify things, let's work with just one-twelfth of the circle, from the point $\pbrac{0, 1}$ directly above the origin through an angle of $\sfrac{\pi}{6}$.
+      Crucially, the point $\sfrac{\pi}{6}$ around the circle from $\pbrac{0, 1}$ has $x$-coordinate $\sfrac{1}{2}$, as shown in \cref{fig:arclength.circle.slice}:
+
+      \begin{smallfig}
+        \begin{asy}
+          smallsize();
+
+          import geometry;
+          import math;
+
+          xaxis("$x$", -.2, 1.2, Arrow);
+          yaxis("$y$", -.2, 1.2, Arrow);
+
+          pair O = (0, 0);
+
+          real theta = 30;
+
+          pair T = (0, 1);
+          pair B = (Sin(theta), 0);
+          pair P = (Sin(theta), Cos(theta));
+
+          draw(T--O--P);
+          draw(B--P, dotted);
+
+          dot(B);
+          label("$\sfrac{1}{2}$", B, NW);
+
+          markangle("$\sfrac{\pi}{6}$", P, O, T);
+
+          draw(Circle((0,0), 1), dashed);
+          draw(arc(O, 1, 90-theta, 90));
+          limits((-.1,-.1), (1.2,2), Crop);
+        \end{asy}
+        \caption{The unit circle with a $\sfrac{\pi}{6}$ slice}
+        \label{fig:arclength.circle.slice}
+      \end{smallfig}
+
+      Along this arc, the points satisfy $y = \sqrt{1 - x^{2}}$, with derivative $y' = \frac{-x}{\sqrt{1 - x^{2}}}$.
+      We can use \cref{thm:arclength} to compute the length of this arc, then multiply by $12$ to obtain the total perimeter $P$ of the circle
+      \begin{multline*}
+        P
+        = 12 \Int{\sqrt{1 + \pbrac*{y'}^{2}}}{x, 0, \sfrac{1}{2}}
+        = 12 \Int{\sqrt{1 + \pbrac*{\frac{-x}{\sqrt{1 - x^{2}}}}^{2}}}{x, 0, \sfrac{1}{2}} \\
+        = 12 \Int{\sqrt{1 + \frac{x^{2}}{1 - x^{2}}}}{x, 0, \sfrac{1}{2}}
+        = 12 \Int{\sqrt{\frac{1 - x^{2}}{1 - x^{2}} + \frac{x^{2}}{1 - x^{2}}}}{x, 0, \sfrac{1}{2}}
+        = 12 \Int{\sqrt{\frac{1}{1 - x^{2}}}}{x, 0, \sfrac{1}{2}} \\
+        = 12 \Int{\frac{1}{\sqrt{1 - x^{2}}}}{x, 0, \sfrac{1}{2}}
+        = \eval*{12 \arcsin x}_{x = 0}^{x = \sfrac{1}{2}}
+        = 12 \cdot \frac{\pi}{6} - 12 \cdot 0 = 2 \pi.
+      \end{multline*}
+      Good news!
+    \end{gpsol}
+  \end{gp}
+
+  \begin{gp}
+    \label{gp:arclength.catenary}
+    A rope or chain hanging under its own weight will follow a \emph{catenary curve}, such as the one given by the equation
+    \begin{equation*}
+      y = \frac{e^{x} + e^{-x}}{2}.
+    \end{equation*}
+    (This function is sometimes called the \enquote{hyperbolic cosine}, for a variety of geometric and algebraic reasons.)
+    What is the length of this curve over the interval $\closedint{-1, 1}$?
+
+    \begin{gpsol}
+      We can calculate directly that
+      \begin{equation*}
+        y' = \frac{e^{x} - e^{-x}}{2}.
+      \end{equation*}
+      Using \cref{thm:arclength}, we can then compute that the desired length is given by
+      \begin{multline*}
+        L
+        = \Int{\sqrt{1 + \pbrac*{y'}^{2}}}{x, -1, 1}
+        = \Int{\sqrt{1 + \pbrac*{\frac{e^{x} - e^{-x}}{2}}^{2}}}{x, -1, 1} \\
+        = \Int{\sqrt{1 + \frac{e^{2x} - 2 + e^{-2x}}{4}}}{x, -1, 1}
+        = \Int{\sqrt{\frac{e^{2x} + 2 + e^{-2x}}{4}}}{x, -1, 1} \\
+        = \Int{\sqrt{\pbrac*{\frac{e^{x} + e^{-x}}{2}}^{2}}}{x, -1, 1}
+        = \Int{\frac{e^{x} + e^{-x}}{2}}{x, -1, 1} \\
+        = \eval*{\frac{e^{x} - e^{-x}}{2}}_{x = -1}^{x = 1}
+        = \frac{e - e^{-1}}{2} - \frac{e^{-1} - e}{2}
+        = e - \frac{1}{e}.
+      \end{multline*}
+      Whew!
+    \end{gpsol}
+  \end{gp}
+\end{gps}
 
 \begin{exercises}
+
 \end{exercises}
 \end{document}
 
