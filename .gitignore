@@ -13,3 +13,5 @@ calcnotes-*.tex
 *.idx
 *.ilg
 *.ind
+*.prc
+*.fls
