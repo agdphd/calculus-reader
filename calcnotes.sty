@@ -71,6 +71,9 @@
 % Load the cleveref package for intelligent cross-referencing (MUST BE AFTER HYPERREF)
 \RequirePackage[capitalize]{cleveref}
 
+% Load the foreign package for intelligent formatting of non-english words
+\RequirePackage{foreign}
+
 %% SET OPTIONS
 
 % Configure listings
@@ -180,7 +183,7 @@
 
 % Commands for names of important fields
 \newcommand*{\fieldname}[1]{\ensuremath{\mathbf{#1}}}
-\newcommand*{\RR}{\fieldname{R}}
+\newcommand*{\RR}[1][]{\ensuremath{\fieldname{R}^{#1}}}
 \newcommand*{\QQ}{\fieldname{Q}}
 \newcommand*{\CC}{\fieldname{C}}
 
@@ -221,6 +224,8 @@
   pen box1 = gray + transparency;
   pen box2 = black + transparency;
   pen box3 = heavygray + transparency;
+
+  pen solid1 = gray;
 
   pen dot1 = black;
 
