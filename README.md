@@ -1,4 +1,5 @@
 "Calculus: a Reader" is a textbook for a standard two-semester college calculus course.
+An up-to-date compiled version is always available at [sl-build].
 
 ## Design goals
 First and foremost, this book is designed to be *read*.
@@ -21,3 +22,4 @@ This work is licensed under the [Creative Commons Attribution-ShareAlike 4.0 Int
 
 [cc-by-sa]: //creativecommons.org/licenses/by-sa/4.0/
 [asymptote]: //asymptote.sourceforge.net/
+[sl-build]: //www.sharelatex.com/github/repos/againerdewar/calculus-reader
