@@ -100,6 +100,58 @@ Second, combining it with the Riemann sum techniques in \cref{sec:riemann-sums} 
 
 \subsection{Surface area}
 \label{sec:integral.surface-area}
+Now let's consider a three-dimensional problem.
+Suppose a pasta factory uses a variable-radius extruder to produce its macaroni, allowing it to produce shapes like the one shown in \cref{fig:surface-area:solidex}.
+Such forms are known as \emph{solids of revolution}, because they can also be formed by revolving a path around an axis (like a potter throwing a vase on a wheel); in \cref{sec:integration.volume}, we will use this interpretation to investigate the volumes of such objects.
+
+\begin{smallfig}
+  \begin{asy}
+    smallsize();
+
+    import solids;
+
+    triple F(real t) {return (1+1/4*cos(2pi*t), 0, t);}
+
+    path3 p = graph(F, 0, 2.4, operator ..);
+
+    surface s = surface(revolution(p, axis=Z));
+    draw(s, solid1);
+
+    xaxis3(Label("$x$",1),xmax=1.75, Arrow3);
+    yaxis3(Label("$y$",1),ymax=1.75, Arrow3);
+    zaxis3(Label("$z$",1),zmax=3, Arrow3);
+  \end{asy}
+  \caption{A solid of revolution}
+  \label{fig:surface-area:solidex}
+\end{smallfig}
+
+For now, however, we're interested in something different: the \emph{surface area}.
+In this example, knowing the area of the object would allow us to predict how much dough will be used for each noodle.
+To measure the area of such a surface, we'll use a similar line of reasoning to that which led to \cref{thm:arclength}.
+Suppose the noodle comes out of the extruder at a constant rate in terms of its length (say, \SI{1}{\centi\meter\per\second}).
+The rate at which dough is consumed at any given instant clearly depends on the radius of the noodle---a tiny \foreign{ditalini}, just \SI{1}{\centi\meter} across, will use far less than a \SI{5}{\centi\meter} \foreign{cannelloni}!
+Specifically, as long as the pasta is a plain cylinder of constant radius $r$ \si{\centi\meter}, the dough must flow at a rate of $2 \pi r$ \si{\square\centi\meter\per\second} to keep up with the \SI{1}{\centi\meter\per\second} extrusion.
+
+However, there's also another factor involved.
+To maintain the smooth shape of the pasta and keep up with the \SI{1}{\centi\meter\per\second} net extrusion rate, the dough must come out of the extruder at an angle which depends on the rate of change of the radius.
+Just as in the arc length case, we end up with a factor of $\sqrt{1 + r'}$ from this effect.
+Thus, if the radius of the noodle is $r(x)$ at position $z$ along its length, the rate at which dough must flow at position $x$ is given by $2 \pi r(x) \sqrt{1 + \pbrac*{r'(x)}^{2}}$,
+We can calculate the total area of the noodle by integrating this rate of change over the noodle's length.
+
+Of course, nothing about this analysis depends on the fact that we were studying a noodle!
+In fact, we can find the area of any surface of revolution using this method.
+
+\begin{theorem}[Area formula for a surface of revolution]
+  \label{thm:surface-area}
+  Let $f$ be continuously differentiable and nonnegative\footnote{Take a moment to think about this requirement. What would happen if $f$ were sometimes negative and sometimes positive?} over $\closedint{a, b}$.
+  Then the area $A$ of the surface obtained by revolving the curve $y = f(x)$ around the $x$-axis over $\closedint{a, b}$ is given by
+  \begin{equation}
+    \label{eq:surface-area}
+    A = \Int{2 \pi f(x) \sqrt{1 + \pbrac*{f'(x)}^{2}}}{x, a, b}.
+  \end{equation}
+\end{theorem}
+
+Surprisingly, the integral in \cref{eq:surface-area} is often \emph{easier} to compute than that in \cref{eq:arclength}!
 
 \begin{gps}
   \begin{gp}
@@ -164,7 +216,7 @@ Second, combining it with the Riemann sum techniques in \cref{sec:riemann-sums} 
 
   \begin{gp}
     \label{gp:arclength.catenary}
-    A rope or chain hanging under its own weight will follow a \emph{catenary curve}, such as the one given by the equation
+    A rope or chain hanging under its own weight will follow a \defterm{catenary curve}, such as the one given by the equation
     \begin{equation*}
       y = \frac{e^{x} + e^{-x}}{2}.
     \end{equation*}
@@ -190,6 +242,33 @@ Second, combining it with the Riemann sum techniques in \cref{sec:riemann-sums} 
         = e - \frac{1}{e}.
       \end{multline*}
       Whew!
+    \end{gpsol}
+  \end{gp}
+
+  \begin{gp}
+    The unit sphere is the set of points $\pbrac{x, y, z}$ in $\RR[3]$ satisfying $x^{2} + y^{2} + z^{2} = 1$.
+    Using just this fact, we can calculate its surface area!
+
+    \begin{gpsol}
+      We first need to find a way to describe the unit sphere as a surface of revolution.
+      Fortunately, this is not hard to do; rotating the curve $y = \sqrt{1 - x^{2}}$ around the interval $\closedint{-1, 1}$ on the $x$-axis will do the job.
+      We can calculate directly that
+      \begin{equation*}
+        y' = \frac{-x}{\sqrt{1 - x^{2}}}.
+      \end{equation*}
+      Using \cref{thm:surface-area}, we can then compute that the area of the sphere is given by
+      \begin{multline*}
+        A
+        = \Int{2 \pi y(x) \sqrt{1 + \pbrac*{y'(x)}^{2}}}{x, -1, 1}
+        = \Int{2 \pi \sqrt{1 - x^{2}} \sqrt{1 + \pbrac*{\frac{-x}{\sqrt{1 - x^{2}}}}^{2}}}{x, -1, 1} \\
+        = \Int{2 \pi \sqrt{1 - x^{2}} \sqrt{1 + \frac{x^{2}}{1 - x^{2}}}}{x, -1, 1}
+        = \Int{2 \pi \sqrt{1 - x^{2}} \sqrt{\frac{1 - x^{2}}{1 - x^{2}} + \frac{x^{2}}{1 - x^{2}}}}{x, -1, 1} \\
+        = \Int{2 \pi \sqrt{1 - x^{2}} \sqrt{\frac{1}{1 - x^{2}}}}{x, -1, 1}
+        = \Int{2 \pi \frac{\sqrt{1 - x^{2}}}{\sqrt{1 - x^{2}}}}{x, -1, 1} \\
+        = \Int{2 \pi}{x, -1, 1}
+        = \eval*{2 \pi x}_{x = -1}^{x = 1}
+        = 4 \pi.
+      \end{multline*}
     \end{gpsol}
   \end{gp}
 \end{gps}
