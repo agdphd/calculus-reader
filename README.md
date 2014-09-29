@@ -1,4 +1,7 @@
 "Calculus: a Reader" is a textbook for a standard two-semester college calculus course.
+It is designed to be the first point of contact, rather than as a reference to be used after lectures; it is thus best suited to a "flipped" class model.
+It is currently quite incomplete; contributions of text or problems are very welcome!
+
 An up-to-date compiled version is always available at [sl-build].
 
 ## Design goals
