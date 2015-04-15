@@ -20,10 +20,7 @@ But how far off is this approximation, and why does it go wrong?
     real xstart=-1, xend=1;
     real ystart=-1.6, yend=1.6;
 
-    real a=0.1;
-
-    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
-    labelx("$0.1$", a);
+    xaxis("$x$", xstart, xend, Arrow);
     yaxis("$y$", ystart, yend, Arrow);
 
     real f(real x) {return sin(x) + cos(x);}
@@ -48,7 +45,7 @@ For reasons that will be more clear shortly, we'll call this constant approximat
 , so $T_{0} (x) = f(0) = 1$ for all $x$.
 
 How can we make this approximation better?
-Our previous attempt involved picking a linear function $T_{0}$ to approximate $f$, but clearly it wasn't a very good choice: the values of $f$ can change, but $T_{0}$ is constant!
+Our previous attempt involved picking a function $T_{0}$ to approximate $f$, but clearly it wasn't a very good choice: the values of $f$ can change, but $T_{0}$ is constant!
 If we allow our approximating function to be a linear function with a nonzero slope, things will improve substantially.
 
 Which line should we pick?
@@ -62,10 +59,7 @@ Of all the lines passing through this point, the one that most closely resembles
     real xstart=-1, xend=1;
     real ystart=-1.6, yend=1.6;
 
-    real a=0.1;
-
-    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
-    labelx("$0.1$", a);
+    xaxis("$x$", xstart, xend, Arrow);
     yaxis("$y$", ystart, yend, Arrow);
 
     real f(real x) {return sin(x) + cos(x);}
@@ -86,12 +80,24 @@ Why, it's the derivative $f'(0)$, of course!
 Thus, we can write a formula for this \enquote{linear approximation}\footnote{The inclusion of the seemingly strange \enquote{$x - 0$} term instead of the simpler \enquote{$x$} will make it easier to generalize this work to cases where the point of interest isn't $x = 0$.}: $T_{1} = f(0) + f'(0) \pbrac*{x - 0} = 1 + x$.
 We can then use this to estimate the value of $f(0.1)$: $f(0.1) \approx T_{1} (0.1) = 1 + 1 \cdot 0.1 = 1.1$.
 This is quite an improvement over the constant approximation, and it gets us nearly three decimal places of agreement with the calculator result.
+Indeed, this result is good enough that it's worth formalizing in a definition.
+
+\begin{definition}
+  \label{def:linearapprox}
+  Let $f$ be differentiable at $x = a$.
+  Then the \defterm{linear approximation to $f$ centered at $x = a$}[linear approximation] is\footnote{The notation $L(x)$ is commonly used in settings where we aren't interested in improving beyond the linear approximation.
+    We'll prefer the notation $T_{1} (x)$ because it fits in better with the framework we'll develop in the rest of the section.}
+  \begin{equation}
+    \label{eq:linearapprox}
+    L(x) = T_{1} (x) = f(a) + f'(a) \pbrac*{x - a}.
+  \end{equation}
+\end{definition}
 
 Can we do better?
 Certainly!
 However, this is the best we can do \emph{with a linear function}.
 Upgrading from a constant approximation to a linear one allowed us to take account of the fact that our function's values change with the value of $x$; in graphical terms, it allows for our function to have \enquote{slope}.
-To improve the approximation further, we need to allow for the fact that the function's rate of change may itself be changing, or, in graphical terms, that the plot $y = f(x)$ may \enquote{bend}.
+To improve the approximation further, we need to allow for the fact that the function's rate of change may itself be changing---or, in graphical terms, that the curve $y = f(x)$ may \enquote{bend}.
 The natural next step after linear functions is quadratics, so let's try them for our next kind of approximation.
 
 How can we find a useful quadratic approximation of $f$?
@@ -114,10 +120,7 @@ Thus, the best quadratic approximation is $T_{2} = f(0) + f'(0) \pbrac*{x - 0} +
     real xstart=-.2, xend=3.2;
     real ystart=-1.6, yend=1.6;
 
-    real a=0.1;
-
-    xaxis("$x$", xstart, xend, Ticks(new real[] {a}, ticklabel=OmitFormat(a)), Arrow);
-    labelx("$0.1$", a);
+    xaxis("$x$", xstart, xend, Arrow);
     yaxis("$y$", ystart, yend, Arrow);
 
     real f(real x) {return sin(x) + cos(x);}
@@ -153,13 +156,30 @@ This leads us to our complete definition of these approximating polynomials, usu
     \label{eq:taylorpoly}
     T_{n} (x) = f(a) + f'(a) \pbrac{x - a} + \frac{1}{2} f''(a) \pbrac{x - a}^{2} + \dots + \frac{1}{n!} f^{(n)} (a) \pbrac*{x - a}^{n}.
   \end{equation}
-  More compactly, and using the conventions that $f^{(0)} (x) = f(x)$ and $0! = 1$, we can write
+  More compactly\footnote{We use the \enquote{sigma notation}, which is a compact way of writing sums. If you haven't seen it before, the point of the $\Sigma$ is that \cref{eq:taylorpoly.sigma,eq:taylorpoly} are \emph{exactly the same formula}.}, and using the conventions that $f^{(0)} (x) = f(x)$ and $0! = 1$, we can write
   \begin{equation}
     \label{eq:taylorpoly.sigma}
     T_{n} (x) = \sum_{i = 0}^{n} \frac{f^{(i)} (a)}{i!} \pbrac*{x - a}^{i}.
   \end{equation}
   The $n$th Taylor polynomial centered at $x = 0$ is sometimes called the \defterm{Maclaurin polynomial}.
 \end{definition}
+
+\begin{remark}
+  Most of the time, when we use Taylor polynomials to approximate functions, we'll need to choose what $a$ to use.
+  \cref{def:taylorpoly} is perfectly valid for any value of $a$, but not all values of $a$ are equally useful!
+  If we're trying to approximate $f(x)$, the key will be to choose a value of $a$ with two properties:
+  \begin{enumerate}
+  \item
+    $a$ is fairly close to $x$ (so the approximation is reasonably good), and
+
+  \item
+    $f$ and its derivatives are \enquote{nicer} at $a$ than at $x$.
+  \end{enumerate}
+
+  For example, if we wanted to approximate $\sqrt{63}$, we might try using Taylor polynomials for the function $f(x) = \sqrt{x}$.
+  A smart choice for the center $a$ would be $64$, since on the one hand $64$ is quite close to $63$ and on the other hand $64$ is a perfect square (so $f(64) = 8$ is \enquote{nice}).
+  We'll work out the details of this example in \cref{gp:sqrt63}.
+\end{remark}
 
 Continuing with our example from before, it is straightforward to compute the $n$th Taylor polynomial to $f(x) = \sin x + \cos x$ centered at $x = 0$ for any $n$ we choose.
 Each of these polynomials is a better approximation to $f(x)$ than the one before it, as we will see.
@@ -248,19 +268,78 @@ Each of these polynomials is a better approximation to $f(x)$ than the one befor
 Comparing the value $T_{5} \pbrac{0.1}$ to the calculator value of $\sin 0.1 + \cos 0.1$ from the start of the section, we find nine decimal places of accuracy---not bad for a calculation we can write down on a napkin!
 In fact, this is exactly how some calculators compute values of functions like $\sin$, $\cos$, $\exp$, and $\ln$.
 It's a very powerful computational technique, because it lets us replace messy \enquote{transcendental functions} with the simple arithmetic operations of multiplication and addition.
+This is particularly important for computing---simple pocket calculators can really only add and multiply, so to evaluate interesting functions like $\sqrt{}$ and $\tan$ they use Taylor polynomials!
 
 % TODO: Add material about error bounds?
 
 \begin{gps}
   \begin{gp}
+    \label{gp:sqrt63}
     Let $f(x) = \sqrt{x}$.
     Find the linear approximation to $f$ centered at $x = 64$.
     Use it to estimate the value of $\sqrt{63}$.
+
+    \begin{gpsol}
+      We first compute that $f'(x) = \frac{1}{2 \sqrt{x}}$, so $f'(64) = \frac{1}{2 \sqrt{64}} = \frac{1}{16}$.
+      The linear approximation $T_{1}(x)$ near $x = 64$ is given by \cref{eq:linearapprox} to be
+      \begin{equation*}
+        T_{1} (x)
+        = f(64) + f'(64) \pbrac*{x - 64}
+        = 8 + \frac{1}{16} \pbrac*{x - 64}.
+      \end{equation*}
+      We can then compute that $\sqrt{63} \approx T_{1} (63) = 8 + \frac{1}{16} \pbrac*{63 - 64} = 8 - \frac{1}{16}$.
+      This gives the value $\sqrt{63} \approx 7.9375$, a very close match for the actual value $\sqrt{63} = 7.93725\dots$.
+    \end{gpsol}
+  \end{gp}
+
+  \begin{gp}
+    The $\sin$ key on your calculator is stuck, but you need to compute $\sin \ang{61}$.
+    Using your knowledge of calculus and the facts that $\sin \ang{60} = \frac{\sqrt{3}}{2}$ and $\cos \ang{60} = \frac{1}{2}$, estimate the value $\sin \ang{61}$.
+
+    \begin{gpsol}
+      Let's just do the linear approximation; we could use a higher-order Taylor polynomial, but the linear will do just fine for a simple estimate.
+      For calculus to work nicely, we'll need to switch to radians; $\ang{60} = \frac{\pi}{3}$ and $\ang{61} = \frac{\pi}{3} + \frac{\pi}{180}$.
+      In radians, we know that $\D{}{x} \sin x = \cos x$, so the linear approximation of $\sin x$ around $x = \frac{\pi}{3}$ is given by
+      \begin{equation*}
+        T_{1} (x)
+        = \sin \pbrac*{\frac{\pi}{3}} + \cos \pbrac*{\frac{\pi}{3}} \cdot \pbrac*{x - \frac{\pi}{3}}
+        = \frac{\sqrt{3}}{2} + \frac{1}{2} \pbrac*{x - \frac{\pi}{3}}.
+      \end{equation*}
+      Evaluating at $x = \frac{\pi}{3} + \frac{\pi}{180}$ gives the estimate $\sin \ang{61} \approx T_{1} \pbrac*{\frac{\pi}{3} + \frac{\pi}{180}} = \frac{\sqrt{3}}{2} + \frac{1}{2} \cdot \frac{\pi}{180}$.
+    \end{gpsol}
   \end{gp}
 
   \begin{gp}
     Use the first five Taylor polynomials to $f(x) = e^{x}$ centered at $x = 0$ to approximate the value of $e$.
     Compare the results to the decimal value of $e$ given by a calculator or Web site.
+
+    \begin{gpsol}
+      We have that $\D[n]{}{x} e^{x} = e^{x}$ for any $n$, so $f^{(n)} (0) = 1$ for all $n$ also.
+      Thus, the fifth Taylor polynomial for $f(x) = e^{x}$ is
+      \begin{equation*}
+        T_{5} (x)
+        = \frac{1}{0!} + \frac{1}{1!} x + \frac{1}{2!} x^{2} + \frac{1}{3!} x^{3} + \frac{1}{4!} x^{4} + \frac{1}{5!} x^{5}.
+      \end{equation*}
+      Since $e = e^{1} = f(1)$, we can approximate it by evaluating the Taylor polynomial: $e \approx T_{n} (1)$.
+      Using the initial terms of the formula above, we calculate the first few such approximations; the values appear in \cref{tab:e-approx}.
+      \begin{table}[htbp]
+        \centering
+        \begin{tabular}{r r r}
+          \toprule
+          $n$ & $T_{n} (1)$ & Decimal \\
+          \midrule
+          $0$ & $1$ & $1$ \\
+          $1$ & $1 + 1$ & $2$ \\
+          $2$ & $1 + 1 + \frac{1}{2}$ & $2.5$ \\
+          $3$ & $1 + 1 + \frac{1}{2} + \frac{1}{6}$ & $2.\bar{6}$ \\
+          $4$ & $1 + 1 + \frac{1}{2} + \frac{1}{6} + \frac{1}{24}$ & $2.708\bar{3}$ \\
+          $5$ & $1 + 1 + \frac{1}{2} + \frac{1}{6} + \frac{1}{24} + \frac{1}{120}$ & $2.71\bar{6}$ \\
+          \bottomrule
+        \end{tabular}
+        \caption{Approximating $e$ using a Taylor polynomial}
+        \label{tab:e-approx}
+      \end{table}
+    \end{gpsol}
   \end{gp}
 
   \begin{gp}
