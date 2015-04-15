@@ -231,11 +231,29 @@ The improvement becomes even more evident if we make the function more complicat
 
 \begin{gps}
   \begin{gp}
+    Consider the curve $x^{3} + y^{3} = 4xy$.
+    Use implicit differentation to find a formula for $\D{y}{x}$, then use the result to find an equation for the tangent line to the curve at $\pbrac*{2, 2}$.
+  \end{gp}
+
+  \begin{gp}
     Use methods like those in \cref{ex:deriv.invtrig} to show that
     \begin{equation}
       \label{eq:deriv.arctan}
       \D{}{x} \tan^{-1} x = \frac{1}{1 + x^{2}}.
     \end{equation}
+
+    \begin{gpsol}
+      Applying \cref{thm:deriv.inverse} to the function $f(x) = \tan x$, we find that
+      \begin{equation*}
+        \D{}{x} \tan^{-x}
+        = \frac{1}{\tan^{-1} \pbrac*{\sec^{2} x}}.
+      \end{equation*}
+    \end{gpsol}
+  \end{gp}
+
+  \begin{gp}
+    Let $f(x) = \frac{\pbrac*{2x+3}^{2} \sqrt[3]{x + 2}}{\pbrac*{1 + 3x}^{4}}$.
+    Calculate $\D{f}{x}$, then use the result to find an equation of the tangent line to $y = f(x)$ at $x = 1$.
   \end{gp}
 
   \begin{gp}
