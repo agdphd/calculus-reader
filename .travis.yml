@@ -4,7 +4,7 @@ before_install:
 - "sudo apt-get update && sudo apt-get install latexmk texlive-full"
 script:
 - cd book
-- latexmk --pdf calcnotes
+- latexmk --latexoption=-interaction=nonstopmode -halt-on-error --pdf calcnotes
 deploy:
   provider: releases
   file:
