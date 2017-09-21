@@ -1,7 +1,13 @@
-sudo: required
 dist: trusty
-before_install:
-- "sudo apt-get update && sudo apt-get install asymptote biber latexmk texlive-full"
+addons:
+  apt:
+    sources:
+    - debian-sid
+    packages:
+    - asymptote
+    - biber
+    - latexmk
+    - texlive-full
 script:
 - cd book
 - latexmk --latexoption=-interaction=nonstopmode -halt-on-error --pdf calcnotes
