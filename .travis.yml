@@ -1,5 +1,5 @@
 before_install:
-- "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-latex-extra asymptote"
+- "sudo apt-get update && sudo apt-get install --no-install-recommends latexmk texlive-latex-extra asymptote"
 script:
 - cd book
 - latexmk --pdf calcnotes
