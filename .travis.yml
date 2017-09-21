@@ -1,0 +1,12 @@
+before_install:
+- "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-latex-extra asymptote"
+script:
+- cd book
+- latexmk --pdf calcnotes
+deploy:
+  provider: releases
+  file:
+  - book/calcnotes.pdf
+  skip_cleanup: true
+  on:
+    tags: true
