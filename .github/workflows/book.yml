@@ -5,14 +5,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+      - name: Create release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
       - name: Compile book PDF
         uses: dante-ev/latex-action@master
         with:
           working_directory: book
           root_file: calcnotes.tex
-      - name: Upload
-        uses: actions/upload-artifact@master
+      - name: Upload book PDF
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: book
-          path: book/calcnotes.pdf
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: book/calcnotes.pdf
+          asset_name: calcnotes.pdf
+          asset_content_type: application/pdf
+      - name: Compile cover PDF
+        uses: dante-ev/latex-action@master
+        with:
+          working_directory: cover
+          root_file: cover-hardcover.tex
+      - name: Upload cover PDF
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: cover/cover-hardcover.pdf
+          asset_name: cover-hardcover.pdf
+          asset_content_type: application/pdf
