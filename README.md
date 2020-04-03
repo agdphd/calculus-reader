@@ -2,7 +2,9 @@
 It is designed to be the first point of contact, rather than as a reference to be used after lectures; it is thus best suited to a "flipped" class model.
 It is currently quite incomplete; contributions of text or problems are very welcome!
 
-An up-to-date compiled version is always available at [sl-build].
+The latest version is available to [download][download-pdf] in PDF.
+
+Build status: ![Build book PDF](https://github.com/agdphd/calculus-reader/workflows/Build%20book%20PDF/badge.svg)
 
 ## Design goals
 First and foremost, this book is designed to be *read*.
@@ -23,6 +25,6 @@ To build the book, navigate into the `book` subdirectory and run `latexmk --pdf 
 ## License
 This work is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
 
-[cc-by-sa]: //creativecommons.org/licenses/by-sa/4.0/
-[asymptote]: //asymptote.sourceforge.net/
-[sl-build]: //www.sharelatex.com/github/repos/againerdewar/calculus-reader
+[download-pdf]: https://github.com/agdphd/calculus-reader/releases/latest/download/calcnotes.pdf
+[cc-by-sa]: https://creativecommons.org/licenses/by-sa/4.0/
+[asymptote]: https://asymptote.sourceforge.net/
